@@ -27,6 +27,7 @@ demos/
   11-gauge/                  # 2×3 horseshoe gauges (styles + breathe)
   12-param/                  # rb_param table + term + local +/- 
   13-topics-ui/              # slider → gauge + wire publish
+  14-progress/               # H/V pill progress + warn/danger bands
 ```
 
 Structured `labs/` exercises can land later; this tree ships runnable demos.
@@ -71,11 +72,12 @@ Both need **`idf.py set-target esp32s3`**. Details: [ports/boards/README.md](por
 | [11-gauge](demos/11-gauge/) | 2×3 `rb_gauge` — styles + unit/value/label + bands + breathe |
 | [12-param](demos/12-param/) | `rb_param_*` table — local +/- and host ParamCmd (0x8a) |
 | [13-topics-ui](demos/13-topics-ui/) | Slider → gauge + `rb_publish` (topics meet UI) |
+| [14-progress](demos/14-progress/) | H/V `rb_progress` pills — bands + breathe |
 
 More demos will grow the same `.a` (twin, zenoh).
 
 ## Host side
 
 Board demos that publish topics need the robotos host package
-(`serial-bridge` or Wi‑Fi). UI-only demos (01–09, 11) do not require
-the host; demos 10 / 12 / 13 speak COBS on the USB-JTAG port.
+(`serial-bridge` or Wi‑Fi). UI-only demos (01–09, 11, 14) do not
+require the host; demos 10 / 12 / 13 speak COBS on the USB-JTAG port.

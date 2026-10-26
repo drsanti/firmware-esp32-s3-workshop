@@ -47,6 +47,7 @@ typedef enum {
     RB_WIDGET_CHECKBOX,
     RB_WIDGET_RADIO,
     RB_WIDGET_GAUGE,
+    RB_WIDGET_PROGRESS,
 } rb_widget_kind_t;
 
 typedef struct rb_widget {
