@@ -5,6 +5,16 @@ Blink the board LED using **`librobotos_fw.a`** — not raw ESP-IDF GPIO.
 You write a short `main`: init the board and an `rb_node`, then toggle
 `bsp_led_set` in a loop while calling `rb_spin_once`.
 
+## APIs this lab uses
+
+| Layer | You will call |
+|-------|----------------|
+| Board | `bsp_init`, `bsp_led_set`, `bsp_mono_ns`, `bsp_yield` |
+| Runtime | `rb_node_init`, `rb_spin_once`, `rb_transport_serial_init` |
+| Your lab | `main/main.c` |
+
+See [NAMING.md](../../NAMING.md) for the five-layer map (`rb` = robotos).
+
 ## Prerequisites
 
 - ESP-IDF (same major as class notes)

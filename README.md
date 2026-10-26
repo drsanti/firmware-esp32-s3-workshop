@@ -25,6 +25,12 @@ labs/
 
 See [lib/README.md](lib/README.md).
 
+## Naming
+
+Read **[NAMING.md](NAMING.md)** before Lab 01 — five layers
+(Board · Runtime · Wire · Features · Your lab). **`rb_*` = robotos**
+on the MCU (not ROS).
+
 ## Labs
 
 | Lab | Goal |
