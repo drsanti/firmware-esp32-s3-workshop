@@ -85,6 +85,18 @@ void bsp_led_rgb(uint8_t r, uint8_t g, uint8_t b);
 struct display_dev;
 struct display_dev *bsp_display(void);
 
+/* Optional: large framebuffer heap (LCD full-frame RGB565). Prefer
+ * PSRAM when present. Ports without a suitable heap return NULL.
+ * Used by rb_term / status UI — not required for serial-only builds. */
+void *bsp_fb_alloc(size_t bytes);
+void  bsp_fb_free(void *p);
+
+/* Optional: recursive mutex for the LCD framebuffer / SPI flush.
+ * rb_term takes these around every draw. Empty stubs on ports
+ * without an RTOS. */
+void bsp_display_lock(void);
+void bsp_display_unlock(void);
+
 /* Optional: audio output (codec + amp). Ports without audio return
  * -1 from init / 0 from write. pcm = interleaved L,R int16 frames. */
 int bsp_audio_init(void);

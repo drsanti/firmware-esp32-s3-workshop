@@ -34,6 +34,7 @@
 #include "esp_timer.h"
 #include "nvs_flash.h"
 #include "freertos/FreeRTOS.h"
+#include "freertos/semphr.h"
 #include "freertos/task.h"
 
 /* Factory reset — hold BOOT (GPIO0) through the first ~1.5 s of boot
@@ -182,4 +183,29 @@ struct display_dev *bsp_display(void) {
         ok = bsp_display_init(&dev) == 0;
     }
     return ok ? &dev : NULL;
+}
+
+void *bsp_fb_alloc(size_t bytes) {
+    return heap_caps_malloc(bytes, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
+}
+
+void bsp_fb_free(void *p) {
+    heap_caps_free(p);
+}
+
+static SemaphoreHandle_t s_disp_mu;
+
+void bsp_display_lock(void) {
+    if (s_disp_mu == 0) {
+        s_disp_mu = xSemaphoreCreateRecursiveMutex();
+    }
+    if (s_disp_mu) {
+        xSemaphoreTakeRecursive(s_disp_mu, portMAX_DELAY);
+    }
+}
+
+void bsp_display_unlock(void) {
+    if (s_disp_mu) {
+        xSemaphoreGiveRecursive(s_disp_mu);
+    }
 }
