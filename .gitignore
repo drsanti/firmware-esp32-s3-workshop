@@ -1,0 +1,15 @@
+# installed library artifacts (download per release; do not hand-commit dirty builds)
+# Uncomment the next two lines if you prefer never committing .a/headers:
+# /lib/*.a
+# /include/firmware-esp32-s3-dev/
+
+esp32s3/build*/
+**/build/
+**/managed_components/
+sdkconfig
+sdkconfig.old
+*.o
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
