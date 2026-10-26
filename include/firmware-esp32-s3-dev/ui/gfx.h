@@ -60,6 +60,12 @@ void rbgfx_vline(rbgfx_t *g, int16_t x, int16_t y, uint16_t h, uint16_t c);
 /* filled circle — row spans via hline so clipping/dirty come free */
 void rbgfx_fill_circle(rbgfx_t *g, int16_t cx, int16_t cy, uint16_t r,
                      uint16_t color);
+/* Filled annular sector. Angles in degrees from +X (math); screen Y
+ * grows down (y = cy - sin*r). outer_r > inner_r.
+ * sweep_deg > 0 = CCW from start; < 0 = CW; ±360 = full ring. */
+void rbgfx_fill_arc(rbgfx_t *g, int16_t cx, int16_t cy, uint16_t outer_r,
+                    uint16_t inner_r, int16_t start_deg, int16_t sweep_deg,
+                    uint16_t color);
 /* filled round-rect; rad is corner radius (clamped to min(w,h)/2) */
 void rbgfx_fill_round_rect(rbgfx_t *g, int16_t x, int16_t y, uint16_t w,
                            uint16_t h, uint16_t rad, uint16_t color);

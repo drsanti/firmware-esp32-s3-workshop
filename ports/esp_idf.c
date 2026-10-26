@@ -32,6 +32,7 @@
 #include "esp_cpu.h"
 #include "esp_log.h"
 #include "esp_timer.h"
+#include "nvs.h"
 #include "nvs_flash.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/semphr.h"
@@ -208,4 +209,60 @@ void bsp_display_unlock(void) {
     if (s_disp_mu) {
         xSemaphoreGiveRecursive(s_disp_mu);
     }
+}
+
+/* ---- params NVS seam (pulled by middleware/params.c) ---- */
+#define PARAM_NVS_NS "rbparam"
+
+static int param_nvs_ready(void)
+{
+    static int ready = -1;
+    esp_err_t e;
+
+    if (ready >= 0) {
+        return ready;
+    }
+    e = nvs_flash_init();
+    if (e == ESP_ERR_NVS_NO_FREE_PAGES ||
+        e == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+        (void)nvs_flash_erase();
+        e = nvs_flash_init();
+    }
+    ready = (e == ESP_OK) ? 1 : 0;
+    return ready;
+}
+
+int bsp_param_get(const char *name, char *buf, size_t n)
+{
+    nvs_handle_t h;
+    int rc;
+
+    if (!name || !buf || !n || !param_nvs_ready()) {
+        return -1;
+    }
+    if (nvs_open(PARAM_NVS_NS, NVS_READONLY, &h) != ESP_OK) {
+        return -1;
+    }
+    rc = nvs_get_str(h, name, buf, &n) == ESP_OK ? 0 : -1;
+    nvs_close(h);
+    return rc;
+}
+
+int bsp_param_set(const char *name, const char *value)
+{
+    nvs_handle_t h;
+    int rc;
+
+    if (!name || !value || !param_nvs_ready()) {
+        return -1;
+    }
+    if (nvs_open(PARAM_NVS_NS, NVS_READWRITE, &h) != ESP_OK) {
+        return -1;
+    }
+    rc = (nvs_set_str(h, name, value) == ESP_OK &&
+          nvs_commit(h) == ESP_OK)
+             ? 0
+             : -1;
+    nvs_close(h);
+    return rc;
 }

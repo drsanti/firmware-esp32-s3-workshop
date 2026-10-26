@@ -7,6 +7,7 @@
 
 ```bash
 cd demos/07-checkbox
+# Must be esp32s3 (GPIO_NUM_45 undeclared ⇒ wrong target / plain esp32).
 idf.py -DBOARD=ws28p set-target esp32s3 build flash -p COMx monitor
 # or: idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx
 ```
