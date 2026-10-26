@@ -16,7 +16,7 @@
 #ifdef ESP_PLATFORM
 
 #include "../../../ui/display.h"
-#include "board_pins.h"
+#include "bsp_pins.h"
 
 #include <string.h>
 
@@ -204,7 +204,7 @@ static int lcd_flush(void *ctx, uint16_t x0, uint16_t y0, uint16_t x1,
     return 0;
 }
 
-int board_display_init(display_dev_t *dev) {
+int bsp_display_init(display_dev_t *dev) {
     spi_bus_config_t bus = {
         .mosi_io_num = LCD_MOSI,
         .miso_io_num = -1,      /* write-only panel */

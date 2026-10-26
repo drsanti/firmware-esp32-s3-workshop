@@ -3,7 +3,7 @@
 Blink the board LED using **`librobotos_fw.a`** — not raw ESP-IDF GPIO.
 
 You write a short `main`: init the board and an `rb_node`, then toggle
-`board_led_set` in a loop while calling `rb_spin_once`.
+`bsp_led_set` in a loop while calling `rb_spin_once`.
 
 ## Prerequisites
 

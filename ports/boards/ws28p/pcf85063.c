@@ -4,8 +4,8 @@
  * offset 1970 (so 2026 = 56). Register map verified against the
  * vendor demo PCF85063_Driver.
  */
-#include "../../board.h"
-#include "../../esp32s3_board.h"
+#include "../../bsp.h"
+#include "../../esp32s3_bsp.h"
 #include <string.h>
 #ifdef ESP_PLATFORM
 
@@ -35,7 +35,7 @@ static int pcf_init(void) {
     return 0;
 }
 
-int board_rtc_read(board_datetime_t *t) {
+int bsp_rtc_read(bsp_datetime_t *t) {
     if (s_rtc == NULL && pcf_init() != 0) {
         return -1;
     }
@@ -59,7 +59,7 @@ int board_rtc_read(board_datetime_t *t) {
     return 0;
 }
 
-int board_rtc_set(const board_datetime_t *t) {
+int bsp_rtc_set(const bsp_datetime_t *t) {
     if (s_rtc == NULL && pcf_init() != 0) {
         return -1;
     }

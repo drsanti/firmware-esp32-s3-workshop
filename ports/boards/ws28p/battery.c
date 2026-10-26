@@ -6,8 +6,8 @@
  */
 #ifdef ESP_PLATFORM
 
-#include "../../board.h"
-#include "board_pins.h"
+#include "../../bsp.h"
+#include "bsp_pins.h"
 
 #include "esp_adc/adc_oneshot.h"
 #include "esp_adc/adc_cali.h"
@@ -20,7 +20,7 @@ static adc_oneshot_unit_handle_t s_adc;
 static adc_cali_handle_t s_cali;
 static int s_ready;
 
-int board_battery_mv(void) {
+int bsp_battery_mv(void) {
     if (!s_ready) {
         adc_oneshot_unit_init_cfg_t uc = {
             .unit_id = ADC_UNIT_1,

@@ -1,23 +1,23 @@
 /*
  * ports/boards/ws28p/pcm5101.c — Waveshare ESP32-S3-Touch-LCD-2.8
- * (SKU 27690) audio output (board_audio_* impl).
+ * (SKU 27690) audio output (bsp_audio_* impl).
  *
  * PCM5101A is a dumb I2S DAC — no control interface, no ADC, no mic
  * (unlike the ES3C28P's ES8311 codec). I2S pins: BCK48 LRCK38 DIN47,
  * no MCLK (the PCM5101 has an internal PLL off BCK). 8Ω 2W speaker
  * via the onboard amp.
  *
- * Volume: the DAC has no register surface, so board_audio_volume()
- * applies a software gain on the samples in board_audio_write() —
+ * Volume: the DAC has no register surface, so bsp_audio_volume()
+ * applies a software gain on the samples in bsp_audio_write() —
  * cheap and keeps the SFX loudness knob working on this board.
- * board_mic_* are graceful stubs — mic_apply_cmd sees -1 and marks
+ * bsp_mic_* are graceful stubs — mic_apply_cmd sees -1 and marks
  * capture unsupported instead of a hard failure.
  */
 #ifdef ESP_PLATFORM
 
-#include "../../board.h"
-#include "../../esp32s3_board.h"
-#include "board_pins.h"
+#include "../../bsp.h"
+#include "../../esp32s3_bsp.h"
+#include "bsp_pins.h"
 
 #include <string.h>
 
@@ -60,7 +60,7 @@ static int i2s_init(void) {
     return i2s_channel_enable(s_i2s_tx) == ESP_OK ? 0 : -1;
 }
 
-int board_audio_init(void) {
+int bsp_audio_init(void) {
     if (s_i2s_tx != NULL) {
         return 0;
     }
@@ -70,7 +70,7 @@ int board_audio_init(void) {
 /* stereo frames: pcm[] is L,R interleaved int16; blocks until the
  * DMA buffer drains — natural pacing for the render task. Software
  * gain applied in place when s_vol < 100. */
-size_t board_audio_write(const int16_t *pcm, size_t frames) {
+size_t bsp_audio_write(const int16_t *pcm, size_t frames) {
     if (s_i2s_tx == NULL) {
         return 0;
     }
@@ -98,24 +98,24 @@ size_t board_audio_write(const int16_t *pcm, size_t frames) {
     return written / 4;
 }
 
-void board_audio_volume(uint8_t percent) {
+void bsp_audio_volume(uint8_t percent) {
     if (percent > 100) percent = 100;
     s_vol = percent; /* software gain — PCM5101 has no ctrl iface */
 }
 
 /* ---- mic input: no ADC on this board ---------------------------- */
 
-int board_mic_enable(int on) {
+int bsp_mic_enable(int on) {
     (void)on;
     return -1; /* PCM5101 is output-only — no capture path */
 }
 
-size_t board_audio_read(int16_t *pcm, size_t frames) {
+size_t bsp_audio_read(int16_t *pcm, size_t frames) {
     (void)pcm; (void)frames;
     return 0;
 }
 
-void board_mic_gain(uint8_t percent) { (void)percent; }
-void board_mic_mute(int on) { (void)on; }
+void bsp_mic_gain(uint8_t percent) { (void)percent; }
+void bsp_mic_mute(int on) { (void)on; }
 
 #endif /* ESP_PLATFORM */

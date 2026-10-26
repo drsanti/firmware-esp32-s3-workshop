@@ -1,6 +1,6 @@
 /*
  * ports/boards/ws28p/qmi8658.c — Waveshare ESP32-S3-Touch-LCD-2.8
- * (SKU 27690) IMU (board_imu_read impl).
+ * (SKU 27690) IMU (bsp_imu_read impl).
  *
  * QMI8658 6-axis accel+gyro, I2C 0x6B on the shared peripheral bus
  * (SDA11/SCL10). Minimal bring-up: WHO_AM_I check, ±4g accel and
@@ -9,8 +9,8 @@
  */
 #ifdef ESP_PLATFORM
 
-#include "../../board.h"
-#include "../../esp32s3_board.h"
+#include "../../bsp.h"
+#include "../../esp32s3_bsp.h"
 
 #include <string.h>
 
@@ -68,7 +68,7 @@ static int qmi_init(void) {
     return 0;
 }
 
-int board_imu_read(float accel_mps2[3], float gyro_rads[3]) {
+int bsp_imu_read(float accel_mps2[3], float gyro_rads[3]) {
     if (s_imu == NULL && qmi_init() != 0) {
         return -1;
     }

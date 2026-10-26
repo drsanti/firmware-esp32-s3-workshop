@@ -1,14 +1,14 @@
 /*
  * board.c — Waveshare ESP32-S3-Touch-LCD-2.8 (SKU 27690) board glue:
  * shared I2C bus + dedicated touch I2C bus. This board has no
- * WS2812 LED and no battery ADC — the corresponding board.h hooks
+ * WS2812 LED and no battery ADC — the corresponding bsp.h hooks
  * are graceful stubs.
  */
 #include <string.h>
 
-#include "board_pins.h"
-#include "../../board.h"
-#include "../../esp32s3_board.h"
+#include "bsp_pins.h"
+#include "../../bsp.h"
+#include "../../esp32s3_bsp.h"
 
 #include "driver/gpio.h"
 #include "driver/i2c_master.h"
@@ -58,14 +58,14 @@ i2c_master_bus_handle_t ws28p_tp_i2c(void) {
     return s_i2c_tp;
 }
 
-void board_led_set(int on) { (void)on; /* no user LED on this board */ }
-void board_led_rgb(uint8_t r, uint8_t g, uint8_t b) {
+void bsp_led_set(int on) { (void)on; /* no user LED on this board */ }
+void bsp_led_rgb(uint8_t r, uint8_t g, uint8_t b) {
     (void)r; (void)g; (void)b;
 }
 
-const char *board_hw_model(void) { return BOARD_SKU; }
+const char *bsp_hw_model(void) { return BOARD_SKU; }
 
-uint32_t board_caps(void) {
+uint32_t bsp_caps(void) {
     return BOARD_CAP_IMU|BOARD_CAP_RTC|BOARD_CAP_BATT|BOARD_CAP_BTN;
 }
 
@@ -75,7 +75,7 @@ uint32_t board_caps(void) {
 #define WS28P_PWR_HOLD 7  /* SYS_EN — output high keeps battery on */
 #define WS28P_BTN_BOOT 0
 
-uint32_t board_buttons(void) {
+uint32_t bsp_buttons(void) {
     uint32_t m = 0;
     if (!gpio_get_level(WS28P_BTN_PWR)) {
         m |= 1;
@@ -86,12 +86,12 @@ uint32_t board_buttons(void) {
     return m;
 }
 
-int board_pwr_hold(int en) {
+int bsp_pwr_hold(int en) {
     gpio_set_level(WS28P_PWR_HOLD, en ? 1 : 0);
     return 0;
 }
 
-void board_misc_init(void) {
+void bsp_misc_init(void) {
     /* Power latch FIRST — on battery a released PWR button cuts the
      * rail unless SYS_EN is high; the vendor demo latches the same
      * way. Harmless on USB power. */
@@ -107,15 +107,15 @@ void board_misc_init(void) {
     gpio_set_level(WS28P_PWR_HOLD, 1);
 
     /* Force the lazy resources up while only the main task runs —
-     * board_imu_read/board_touch_read are then race-free when both
+     * bsp_imu_read/bsp_touch_read are then race-free when both
      * the app and ui tasks call them later. */
     esp32s3_i2c0();
     ws28p_tp_i2c();
     float acc[3], gyr[3];
-    board_imu_read(acc, gyr);
-    board_touch_sample_t smp = {0};
-    board_touch_read(&smp);
-    board_datetime_t dt; /* dev handle creation is single-task-safe
+    bsp_imu_read(acc, gyr);
+    bsp_touch_sample_t smp = {0};
+    bsp_touch_read(&smp);
+    bsp_datetime_t dt; /* dev handle creation is single-task-safe
                           * here; the app seeds wall time later */
-    board_rtc_read(&dt);
+    bsp_rtc_read(&dt);
 }

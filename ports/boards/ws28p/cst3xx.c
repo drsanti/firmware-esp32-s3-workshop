@@ -1,11 +1,11 @@
 /*
  * ports/boards/ws28p/cst3xx.c — Waveshare ESP32-S3-Touch-LCD-2.8
- * (SKU 27690) touch device (board_touch_read impl).
+ * (SKU 27690) touch device (bsp_touch_read impl).
  *
  * The board ships in two revisions:
  *   V1: CST328  @ 0x1A — 16-bit register protocol
  *   V2: CST3530 @ 0x58 — 32-bit command protocol (this unit)
- * First board_touch_read probes both addresses and latches the
+ * First bsp_touch_read probes both addresses and latches the
  * responder; the two paths below each follow Waveshare's official
  * esp_lcd_touch_* components (Apache-2.0).
  *
@@ -22,9 +22,9 @@
  */
 #ifdef ESP_PLATFORM
 
-#include "../../board.h"
-#include "../../esp32s3_board.h"
-#include "board_pins.h"
+#include "../../bsp.h"
+#include "../../esp32s3_bsp.h"
+#include "bsp_pins.h"
 
 #include <string.h>
 
@@ -56,7 +56,7 @@ static void cst3530_cmd_buf(uint32_t cmd, uint8_t b[4]) {
     b[3] = (uint8_t)cmd;
 }
 
-static int cst3530_poll(board_touch_sample_t *s) {
+static int cst3530_poll(bsp_touch_sample_t *s) {
     uint8_t cmd[4];
     cst3530_cmd_buf(CST3530_CMD_READ, cmd);
     uint8_t r[32];
@@ -115,7 +115,7 @@ static int cst328_write(uint16_t reg, uint8_t v) {
     return i2c_master_transmit(s_touch, wb, 3, 10) == ESP_OK ? 0 : -1;
 }
 
-static int cst328_poll(board_touch_sample_t *s) {
+static int cst328_poll(bsp_touch_sample_t *s) {
     uint8_t cnt;
     if (cst328_read(CST328_REG_CNT, &cnt, 1) != 0) {
         return -1;
@@ -182,7 +182,7 @@ static int touch_probe(uint16_t addr, int chip) {
     return 0;
 }
 
-int board_touch_read(board_touch_sample_t *s) {
+int bsp_touch_read(bsp_touch_sample_t *s) {
     if (s == NULL) {
         return -1;
     }

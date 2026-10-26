@@ -1,5 +1,5 @@
 /*
- * board_pins.h — Waveshare ESP32-S3-Touch-LCD-2.8 (SKU 27690) pin map.
+ * bsp_pins.h — Waveshare ESP32-S3-Touch-LCD-2.8 (SKU 27690) pin map.
  * From the official schematic + wiki "Internal Hardware Connection".
  *
  * The touch controller is on its OWN I2C bus (SDA1/SCL3) — the
@@ -23,7 +23,7 @@
 #define BOARD_TP_INT      4
 #define BOARD_TP_RST      2
 
-/* no WS2812 — board_led_* are stubs on this board */
+/* no WS2812 — bsp_led_* are stubs on this board */
 
 /* LiPo divider -> ADC1_CH7 (GPIO8), pack ≈ pin x3 */
 #define BOARD_BATT_GPIO 8

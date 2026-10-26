@@ -1,5 +1,5 @@
 /*
- * esp32s3_board.h — ESP-IDF port-internal seam (NOT portable).
+ * esp32s3_bsp.h — ESP-IDF port-internal seam (NOT portable).
  * Shared between the generic port (ports/esp_idf.c) and the
  * board-specific glue (ports/boards/<sku>/). App/middleware code
  * never sees ESP-IDF types.
@@ -17,10 +17,10 @@ i2c_master_bus_handle_t esp32s3_i2c0(void);
 /* ws28p dedicated touch bus (SDA1/SCL3) — unused on es3c28p. */
 i2c_master_bus_handle_t ws28p_tp_i2c(void);
 
-/* per-board hook called by board_init() — LED/amp/i2c bus setup */
-void board_misc_init(void);
+/* per-board hook called by bsp_init() — LED/amp/i2c bus setup */
+void bsp_misc_init(void);
 
 /* per-board panel driver — fills display_dev_t, 0 on success */
-int board_display_init(display_dev_t *dev);
+int bsp_display_init(display_dev_t *dev);
 
 #endif /* ESP32S3_BOARD_H */

@@ -14,7 +14,7 @@ lib/                         # librobotos_fw.a (from a private release)
 include/firmware-esp32-s3-dev/   # public headers (from the same release)
 ports/boards/<sku>/          # board HAL for class hardware
 labs/
-  01-blink/                  # first lab — LED via board_led_set + rb_spin
+  01-blink/                  # first lab — LED via bsp_led_set + rb_spin
 ```
 
 ## Get the library
@@ -29,7 +29,7 @@ See [lib/README.md](lib/README.md).
 
 | Lab | Goal |
 |---|---|
-| [01-blink](labs/01-blink/) | Blink an LED through `board_led_set` on an `rb_node` |
+| [01-blink](labs/01-blink/) | Blink an LED through `bsp_led_set` on an `rb_node` |
 
 More labs will grow the same `.a` (button, log, topics, cmds, twin).
 

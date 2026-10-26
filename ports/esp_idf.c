@@ -3,9 +3,9 @@
  *
  * Board-agnostic: clocks, identity, critical sections, the serial
  * link, boot-button factory reset. Board-specific pins live in
- * ports/boards/<sku>/board_pins.h (selected by the BOARD cmake var);
+ * ports/boards/<sku>/bsp_pins.h (selected by the BOARD cmake var);
  * board glue (i2c buses, LED, display/touch/audio drivers) lives in
- * ports/boards/<sku>/ next to board_pins.h.
+ * ports/boards/<sku>/ next to bsp_pins.h.
  *
  * Two link variants, compile-time select (RSP_LINK_USB_JTAG):
  *                          USB-Serial/JTAG: ESP32-S3 on-chip USB
@@ -22,13 +22,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../board.h"
+#include "../bsp.h"
 #include "../protocol.h"
 #include "../serial_app.h"
-#include "board_pins.h"
+#include "bsp_pins.h"
 
 #include "driver/gpio.h"
-#include "esp32s3_board.h"
+#include "esp32s3_bsp.h"
 #include "esp_cpu.h"
 #include "esp_log.h"
 #include "esp_timer.h"
@@ -64,7 +64,7 @@ static void boot_button_factory_reset(void) {
 /* ---------------- bring-up link: USB-Serial/JTAG ---------------- */
 #include "driver/usb_serial_jtag.h"
 
-void board_init(void) {
+void bsp_init(void) {
     usb_serial_jtag_driver_config_t cfg = {
         .tx_buffer_size = 4096,
         .rx_buffer_size = 4096,
@@ -73,17 +73,17 @@ void board_init(void) {
     /* No echo: the USB-Serial/JTAG driver never echoes RX. */
 
     boot_button_factory_reset();
-    board_misc_init();
+    bsp_misc_init();
 }
 
-void board_uart_write(const uint8_t *data, size_t len) {
+void bsp_uart_write(const uint8_t *data, size_t len) {
     /* CDC-style pipe: no real baud rate; if no host is attached the
      * TX buffer fills and this returns short — drop-and-count is the
      * spec posture, so we don't retry. */
     usb_serial_jtag_write_bytes(data, len, 0);
 }
 
-int board_uart_read(uint8_t *byte) {
+int bsp_uart_read(uint8_t *byte) {
     return usb_serial_jtag_read_bytes(byte, 1, 0) == 1;
 }
 
@@ -95,7 +95,7 @@ int board_uart_read(uint8_t *byte) {
 #define LINK_BAUD    921600
 #define RX_BUF_SIZE  4096
 
-void board_init(void) {
+void bsp_init(void) {
     boot_button_factory_reset();
     uart_config_t cfg = {
         .baud_rate = LINK_BAUD,
@@ -112,28 +112,28 @@ void board_init(void) {
     /* Spec §3.4: no RX echo on the protocol UART — the ESP-IDF driver
      * never echoes, nothing to disable. */
 
-    board_misc_init();
+    bsp_misc_init();
 }
 
-void board_uart_write(const uint8_t *data, size_t len) {
+void bsp_uart_write(const uint8_t *data, size_t len) {
     /* uart_write_bytes is serialized internally by the driver on
      * ESP-IDF (TX ring + mux); if you bypass it with raw FIFO writes,
      * add a FreeRTOS mutex here (spec §3.3). */
     uart_write_bytes(LINK_UART, data, len);
 }
 
-int board_uart_read(uint8_t *byte) {
+int bsp_uart_read(uint8_t *byte) {
     return uart_read_bytes(LINK_UART, byte, 1, 0) == 1;
 }
 #endif /* RSP_LINK_USB_JTAG */
 
-unsigned long board_free_heap(void) { return esp_get_free_heap_size(); }
+unsigned long bsp_free_heap(void) { return esp_get_free_heap_size(); }
 
 /* <BOARD_NAME>-<last3mac> — stable per-chip id; used as the zenoh
  * publisher_uuid so multiple boards on one mesh stay distinct. */
 #include "esp_mac.h"
 #include "esp_system.h"
-int board_identity(char *buf, size_t n) {
+int bsp_identity(char *buf, size_t n) {
     uint8_t mac[6] = {0};
     if (esp_efuse_mac_get_default(mac) != 0) {
         return -1;
@@ -143,9 +143,9 @@ int board_identity(char *buf, size_t n) {
     return len < 0 || (size_t)len >= n ? -1 : len;
 }
 
-void board_reboot(void) { esp_restart(); }
+void bsp_reboot(void) { esp_restart(); }
 
-int board_mac_str(char *buf, size_t n) {
+int bsp_mac_str(char *buf, size_t n) {
     uint8_t mac[6] = {0};
     if (esp_efuse_mac_get_default(mac) != 0) {
         return -1;
@@ -157,29 +157,29 @@ int board_mac_str(char *buf, size_t n) {
 
 static portMUX_TYPE s_crit_mux = portMUX_INITIALIZER_UNLOCKED;
 
-void board_critical_enter(void) {
+void bsp_critical_enter(void) {
     taskENTER_CRITICAL(&s_crit_mux);
 }
-void board_critical_exit(void) {
+void bsp_critical_exit(void) {
     taskEXIT_CRITICAL(&s_crit_mux);
 }
 
-uint64_t board_mono_ns(void) {
+uint64_t bsp_mono_ns(void) {
     return (uint64_t)esp_timer_get_time() * 1000ull; /* us -> ns */
 }
 
-void board_yield(void) {
+void bsp_yield(void) {
     /* app_run() is a tight poll on the main task — without this the
      * idle task starves and the task watchdog resets the chip. */
     vTaskDelay(pdMS_TO_TICKS(1));
 }
 
-struct display_dev *board_display(void) {
+struct display_dev *bsp_display(void) {
     static display_dev_t dev;
     static int tried, ok;
     if (!tried) {
         tried = 1;
-        ok = board_display_init(&dev) == 0;
+        ok = bsp_display_init(&dev) == 0;
     }
     return ok ? &dev : NULL;
 }
