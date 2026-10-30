@@ -29,9 +29,10 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
 If you see `No module named 'rich_click'`, the ESP-IDF Python venv is
-incomplete — run `install.bat` in your IDF tree, then
-`.\rbdev\windows\rbdev.exe doctor` from the workshop root (expect
-`rich_click OK`). Full steps: [../../rbdev/README.md](../../rbdev/README.md).
+incomplete — run `install.bat` (Windows) or `install.sh` (macOS/Linux) in your
+IDF tree, then `rbdev doctor` from the workshop root (expect `rich_click OK`).
+Full steps: [../../rbdev/README.md](../../rbdev/README.md) ·
+[CLASSROOM-SETUP.md](../../CLASSROOM-SETUP.md).
 
 Plain `idf.py`:
 

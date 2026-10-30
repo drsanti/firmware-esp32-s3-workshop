@@ -107,8 +107,8 @@ Both targets need **`set-target esp32s3`**. Pin maps and notes:
 | Need | Notes |
 |------|--------|
 | This repo | With `lib/` + `include/` present ([lib/README.md](lib/README.md)) |
-| ESP-IDF | Course Path A — **ESP-IDF PowerShell** on Windows is easiest |
-| USB serial | Port from `.\rb doctor` (no universal COM default) |
+| ESP-IDF | Course Path A — Windows: **ESP-IDF PowerShell**; macOS/Linux: source `export.sh` |
+| USB serial | Port from `rb doctor` (`COMx` / `/dev/cu.*` / `/dev/ttyACM*` — no universal default) |
 | Board | `ws28p` or `es3c28p` |
 
 > **Library package** — install a `robotos-fw-*.tar.gz` from
@@ -139,7 +139,8 @@ cd labs\device-labs
 
 ```bash
 # macOS / Linux — in-repo binaries under rbdev/mac and rbdev/linux
-chmod +x rbdev/mac/rbdev rbdev/linux/rbdev rb ./labs/*/rb ./demos/demo-labs/rb 2>/dev/null || true
+chmod +x rbdev/mac/rbdev rbdev/linux/rbdev rb ./labs/*/rb ./labs/*/run ./demos/demo-labs/rb ./demos/demo-labs/run 2>/dev/null || true
+ls /dev/cu.*   # macOS — list serial ports (prefer /dev/cu.* for flash)
 cd labs/device-labs
 ./rb doctor
 ./rb config --port /dev/cu.usbmodemXXXX --board ws28p   # Linux: /dev/ttyACM0 or /dev/ttyUSB0
@@ -175,29 +176,37 @@ idf.py -DBOARD=ws28p set-target esp32s3 build flash -p COMx monitor
 </details>
 
 Full student guide: **[rbdev/README.md](rbdev/README.md)**.  
-**Class go-live checklist:** **[CLASSROOM-SETUP.md](CLASSROOM-SETUP.md)** (doctor green light, `install.bat`, what TAs check).
+**Class go-live checklist:** **[CLASSROOM-SETUP.md](CLASSROOM-SETUP.md)** (Windows / macOS / Linux — doctor green light, what TAs check).
 
-### Troubleshooting (Windows)
+### Troubleshooting
 
 | Symptom | Fix |
 |---------|-----|
-| `not digitally signed` / `.ps1` blocked | `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` once per PowerShell window |
+| `not digitally signed` / `.ps1` blocked (Windows) | `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` once per PowerShell window |
 | `No module named 'rich_click'` (or `click`) | ESP-IDF Python venv incomplete — see below |
 | `Unexpected token` / parse error in `_run.ps1` | Re-download / `git pull` (old scripts used Unicode dashes) |
+| macOS Gatekeeper blocks `rbdev` | Right-click → Open `rbdev/mac/rbdev` once |
+| Linux: permission denied on `/dev/tty*` | `sudo usermod -aG dialout $USER`, then re-login |
 
 **`rich_click` repair** (most common after a fresh or partial IDF install):
 
 ```powershell
-cd C:\esp\v6.1\esp-idf          # your IDF path — `.\rb doctor` prints it
-.\install.bat                   # several minutes; installs Python deps
+# Windows
+cd C:\esp\v6.1\esp-idf          # your IDF path — `rb doctor` prints it
+.\install.bat
 .\export.ps1
-idf.py --version
-
-# From workshop root — should say "rich_click OK":
-.\rbdev\windows\rbdev.exe doctor
+.\rbdev\windows\rbdev.exe doctor   # from workshop root — expect "rich_click OK"
 ```
 
-Then retry `.\run 01` from the lab folder. Details:
+```bash
+# macOS / Linux
+cd ~/esp/esp-idf                # your IDF path (e.g. /Users/you/esp/esp-idf)
+./install.sh
+. ./export.sh
+./rbdev/mac/rbdev doctor        # Linux: ./rbdev/linux/rbdev doctor
+```
+
+Then retry `run 01` from the lab folder. Details:
 [rbdev/README.md](rbdev/README.md#no-module-named-rich_click-or-click--rich) ·
 full classroom checklist: [CLASSROOM-SETUP.md](CLASSROOM-SETUP.md).
 
@@ -272,7 +281,7 @@ ex00 Hello → ex01 Spirit → ex02 Alarm → ex03 React → ex04 Metro → ex05
 
 | Doc | Audience |
 |-----|----------|
-| [CLASSROOM-SETUP.md](CLASSROOM-SETUP.md) | **Start here in class** — doctor checklist, `install.bat`, TA playbook |
+| [CLASSROOM-SETUP.md](CLASSROOM-SETUP.md) | **Start here in class** — doctor checklist (Win/macOS/Linux), TA playbook |
 | [rbdev/README.md](rbdev/README.md) | Student CLI — doctor, config, build, flash, `run NN` |
 | [labs/README.md](labs/README.md) | Device / special / rtos curriculum index |
 | [demos/README.md](demos/README.md) | Demo-labs index |

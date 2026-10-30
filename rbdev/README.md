@@ -25,7 +25,7 @@ cd firmware-esp32-s3-workshop
 
 ```bash
 # macOS / Linux — mark executable if needed
-chmod +x rbdev/mac/rbdev rbdev/linux/rbdev rb ./labs/*/rb ./demos/demo-labs/rb 2>/dev/null || true
+chmod +x rbdev/mac/rbdev rbdev/linux/rbdev rb ./labs/*/rb ./labs/*/run ./demos/demo-labs/rb ./demos/demo-labs/run 2>/dev/null || true
 ```
 
 Windows, macOS (Apple Silicon), and Linux x64 binaries ship in this repo.
@@ -52,13 +52,13 @@ Docs: [`ship-binaries.md`](https://github.com/drsanti/rbdev/blob/main/docs/ship-
 [`AGENTS.md`](https://github.com/drsanti/rbdev/blob/main/AGENTS.md).
 ---
 
-## 2. macOS Quick Start
+## 2. macOS / Linux Quick Start
 
-If you're on macOS, after cloning run this once to make the scripts executable:
+After cloning, run this once to make the scripts executable:
 
 ```bash
 cd firmware-esp32-s3-workshop
-chmod +x rb rbdev/mac/rbdev labs/*/rb demos/demo-labs/rb
+chmod +x rb rbdev/mac/rbdev rbdev/linux/rbdev labs/*/rb labs/*/run demos/demo-labs/rb demos/demo-labs/run
 ```
 
 Then from any lab folder:
@@ -66,13 +66,22 @@ Then from any lab folder:
 ```bash
 cd labs/device-labs  # or labs/rtos-labs, demos/demo-labs, etc.
 ./rb doctor
-./rb config --port /dev/cu.usbmodemXXXX --board ws28p  # replace with your port from doctor
+# macOS:
+./rb config --port /dev/cu.usbmodemXXXX --board ws28p
+# Linux:
+# ./rb config --port /dev/ttyACM0 --board ws28p   # or /dev/ttyUSB0
 ./rb build
 ./rb flash
 ./run 00
 ```
 
-Your serial port will be listed in the `doctor` output (e.g., `/dev/cu.LX-10`, `/dev/cu.usbmodemXXXX`).
+Your serial port is listed in the `doctor` output
+(e.g. `/dev/cu.LX-10`, `/dev/cu.usbmodemXXXX`, `/dev/ttyACM0`).
+
+- **macOS — list ports:** `ls /dev/cu.*` (use a `/dev/cu.*` path for flash).
+- **macOS Gatekeeper:** right-click → Open `rbdev/mac/rbdev` once if blocked.
+- **Linux dialout:** if permission denied on the port:
+  `sudo usermod -aG dialout "$USER"` then log out and back in.
 
 ---
 
@@ -82,12 +91,20 @@ Your serial port will be listed in the `doctor` output (e.g., `/dev/cu.LX-10`, `
 |------|--------|
 | This repo | `firmware-esp32-s3-workshop` with `lib/` + `include/` present |
 | ESP-IDF | Already installed for this course (**Path A**) |
-| Board + USB | Correct COM / `/dev/cu.*` / `/dev/ttyUSB*` port |
+| Board + USB | Correct `COMx` / `/dev/cu.*` / `/dev/ttyACM*` / `/dev/ttyUSB*` port |
 
 **Easiest on Windows:** open **ESP-IDF PowerShell** from the Start Menu so
 `IDF_PATH` is set, then run the commands below from the **workshop root**.
 
-If doctor cannot find IDF:
+**macOS / Linux:** source the IDF env in each shell, or set `IDF_PATH`:
+
+```bash
+. ~/esp/esp-idf/export.sh         # YOUR path (e.g. /Users/you/esp/esp-idf)
+# or: export IDF_PATH=~/esp/esp-idf
+# or: export RBDEV_IDF_PATH=~/esp/esp-idf
+```
+
+If doctor cannot find IDF on Windows:
 
 ```powershell
 # Examples — use YOUR install path
@@ -151,26 +168,33 @@ will not guess.
 | `es3c28p` | Ternion ESP32-S3 |
 
 ```powershell
-.\rb config --port COMx --board ws28p     # replace COMx with YOUR port
+# Windows — replace COMx with YOUR port
+.\rb config --port COMx --board ws28p
 .\rb build
 .\rb flash
 
 # Ternion:
 .\rb config --port COMx --board es3c28p
-.\rb build
-.\rb flash
 
 # One-shot override (does not change saved config):
 .\rb flash --port COM6 --board es3c28p
 ```
 
-After switching boards, run `.\rb reconfigure` (or a clean build) so CMake
+```bash
+# macOS / Linux — same flags; different port path
+./rb config --port /dev/cu.usbmodemXXXX --board ws28p   # Linux: /dev/ttyACM0
+./rb build
+./rb flash
+./rb flash --port /dev/ttyACM0 --board es3c28p          # one-shot
+```
+
+After switching boards, run `rb reconfigure` (or a clean build) so CMake
 picks up the new `-DBOARD=`.
 
-macOS and Linux users already covered in **Section 2** — run the `chmod` command once, then use `./rb` from any lab folder.
+macOS and Linux users: see **Section 2** — `chmod` once, then `./rb` from any lab folder.
 
 Goal for day 0: flash **Hello Device (ex00)** (or the lab your instructor names).
-You can still call `.\rbdev\windows\rbdev.exe …` or plain `idf.py` if you prefer.
+You can still call the OS binary under `rbdev/<os>/` or plain `idf.py` if you prefer.
 
 ---
 
@@ -217,33 +241,49 @@ If you still see the error on an old zip: `.\rb.cmd doctor` / `.\run.cmd 00`.
 ### `No module named 'rich_click'` (or `click` / `rich`)
 
 This means the **ESP-IDF Python venv is missing or incomplete** — not a lab
-bug. `rbdev` must use
-`%USERPROFILE%\.espressif\python_env\idf*_py*_env\Scripts\python.exe`,
-**not** `AppData\Local\Programs\Python\…` (system Python).
+bug. `rbdev` must use the Espressif venv under `.espressif/python_env/`,
+**not** system Python (Windows Store / `Python313`, Homebrew, `/usr/bin/python3`).
 
-If `rbdev` prints `python=C:\Users\…\Python313\python.exe`, you have not
-finished IDF setup. Create the venv:
+| OS | Expected interpreter |
+|----|----------------------|
+| Windows | `%USERPROFILE%\.espressif\python_env\idf*_py*_env\Scripts\python.exe` |
+| macOS / Linux | `~/.espressif/python_env/idf*_py*_env/bin/python` |
+
+Create / repair the venv:
 
 ```powershell
-# Prefer ESP-IDF PowerShell from the Start Menu, then:
+# Windows — prefer ESP-IDF PowerShell from the Start Menu
 cd C:\esp\v6.1\esp-idf        # YOUR IDF path (rbdev doctor shows it)
 .\install.bat                 # several minutes — creates venv + rich_click
 .\export.ps1
 idf.py --version
+.\rbdev\windows\rbdev.exe doctor   # from workshop root — rich_click OK
+```
 
-# From workshop root — must show …\.espressif\python_env\… and rich_click OK:
-.\rbdev\windows\rbdev.exe doctor
+```bash
+# macOS / Linux
+cd ~/esp/esp-idf              # YOUR IDF path (e.g. /Users/you/esp/esp-idf)
+./install.sh
+. ./export.sh
+idf.py --version
+./rbdev/mac/rbdev doctor      # Linux: ./rbdev/linux/rbdev doctor
 ```
 
 Only if the venv folder already exists but `rich_click` is still missing:
 
 ```powershell
+# Windows
 & "$env:USERPROFILE\.espressif\python_env\idf6.1_py3.11_env\Scripts\python.exe" -m pip install rich_click
 ```
 
-Then retry: `.\run 01 monitor`.
+```bash
+# macOS / Linux
+~/.espressif/python_env/idf6.1_py3.11_env/bin/python -m pip install rich_click
+```
 
-Classroom go-live (doctor green light + pasteable student message):
+Then retry: `run 01 monitor`.
+
+Classroom go-live (all OS — doctor green light + pasteable student messages):
 [CLASSROOM-SETUP.md](../CLASSROOM-SETUP.md).
 
 ---
@@ -251,7 +291,7 @@ Classroom go-live (doctor green light + pasteable student message):
 ## 7. CLI cheat sheet
 
 ```text
-rbdev config [--port COMx] [--board ws28p|es3c28p] [--show]
+rbdev config [--port <PORT>] [--board ws28p|es3c28p] [--show]
 rbdev doctor [--workshop <path>] [--json]
 rbdev build [--board ws28p|es3c28p]
 rbdev flash [--port <PORT>] [--board ws28p|es3c28p]
@@ -264,8 +304,15 @@ rbdev shell
 rbdev version
 ```
 
-Typical: `.\rb config --port COMx --board ws28p` once (port is required — no
-universal default), then `.\rb build` / `.\rb flash`. Default board is
-**`ws28p`**. Ternion: `--board es3c28p`.
+Typical: `rb config --port <PORT> --board ws28p` once (port is required — no
+universal default), then `rb build` / `rb flash`.
+
+| OS | Example port |
+|----|--------------|
+| Windows | `COM6` |
+| macOS | `/dev/cu.usbmodemXXXX` |
+| Linux | `/dev/ttyACM0` or `/dev/ttyUSB0` |
+
+Default board is **`ws28p`**. Ternion: `--board es3c28p`.
 
 Maintainer / kit packaging lives in the separate **`rbdev`** tool repo, not here.

@@ -28,9 +28,9 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
 If you see `No module named 'rich_click'`, repair the ESP-IDF Python venv
-(`install.bat` in your IDF tree) — see
+(`install.bat` / `install.sh` in your IDF tree) — see
 [../../rbdev/README.md](../../rbdev/README.md) and the root
-[README troubleshooting](../../README.md#troubleshooting-windows).
+[README troubleshooting](../../README.md#troubleshooting).
 
 Plain `idf.py`:
 
