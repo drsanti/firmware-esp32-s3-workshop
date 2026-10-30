@@ -214,6 +214,24 @@ That applies to **this window only** (no admin, no permanent change). Then:
 
 If you still see the error on an old zip: `.\rb.cmd doctor` / `.\run.cmd 00`.
 
+### `No module named 'rich_click'` (or `click` / `rich`)
+
+`idf.py` must run with the **ESP-IDF Python venv**, not system Python.
+Usually the IDF tools install is incomplete or outdated.
+
+```powershell
+# 1) Prefer ESP-IDF PowerShell from the Start Menu, then:
+cd C:\esp\v6.1\esp-idf        # YOUR IDF path (doctor / export shows it)
+.\install.bat                 # reinstall tools + Python deps (several minutes)
+.\export.ps1
+idf.py --version
+
+# 2) Or repair just the package into the IDF venv (adjust the folder name):
+& "$env:USERPROFILE\.espressif\python_env\idf6.1_py3.13_env\Scripts\python.exe" -m pip install rich_click
+```
+
+Then retry from the lab folder: `.\run 01 monitor`.
+
 ---
 
 ## 7. CLI cheat sheet
