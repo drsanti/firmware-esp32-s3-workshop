@@ -14,7 +14,7 @@ pub/sub, spin). On the MCU, C symbols use the short prefix **`rb_*`**
 | 4 | **Features** | `rb_<name>_` | Library modules (keys, params, cmds, LED FX, …) |
 | 5 | **Your demo** | `main/main.c` | The code you write |
 
-Demos 01–09, 11, and 14 use **Board + Features (UI) + Your demo**.
+Demos 01–09, 11, and 14–16 use **Board + Features (UI) + Your demo**.
 Demos 10 / 12 / 13 add **Runtime + Wire** (`rb_node`, `RSP_MSG_*`,
 `rb_cmd_*` / `rb_param_*`).
 
@@ -29,7 +29,7 @@ Demos 10 / 12 / 13 add **Runtime + Wire** (`rb_node`, `RSP_MSG_*`,
 | **`librobotos_fw.a`** | Prebuilt library; demos link it, they do not rebuild it early on. |
 | **`rb_spin_once`** | One runtime tick (drain RX, dispatch, heartbeat). |
 | **`rb_style_*` + `rb_*_set_style`** | Shared semantic colors (`PRIMARY`…`LIGHT`) for all leaves. |
-| **`rb_display_*` / `rb_screen_*` / `rb_layout_*` / `rb_label_*` / `rb_led_*` / `rb_switch_*` / `rb_button_*` / `rb_slider_*` / `rb_checkbox_*` / `rb_radio_*` / `rb_gauge_*` / `rb_progress_*` / `rb_term_*`** | LCD UI tree leaves. |
+| **`rb_display_*` / `rb_screen_*` / `rb_layout_*` / `rb_label_*` / `rb_led_*` / `rb_switch_*` / `rb_button_*` / `rb_slider_*` / `rb_checkbox_*` / `rb_radio_*` / `rb_gauge_*` / `rb_progress_*` / `rb_vu_*` / `rb_barchart_*` / `rb_chart_*` / `rb_level_*` / `rb_imu_readout_*` / `rb_term_*`** | LCD UI tree leaves. |
 | **Wire** | Serial/BLE framing + `RSP_MSG_*` types (`protocol.h`). |
 
 ## Symbols by demo
@@ -50,6 +50,9 @@ Demos 10 / 12 / 13 add **Runtime + Wire** (`rb_node`, `RSP_MSG_*`,
 | 12-param | yes | `rb_node` | `RSP_MSG_CMD_PARAM` | `rb_param_*` + buttons + term | yes |
 | 13-topics-ui | yes | `rb_node` / pub | `RSP_MSG_IMU` | slider + gauge bands | yes |
 | 14-progress | yes | — | — | `rb_screen` + `rb_progress_*` (H/V bands) | yes |
+| 15-chart | yes | — | — | `rb_chart_*` ×2 (SCROLL + HISTORY) | yes |
+| 16-imu-viz | yes | — | — | `rb_level` + `rb_imu_readout` + Accel HISTORY | yes |
+| 17-mic-viz | yes | — | — | `rb_vu` (DBFS) + `rb_chart` HISTORY + `mic_sim` | yes |
 
 Full maintainer prefix map: private repo `firmware-esp32-s3-dev`
 [`docs/NAMING.md`](https://github.com/drsanti/firmware-esp32-s3-dev) /

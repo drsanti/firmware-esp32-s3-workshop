@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+# Select a demo-lab (exNN) in main/main.c, then build + flash.
+# Usage: ./run 01   |   ./run 17   |   ./run 5 [monitor]
+set -euo pipefail
+LAB_ROOT="$(cd "$(dirname "$0")" && pwd)"
+RB="$LAB_ROOT/rb"
+
+normalize_id() {
+  local s="${1#ex}"
+  if [[ ! "$s" =~ ^[0-9]+$ ]]; then
+    echo "lab id must be digits (e.g. 01, 05, 17) — got '$1'" >&2
+    exit 2
+  fi
+  printf '%02d' "$((10#$s))"
+}
+
+list_labs() {
+  local d base id
+  for d in "$LAB_ROOT"/ex*; do
+    [[ -d "$d" ]] || continue
+    base="$(basename "$d")"
+    [[ "$base" =~ ^ex([0-9]+)- ]] || continue
+    id="$(printf '%02d' "$((10#${BASH_REMATCH[1]}))")"
+    printf '%s\t%s\n' "$id" "$base"
+  done | sort -n
+}
+
+write_main() {
+  local selected="$1"
+  local main="$LAB_ROOT/main/main.c"
+  local includes="" starts="" id name
+  while IFS=$'\t' read -r id name; do
+    if [[ "$id" == "$selected" ]]; then
+      includes+="#include \"ex${id}.h\""$'\n'
+      starts+="    ex${id}_start();"$'\n'
+    else
+      includes+="/* #include \"ex${id}.h\" */"$'\n'
+      starts+="    /* ex${id}_start(); */"$'\n'
+    fi
+  done < <(list_labs)
+
+  cat >"$main" <<EOF
+/*
+ * demo-labs — UI / widget / wire catalog entry (lab switcher)
+ *
+ * Selected by \`run NN\` (or edit includes / start() calls below).
+ *
+ * Index: ../README.md
+ */
+#include "bsp.h"
+
+${includes}
+void app_main(void)
+{
+    bsp_init();
+${starts}}
+EOF
+}
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: ./run <NN> [monitor]"
+  echo "  monitor = also open serial monitor after flash"
+  echo "Available labs:"
+  list_labs | while IFS=$'\t' read -r id name; do
+    printf '  %s  %s\n' "$id" "$name"
+  done
+  exit 2
+fi
+
+WANT_MONITOR=0
+RAW=""
+for a in "$@"; do
+  case "$a" in
+    --monitor|-m|monitor) WANT_MONITOR=1 ;;
+    *)
+      if [[ -z "$RAW" ]]; then RAW="$a"; else
+        echo "unexpected argument: $a (did you mean: ./run $RAW monitor ?)" >&2
+        exit 2
+      fi
+      ;;
+  esac
+done
+
+ID="$(normalize_id "$RAW")"
+NAME="$(list_labs | awk -F'\t' -v id="$ID" '$1==id {print $2; found=1} END{exit !found}')"
+if [[ -z "${NAME:-}" ]]; then
+  echo "unknown lab '$ID'. Available:" >&2
+  list_labs | while IFS=$'\t' read -r id name; do
+    printf '  %s  %s\n' "$id" "$name"
+  done >&2
+  exit 2
+fi
+
+echo "run: selecting $NAME (ex$ID)"
+write_main "$ID"
+
+if [[ "$WANT_MONITOR" -eq 1 ]]; then
+  echo "run: build + flash + monitor…"
+  "$RB" run
+else
+  echo "run: build + flash…"
+  "$RB" build
+  "$RB" flash
+fi

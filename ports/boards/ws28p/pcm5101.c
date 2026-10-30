@@ -38,6 +38,8 @@ static volatile uint8_t s_vol = 100; /* software gain, 0..100 */
 static int i2s_init(void) {
     i2s_chan_config_t ch = I2S_CHANNEL_DEFAULT_CONFIG(I2S_NUM_0,
                                                     I2S_ROLE_MASTER);
+    /* Without this, TX underrun can keep replaying the last DMA buffer. */
+    ch.auto_clear_after_cb = true;
     if (i2s_new_channel(&ch, &s_i2s_tx, NULL) != ESP_OK) {
         return -1;
     }

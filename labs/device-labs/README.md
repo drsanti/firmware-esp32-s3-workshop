@@ -6,7 +6,7 @@ Shared board HAL and `librobotos_fw.a` come from the **workshop root**.
 
 ## Two switches
 
-1. **Lab** — [`main/main.c`](main/main.c): include one `exNN.h`, call one `exNN_start()`.
+1. **Lab** — `.\run NN` (rewrites [`main/main.c`](main/main.c)), or edit includes / `exNN_start()` by hand.
 2. **Step** — `exNN.c`: uncomment one `exNN_stepMM_start()` (comment the others).
 
 ```text
@@ -38,13 +38,28 @@ Preferred (`rb` — see [../../rbdev/README.md](../../rbdev/README.md)):
 # ESP-IDF PowerShell, from this folder
 .\rb doctor
 .\rb config --port COMx --board ws28p   # once — YOUR port from doctor; saves ../../.rbdev.toml
+
+# Pick a lab, build, and flash (rewrites main/main.c for you):
+.\run 00          # ex00-hello-device
+.\run 01          # ex01-spirit-level
+.\run 06          # ex06-task-monitor
+.\run 00 monitor
+
+# Or manual switch in main/main.c, then:
 .\rb build
 .\rb flash
 .\rb monitor
+```
 
-# Ternion / one-shot:
-.\rb build --board es3c28p
-.\rb flash --port COM6 --board es3c28p
+`.\run NN` enables **lab** `exNN` (default step inside that lab stays whatever
+`exNN.c` selects — usually the finished step). Change steps by editing
+`exNN.c` as usual.
+
+Ternion / one-shot board override:
+
+```powershell
+.\rb config --port COMx --board es3c28p
+.\run 00
 ```
 
 Plain `idf.py` (same boards):

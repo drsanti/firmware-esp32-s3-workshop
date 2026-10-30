@@ -106,6 +106,8 @@ static int codec_init(void) {
 static int i2s_init(void) {
     i2s_chan_config_t ch = I2S_CHANNEL_DEFAULT_CONFIG(I2S_NUM_0,
                                                     I2S_ROLE_MASTER);
+    /* Without this, TX underrun can keep replaying the last DMA buffer. */
+    ch.auto_clear_after_cb = true;
     if (i2s_new_channel(&ch, &s_i2s_tx, &s_i2s_rx) != ESP_OK) {
         return -1;
     }
@@ -217,7 +219,7 @@ size_t bsp_audio_read(int16_t *pcm, size_t frames) {
     /* short timeout — the caller runs on a periodic task and must
      * never stall; a slow read is a dropped block, not a hang */
     if (i2s_channel_read(s_i2s_rx, pcm, frames * 4, &got,
-                         pdMS_TO_TICKS(4)) != ESP_OK) {
+                         pdMS_TO_TICKS(20)) != ESP_OK) {
         return 0;
     }
     return got / 4;
@@ -233,7 +235,8 @@ void bsp_mic_gain(uint8_t percent) {
     }
 }
 
-/* ADC digital volume 0x17: 0 = mute, 0xBF = 0 dB. */
+/* ADC digital volume 0x17: 0 = mute, 0xBF ≈ 0 dB.
+ * Unmute at 0 dB — further boost comes from PGA (0x16) + app dig gain. */
 void bsp_mic_mute(int on) {
     if (s_codec) {
         codec_write(0x17, on ? 0x00 : 0xBF);

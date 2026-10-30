@@ -13,8 +13,9 @@ live inside the library (developed in the private repo
 lib/                         # librobotos_fw.a (from a private release)
 include/firmware-esp32-s3-dev/   # public headers (from the same release)
 ports/boards/<sku>/          # board HAL — ws28p | es3c28p (see boards/README.md)
+rbdev/                       # in-repo CLI binaries (windows|mac|linux)
 demos/demo-labs/             # ONE IDF project — UI/widget/wire catalog
-  main/main.c                # switch: include exNN.h + exNN_start()
+  main/main.c                # switch: run NN  (or edit exNN_start)
   ex01-label/ … ex17-mic-viz/
 labs/device-labs/            # ONE IDF project — FreeRTOS device curriculum
 labs/special-labs/           # ONE IDF project — optional FreeRTOS specials
@@ -45,14 +46,26 @@ on the MCU (not ROS).
 | **`ws28p`** (default) | Waveshare ESP32-S3-Touch-LCD-2.8 (V1 CST328 / V2 CST3530) |
 | **`es3c28p`** | Ternion ESP32-S3 (ILI9341 + FT6336) |
 
-With **`rb`** (see [rbdev/README.md](rbdev/README.md)):
+## Quick start (`rb` + `run`)
+
+Binaries ship **in this repo** under [`rbdev/`](rbdev/README.md). Open
+**ESP-IDF PowerShell**, then from any one-project app folder:
 
 ```powershell
-.\rb config --port COMx --board ws28p   # once — YOUR port from doctor (saves .rbdev.toml)
-.\rb build
-.\rb flash
+cd labs\device-labs
+.\rb doctor
+.\rb config --port COMx --board ws28p   # once — YOUR port from doctor
 
-# Ternion / one-shot:
+.\run 00          # select ex00 + build + flash
+.\run 01 monitor  # select + build + flash + monitor
+```
+
+Same pattern in `labs/special-labs`, `labs/rtos-labs`, and
+`demos/demo-labs`. Full student guide: [rbdev/README.md](rbdev/README.md).
+
+One-shot board override (does not change saved config):
+
+```powershell
 .\rb build --board es3c28p
 .\rb flash --port COM6 --board es3c28p
 ```
@@ -62,11 +75,9 @@ With plain `idf.py`, pass `-DBOARD=…` the same way. Both SKUs need
 
 ## Demos ([demo-labs](demos/demo-labs/))
 
-Switch in [`demos/demo-labs/main/main.c`](demos/demo-labs/main/main.c):
-
 ```powershell
 cd demos/demo-labs
-idf.py -DBOARD=ws28p set-target esp32s3 build flash -p COMx monitor
+.\run 01          # or .\run 17 monitor
 ```
 
 | Ex | Goal |
@@ -91,28 +102,15 @@ idf.py -DBOARD=ws28p set-target esp32s3 build flash -p COMx monitor
 
 More demos will grow the same `.a` (twin, zenoh).
 
-## Build / flash with rbdev
+## Labs
 
-Copy the OS-matched binary from the course slim kit into
-[`rbdev/`](rbdev/README.md) (gitignored — do not commit):
+| App | Flash |
+|-----|--------|
+| [device-labs](labs/device-labs/) | `.\run 00` … `.\run 06` (step still in `exNN.c`) |
+| [special-labs](labs/special-labs/) | `.\run 01` … `.\run 06` |
+| [rtos-labs](labs/rtos-labs/) | `.\run 00` … `.\run 15` (includes `ex02-os-tick`) |
 
-```text
-rbdev/windows/rbdev.exe
-rbdev/mac/rbdev
-rbdev/linux/rbdev
-```
-
-```powershell
-# ESP-IDF PowerShell
-cd labs\device-labs
-.\rb doctor
-.\rb config --port COMx --board ws28p
-.\rb build
-.\rb flash
-```
-
-(`.\rb` wraps `rbdev\windows\rbdev.exe` — see [rbdev/README.md](rbdev/README.md).)
-You can still use plain `idf.py` if you prefer.
+Index: [labs/README.md](labs/README.md).
 
 ## Host side
 

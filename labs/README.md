@@ -8,21 +8,21 @@ problems you can see on the LCD and hear on the speaker.
 
 | App | Role |
 |-----|------|
-| [`device-labs/`](device-labs/) | Device curriculum **00–06** — one IDF project, switch `exNN_start()` in `main/main.c` |
+| [`device-labs/`](device-labs/) | Device curriculum **00–06** — `.\run NN` (+ step in `exNN.c`) |
 | [`special-labs/`](special-labs/) | Optional FreeRTOS specials **ex01…ex06** (mutex, ISR, prio, sem, events, timer) |
-| [`rtos-labs/`](rtos-labs/) | Lean FreeRTOS deep-dives + game capstones (`ex00`…`ex15`) |
+| [`rtos-labs/`](rtos-labs/) | Lean FreeRTOS deep-dives + game capstones (`ex00`…`ex15`, incl. `ex02-os-tick`) |
 
 ```powershell
 cd labs/device-labs
-.\rb config --port COMx --board ws28p   # once — YOUR port from doctor (no universal default)
-.\rb build
-.\rb flash
+.\rb doctor
+.\rb config --port COMx --board ws28p   # once — YOUR port from doctor
+.\run 00          # select lab + build + flash
+.\run 01 monitor
 # Ternion: --board es3c28p
-# or: idf.py -DBOARD=ws28p set-target esp32s3 build flash -p COMx monitor
 ```
 
-After adding a new `exNN-*` folder or `.c` file: `.\rb reconfigure --board ws28p`
-(or `idf.py -DBOARD=ws28p reconfigure`). Board flag details:
+Same `.\run NN` pattern in `special-labs` and `rtos-labs`. After adding a
+new `exNN-*` folder or `.c` file: `.\rb reconfigure`. Board flag details:
 [../rbdev/README.md](../rbdev/README.md).
 
 ---
@@ -32,9 +32,9 @@ After adding a new `exNN-*` folder or `.c` file: `.\rb reconfigure --board ws28p
 **Title:** *Build a device → hit a real problem → learn FreeRTOS*
 
 **6 devices** (+ Hello), same board every time.  
-Flash from `device-labs`: pick the **lab** in `main/main.c`, pick the
-**step** in that lab’s `exNN.c` (`exNN_stepMM_start`). Step READMEs live
-under `exNN-*/steps/`.
+Flash with `.\run NN` (rewrites `main/main.c`), then pick the **step** in
+that lab’s `exNN.c` (`exNN_stepMM_start`). Step READMEs live under
+`exNN-*/steps/`.
 
 **Board (v1):** `-DBOARD=ws28p` or `es3c28p` · ESP-IDF FreeRTOS · links
 `librobotos_fw.a` for HAL/UI.
@@ -64,12 +64,13 @@ under `exNN-*/steps/`.
 
 ## Specials — [`special-labs/`](special-labs/) (optional · 3 steps each)
 
-One IDF project. Pick the lab in `main/main.c`, the step in that lab’s
+One IDF project. `.\run NN` picks the lab; the step is still in that lab’s
 `exNN.c`. Lean single-file counterparts also live in [`rtos-labs/`](rtos-labs/).
 
 ```powershell
 cd labs/special-labs
-idf.py -DBOARD=ws28p set-target esp32s3 build flash -p COMx monitor
+.\run 01
+.\run 02 monitor
 ```
 
 | Ex | Folder | Headline | Also in rtos-labs |
@@ -83,6 +84,19 @@ idf.py -DBOARD=ws28p set-target esp32s3 build flash -p COMx monitor
 
 ---
 
+## Deep-dives — [`rtos-labs/`](rtos-labs/)
+
+```powershell
+cd labs/rtos-labs
+.\run 00
+.\run 02          # ex02-os-tick
+.\run 15 monitor
+```
+
+See [rtos-labs/README.md](rtos-labs/README.md) for the full exercise table.
+
+---
+
 ## Folder layout
 
 ```text
@@ -90,13 +104,14 @@ labs/
   README.md
   common/                 # helpers shared across device / special labs
   device-labs/            # ONE IDF project — devices ex00…ex06
+    run / run.cmd / run.ps1
     main/main.c
     ex00-hello-device/
       ex00.c / ex00.h     # step picker → ex00_stepMM_start()
       steps/step-NN-*/    # flashable step sources + README
     …
   special-labs/           # ONE IDF project — specials ex01…ex06 (3 steps each)
-  rtos-labs/              # ONE IDF project — FreeRTOS ex00…ex15 (no ex02)
+  rtos-labs/              # ONE IDF project — FreeRTOS ex00…ex15
 ```
 
 ---
@@ -106,7 +121,7 @@ labs/
 1. Prefer **one project / many `exNN`** for daily flash (device-labs, special-labs, rtos-labs, demo-labs).  
 2. Make the problem obvious on the LCD / speaker.  
 3. Put helpers in `common/` when they are truly shared.  
-4. Prefer lab + step pickers over separate IDF apps per step.
+4. Prefer lab + step pickers over separate IDF apps per step (`.\run NN` for the lab switch).
 
 ## Labsheet depth standard
 

@@ -77,8 +77,21 @@ cd labs\device-labs
 .\rb build
 .\rb flash
 .\rb monitor
-# or: .\rb run
+
+# Select exercise NN, rewrite main/main.c, build + flash:
+.\run 00
+.\run 01
+.\run 06 monitor
 ```
+
+`.\run NN` exists in every one-project app:
+
+| Folder | Example |
+|--------|---------|
+| `labs/device-labs` | `.\run 00` … `.\run 06` (step still in `exNN.c`) |
+| `labs/special-labs` | `.\run 01` … `.\run 06` |
+| `labs/rtos-labs` | `.\run 00` … `.\run 15` |
+| `demos/demo-labs` | `.\run 01` … `.\run 17` |
 
 `.\rb config --show` prints the saved values. Board defaults to **`ws28p`** if
 you omit `--board`. Port must be set (config, `--port`, or `ESPPORT`) — `rb`
@@ -117,9 +130,11 @@ chmod +x ../../rb ./rb      # once, if needed
 ./rb config --port /dev/cu.usbmodemXXXX --board ws28p   # your port from doctor
 ./rb build
 ./rb flash
+./run 00
 ```
 
-Same pattern in `labs/special-labs`, `labs/rtos-labs`, `demos/demo-labs`.
+Same `rb` / `run` pattern in `labs/special-labs`, `labs/rtos-labs`,
+`demos/demo-labs`.
 
 Goal for day 0: flash **Hello Device (ex00)** (or the lab your instructor names).
 You can still call `.\rbdev\windows\rbdev.exe …` or plain `idf.py` if you prefer.

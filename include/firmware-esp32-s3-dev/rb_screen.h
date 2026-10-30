@@ -48,6 +48,11 @@ typedef enum {
     RB_WIDGET_RADIO,
     RB_WIDGET_GAUGE,
     RB_WIDGET_PROGRESS,
+    RB_WIDGET_CHART,
+    RB_WIDGET_LEVEL,
+    RB_WIDGET_IMU_READOUT,
+    RB_WIDGET_VU,
+    RB_WIDGET_BARCHART,
 } rb_widget_kind_t;
 
 typedef struct rb_widget {

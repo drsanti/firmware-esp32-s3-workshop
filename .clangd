@@ -1,0 +1,29 @@
+# Nearest config for ports/ and include/ (no compile_commands).
+# Demo dirs keep their own demos/<nn>-*/.clangd which wins there.
+#
+# Do NOT wrap this in If/PathMatch — a non-match drops the whole
+# fragment and clangd falls back to -xobjective-c++-header with no
+# picolibc paths (stddef.h / stdint.h "not found").
+#
+# Toolchain roots match Cursor clangd.query-driver (C:/Espressif/tools).
+CompileFlags:
+  Add:
+    - -xc
+    - -std=c11
+    - -D__XTENSA__
+    - -isystem
+    - C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/15.2.0/include
+    - -isystem
+    - C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/picolibc/include
+    - -I
+    - .
+    - -I
+    - ports
+    - -I
+    - include/firmware-esp32-s3-dev
+    - -I
+    - include/firmware-esp32-s3-dev/ui
+  BuiltinHeaders: QueryDriver
+Diagnostics:
+  UnusedIncludes: None
+  MissingIncludes: None
