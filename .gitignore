@@ -13,3 +13,20 @@ sdkconfig.old
 Thumbs.db
 .vscode/
 .idea/
+
+# Sticky student defaults from `rb config --port … --board …` (do not commit)
+.rbdev.toml
+
+# local idf / agent redirect scratch (do not commit)
+**/_build_*.txt
+**/_flash_*.txt
+**/_gcc_*.txt
+**/_idf_exports.*
+**/_ninja_ver.txt
+**/build_log.txt
+**/gcc_*.txt
+**/ninja_*.txt
+**/demo_ninja.txt
+**/try.txt
+**/*_compile.rsp
+**/comp_*.rsp
