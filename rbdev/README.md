@@ -28,8 +28,12 @@ cd firmware-esp32-s3-workshop
 chmod +x rbdev/mac/rbdev rbdev/linux/rbdev rb ./labs/*/rb ./demos/demo-labs/rb 2>/dev/null || true
 ```
 
-If your OS binary is missing (e.g. mac/linux not published yet), ask your
-instructor for that file and place it in the matching folder above.
+Windows, macOS (Apple Silicon), and Linux x64 binaries ship in this repo.
+On macOS, first launch may need **right-click → Open** (Gatekeeper) until
+the binary is notarized.
+
+If your OS binary is somehow missing after clone, ask your instructor for
+that file and place it in the matching folder above.
 
 **Maintainers / AI agents:** after any `rbdev` code change, rebuild and
 copy into **this folder and**
@@ -40,9 +44,12 @@ sync). From the tool repo:
 .\scripts\install-to-workshops.ps1
 ```
 
+```bash
+./scripts/install-to-workshops.sh   # host OS; Linux from Mac → cross (see ship-binaries)
+```
+
 Docs: [`ship-binaries.md`](https://github.com/drsanti/rbdev/blob/main/docs/ship-binaries.md) ·
 [`AGENTS.md`](https://github.com/drsanti/rbdev/blob/main/AGENTS.md).
-
 ---
 
 ## 2. Prerequisites

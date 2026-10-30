@@ -136,12 +136,13 @@ cd labs\device-labs
 ```
 
 ```bash
-# macOS / Linux
+# macOS / Linux — in-repo binaries under rbdev/mac and rbdev/linux
 chmod +x rbdev/mac/rbdev rbdev/linux/rbdev rb ./labs/*/rb ./demos/demo-labs/rb 2>/dev/null || true
 cd labs/device-labs
 ./rb doctor
-./rb config --port /dev/cu.usbmodemXXXX --board ws28p
+./rb config --port /dev/cu.usbmodemXXXX --board ws28p   # Linux: /dev/ttyACM0 or /dev/ttyUSB0
 ./run 00
+# macOS Gatekeeper: right-click → Open rbdev/mac/rbdev once if blocked
 ```
 
 Same `rb` / `run` pattern in `labs/special-labs`, `labs/rtos-labs`, and
