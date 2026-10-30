@@ -3,6 +3,10 @@
 Lean **UI / widget / wire catalog** — one ESP-IDF project, many `exNN-*`
 demos. Same switch pattern as `labs/device-labs` and `labs/rtos-labs`.
 
+Each `exNN-*/README.md` is a **textbook labsheet**: learning outcomes,
+in-depth theory, ASCII architecture, Mermaid sequence diagram, API table,
+build/flash, and checklist. Read the labsheet before you flash.
+
 ## Switch demo
 
 Use **`run NN`** (rewrites `main/main.c`), or edit includes / `exNN_start()` by hand.

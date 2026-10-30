@@ -211,6 +211,7 @@ ex00 Hello → ex01 Spirit → ex02 Alarm → ex03 React → ex04 Metro → ex05
 |--|--|
 | Path | [`demos/demo-labs`](demos/demo-labs/) |
 | Flash | `.\run 01` … `.\run 17` |
+| Labsheets | Each `exNN-*/README.md` — theory, ASCII architecture, Mermaid sequence |
 
 <details>
 <summary><strong>Full demo catalog (ex01–ex17)</strong></summary>

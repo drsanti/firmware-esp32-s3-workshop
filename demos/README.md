@@ -4,6 +4,8 @@ All widget demos live in one ESP-IDF project:
 
 **[`demo-labs/`](demo-labs/)** — switch with **`.\run NN`** (rewrites
 `main/main.c`; same pattern as `labs/device-labs` and `labs/rtos-labs`).
+Each `exNN-*/README.md` is a textbook labsheet (theory, ASCII architecture,
+Mermaid sequence, checklist).
 
 ```powershell
 cd demos/demo-labs
