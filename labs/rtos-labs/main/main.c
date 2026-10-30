@@ -1,5 +1,5 @@
 /*
- * rtos-labs — FreeRTOS exercises entry (lab switcher)
+ * rtos-labs - FreeRTOS exercises entry (lab switcher)
  *
  * Selected by `run NN` (or edit includes / start() calls below).
  *
@@ -8,7 +8,7 @@
 #include "bsp.h"
 
 /* #include "ex00.h" */
-/* #include "ex01.h" */
+#include "ex01.h"
 /* #include "ex02.h" */
 /* #include "ex03.h" */
 /* #include "ex04.h" */
@@ -20,7 +20,7 @@
 /* #include "ex10.h" */
 /* #include "ex11.h" */
 /* #include "ex12.h" */
-#include "ex13.h"
+/* #include "ex13.h" */
 /* #include "ex14.h" */
 /* #include "ex15.h" */
 
@@ -28,7 +28,7 @@ void app_main(void)
 {
     bsp_init();
     /* ex00_start(); */
-    /* ex01_start(); */
+    ex01_start();
     /* ex02_start(); */
     /* ex03_start(); */
     /* ex04_start(); */
@@ -40,7 +40,7 @@ void app_main(void)
     /* ex10_start(); */
     /* ex11_start(); */
     /* ex12_start(); */
-    ex13_start();
+    /* ex13_start(); */
     /* ex14_start(); */
     /* ex15_start(); */
 }
