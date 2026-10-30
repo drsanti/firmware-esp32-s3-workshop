@@ -216,25 +216,32 @@ If you still see the error on an old zip: `.\rb.cmd doctor` / `.\run.cmd 00`.
 
 ### `No module named 'rich_click'` (or `click` / `rich`)
 
-This almost always means the **ESP-IDF Python venv is incomplete**, not a
-lab bug. Update the workshop (`git pull` / re-download ZIP) so you have the
-latest `rbdev\windows\rbdev.exe`, then repair IDF:
+This means the **ESP-IDF Python venv is missing or incomplete** — not a lab
+bug. `rbdev` must use
+`%USERPROFILE%\.espressif\python_env\idf*_py*_env\Scripts\python.exe`,
+**not** `AppData\Local\Programs\Python\…` (system Python).
+
+If `rbdev` prints `python=C:\Users\…\Python313\python.exe`, you have not
+finished IDF setup. Create the venv:
 
 ```powershell
 # Prefer ESP-IDF PowerShell from the Start Menu, then:
 cd C:\esp\v6.1\esp-idf        # YOUR IDF path (rbdev doctor shows it)
-.\install.bat                 # several minutes — installs Python deps
+.\install.bat                 # several minutes — creates venv + rich_click
 .\export.ps1
 idf.py --version
 
-# Check (should print rich_click OK):
+# From workshop root — must show …\.espressif\python_env\… and rich_click OK:
 .\rbdev\windows\rbdev.exe doctor
+```
 
-# Or repair just the package (adjust the folder name if needed):
+Only if the venv folder already exists but `rich_click` is still missing:
+
+```powershell
 & "$env:USERPROFILE\.espressif\python_env\idf6.1_py3.11_env\Scripts\python.exe" -m pip install rich_click
 ```
 
-Then retry from the lab folder: `.\run 01 monitor`.
+Then retry: `.\run 01 monitor`.
 
 ---
 

@@ -1,2 +1,2 @@
-rbdev windows build 20261030-183502
-version 0.1.1
+rbdev windows build 20261030-184026
+refuses system Python; requires IDF venv
