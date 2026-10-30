@@ -54,6 +54,11 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\rb monitor
 ```
 
+If you see `No module named 'rich_click'`, repair the ESP-IDF Python venv
+(`install.bat` in your IDF tree) — see
+[../../rbdev/README.md](../../rbdev/README.md) and the root
+[README troubleshooting](../../README.md#troubleshooting-windows).
+
 `.\run NN` enables **lab** `exNN` (default step inside that lab stays whatever
 `exNN.c` selects — usually the finished step). Change steps by editing
 `exNN.c` as usual.

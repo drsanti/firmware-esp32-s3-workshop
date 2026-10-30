@@ -176,6 +176,29 @@ idf.py -DBOARD=ws28p set-target esp32s3 build flash -p COMx monitor
 
 Full student guide: **[rbdev/README.md](rbdev/README.md)**.
 
+### Troubleshooting (Windows)
+
+| Symptom | Fix |
+|---------|-----|
+| `not digitally signed` / `.ps1` blocked | `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` once per PowerShell window |
+| `No module named 'rich_click'` (or `click`) | ESP-IDF Python venv incomplete — see below |
+| `Unexpected token` / parse error in `_run.ps1` | Re-download / `git pull` (old scripts used Unicode dashes) |
+
+**`rich_click` repair** (most common after a fresh or partial IDF install):
+
+```powershell
+cd C:\esp\v6.1\esp-idf          # your IDF path — `.\rb doctor` prints it
+.\install.bat                   # several minutes; installs Python deps
+.\export.ps1
+idf.py --version
+
+# From workshop root — should say "rich_click OK":
+.\rbdev\windows\rbdev.exe doctor
+```
+
+Then retry `.\run 01` from the lab folder. Details:
+[rbdev/README.md](rbdev/README.md#no-module-named-rich_click-or-click--rich).
+
 ---
 
 ## Workshop tracks
