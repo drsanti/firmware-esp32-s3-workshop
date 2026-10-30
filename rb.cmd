@@ -4,7 +4,7 @@ set "ROOT=%~dp0"
 set "EXE=%ROOT%rbdev\windows\rbdev.exe"
 if not exist "%EXE%" (
   echo rbdev binary not found: %EXE%
-  echo Copy rbdev.exe into rbdev\windows\ — see rbdev\README.md
+  echo Copy rbdev.exe into rbdev\windows\ - see rbdev\README.md
   exit /b 1
 )
 

@@ -11,7 +11,7 @@ function Normalize-LabId([string] $Raw) {
     $s = $Raw.Trim()
     if ($s -match '^ex(\d+)$') { $s = $Matches[1] }
     if ($s -notmatch '^\d+$') {
-        throw "lab id must be digits (e.g. 01, 05, 17) — got '$Raw'"
+        throw "lab id must be digits (e.g. 01, 05, 17) - got '$Raw'"
     }
     return ("{0:D2}" -f [int]$s)
 }
@@ -55,7 +55,7 @@ function Write-MainSwitcher([string] $SelectedId, $Labs) {
 
     $body = @"
 /*
- * demo-labs — UI / widget / wire catalog entry (lab switcher)
+ * demo-labs - UI / widget / wire catalog entry (lab switcher)
  *
  * Selected by ``run NN`` (or edit includes / start() calls below).
  *
@@ -121,10 +121,10 @@ if (-not (Test-Path -LiteralPath $rb)) {
 }
 
 if ($wantMonitor) {
-    Write-Host "run: build + flash + monitor…"
+    Write-Host "run: build + flash + monitor..."
     & $rb run
 } else {
-    Write-Host "run: build + flash…"
+    Write-Host "run: build + flash..."
     & $rb build
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     & $rb flash

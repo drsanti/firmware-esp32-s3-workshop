@@ -12,7 +12,7 @@ function Normalize-LabId([string] $Raw) {
     $s = $Raw.Trim()
     if ($s -match '^ex(\d+)$') { $s = $Matches[1] }
     if ($s -notmatch '^\d+$') {
-        throw "lab id must be digits (e.g. 01, 02, 6) — got '$Raw'"
+        throw "lab id must be digits (e.g. 01, 02, 6) - got '$Raw'"
     }
     return ("{0:D2}" -f [int]$s)
 }
@@ -56,7 +56,7 @@ function Write-MainSwitcher([string] $SelectedId, $Labs) {
 
     $body = @"
 /*
- * special-labs — exercise entry (lab switcher)
+ * special-labs - exercise entry (lab switcher)
  *
  * Selected by ``run NN`` (or edit includes / start() calls below).
  * Inside the lab folder, exNN.c chooses which step runs.
@@ -124,10 +124,10 @@ if (-not (Test-Path -LiteralPath $rb)) {
 }
 
 if ($wantMonitor) {
-    Write-Host "run: build + flash + monitor…"
+    Write-Host "run: build + flash + monitor..."
     & $rb run
 } else {
-    Write-Host "run: build + flash…"
+    Write-Host "run: build + flash..."
     & $rb build
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     & $rb flash
