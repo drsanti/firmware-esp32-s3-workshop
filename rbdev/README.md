@@ -243,6 +243,9 @@ Only if the venv folder already exists but `rich_click` is still missing:
 
 Then retry: `.\run 01 monitor`.
 
+Classroom go-live (doctor green light + pasteable student message):
+[CLASSROOM-SETUP.md](../CLASSROOM-SETUP.md).
+
 ---
 
 ## 7. CLI cheat sheet

@@ -174,7 +174,8 @@ idf.py -DBOARD=ws28p set-target esp32s3 build flash -p COMx monitor
 
 </details>
 
-Full student guide: **[rbdev/README.md](rbdev/README.md)**.
+Full student guide: **[rbdev/README.md](rbdev/README.md)**.  
+**Class go-live checklist:** **[CLASSROOM-SETUP.md](CLASSROOM-SETUP.md)** (doctor green light, `install.bat`, what TAs check).
 
 ### Troubleshooting (Windows)
 
@@ -197,7 +198,8 @@ idf.py --version
 ```
 
 Then retry `.\run 01` from the lab folder. Details:
-[rbdev/README.md](rbdev/README.md#no-module-named-rich_click-or-click--rich).
+[rbdev/README.md](rbdev/README.md#no-module-named-rich_click-or-click--rich) ·
+full classroom checklist: [CLASSROOM-SETUP.md](CLASSROOM-SETUP.md).
 
 ---
 
@@ -270,6 +272,7 @@ ex00 Hello → ex01 Spirit → ex02 Alarm → ex03 React → ex04 Metro → ex05
 
 | Doc | Audience |
 |-----|----------|
+| [CLASSROOM-SETUP.md](CLASSROOM-SETUP.md) | **Start here in class** — doctor checklist, `install.bat`, TA playbook |
 | [rbdev/README.md](rbdev/README.md) | Student CLI — doctor, config, build, flash, `run NN` |
 | [labs/README.md](labs/README.md) | Device / special / rtos curriculum index |
 | [demos/README.md](demos/README.md) | Demo-labs index |
