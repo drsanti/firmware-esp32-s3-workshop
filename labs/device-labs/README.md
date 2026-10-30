@@ -37,7 +37,7 @@ Preferred (`rb` — see [../../rbdev/README.md](../../rbdev/README.md)):
 ```powershell
 # ESP-IDF PowerShell, from this folder
 .\rb doctor
-.\rb config --port COM17 --board ws28p   # once — default board; saves ../../.rbdev.toml
+.\rb config --port COMx --board ws28p   # once — YOUR port from doctor; saves ../../.rbdev.toml
 .\rb build
 .\rb flash
 .\rb monitor

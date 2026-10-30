@@ -14,7 +14,7 @@ problems you can see on the LCD and hear on the speaker.
 
 ```powershell
 cd labs/device-labs
-.\rb config --port COM17 --board ws28p   # once (default board)
+.\rb config --port COMx --board ws28p   # once — YOUR port from doctor (no universal default)
 .\rb build
 .\rb flash
 # Ternion: --board es3c28p

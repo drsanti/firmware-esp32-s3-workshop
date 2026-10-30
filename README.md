@@ -48,7 +48,7 @@ on the MCU (not ROS).
 With **`rb`** (see [rbdev/README.md](rbdev/README.md)):
 
 ```powershell
-.\rb config --port COM17 --board ws28p   # once (default board; saves .rbdev.toml)
+.\rb config --port COMx --board ws28p   # once — YOUR port from doctor (saves .rbdev.toml)
 .\rb build
 .\rb flash
 
@@ -106,7 +106,7 @@ rbdev/linux/rbdev
 # ESP-IDF PowerShell
 cd labs\device-labs
 .\rb doctor
-.\rb config --port COM17 --board ws28p
+.\rb config --port COMx --board ws28p
 .\rb build
 .\rb flash
 ```

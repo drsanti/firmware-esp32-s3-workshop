@@ -67,11 +67,11 @@ without `.\`):
 
 ```powershell
 cd labs\device-labs
-.\rb doctor                 # --workshop defaults to the repo root
+.\rb doctor                 # lists COM ports; warns if flash port not set yet
 
-# Once per machine (saved in workshop `.rbdev.toml`, gitignored).
-# Board default is ws28p — omit --board or set it explicitly:
-.\rb config --port COM17 --board ws28p
+# REQUIRED once per PC — there is no default COM port (each machine differs).
+# Pick your board's port from the doctor list / Device Manager:
+.\rb config --port COMx --board ws28p
 
 # Then short commands use the saved port + board:
 .\rb build
@@ -80,8 +80,9 @@ cd labs\device-labs
 # or: .\rb run
 ```
 
-`.\rb config --show` prints the saved values. Flags still override when needed
-(`.\rb flash --port COM6`, `.\rb build --board es3c28p`).
+`.\rb config --show` prints the saved values. Board defaults to **`ws28p`** if
+you omit `--board`. Port must be set (config, `--port`, or `ESPPORT`) — `rb`
+will not guess.
 
 ### Board (`ws28p` vs `es3c28p`)
 
@@ -91,13 +92,16 @@ cd labs\device-labs
 | `es3c28p` | Ternion ESP32-S3 |
 
 ```powershell
-.\rb config --port COM17 --board ws28p    # typical class board
+.\rb config --port COMx --board ws28p     # replace COMx with YOUR port
 .\rb build
 .\rb flash
 
-# Ternion (or one-shot without saving):
-.\rb config --port COM17 --board es3c28p
-.\rb build --board es3c28p
+# Ternion:
+.\rb config --port COMx --board es3c28p
+.\rb build
+.\rb flash
+
+# One-shot override (does not change saved config):
 .\rb flash --port COM6 --board es3c28p
 ```
 
@@ -110,10 +114,9 @@ picks up the new `-DBOARD=`.
 cd labs/device-labs
 chmod +x ../../rb ./rb      # once, if needed
 ./rb doctor
-./rb build --board ws28p
-./rb build --board es3c28p
-./rb flash --port /dev/cu.usbmodem* --board es3c28p   # Linux: /dev/ttyUSB0
-./rb monitor --port /dev/cu.usbmodem*
+./rb config --port /dev/cu.usbmodemXXXX --board ws28p   # your port from doctor
+./rb build
+./rb flash
 ```
 
 Same pattern in `labs/special-labs`, `labs/rtos-labs`, `demos/demo-labs`.
@@ -163,7 +166,8 @@ rbdev shell
 rbdev version
 ```
 
-Typical: `.\rb config --port COM17 --board ws28p` once, then `.\rb build` /
-`.\rb flash`. Default board is **`ws28p`**. Ternion: `--board es3c28p`.
+Typical: `.\rb config --port COMx --board ws28p` once (port is required — no
+universal default), then `.\rb build` / `.\rb flash`. Default board is
+**`ws28p`**. Ternion: `--board es3c28p`.
 
 Maintainer / kit packaging lives in the separate **`rbdev`** tool repo, not here.
