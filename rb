@@ -19,7 +19,12 @@ if [[ ! -x "$BIN" && ! -f "$BIN" ]]; then
   exit 1
 fi
 
-args=("$@")
+# Copy args to avoid unbound variable error with set -u
+args=()
+if [[ $# -gt 0 ]]; then
+  args=("$@")
+fi
+
 if [[ ${#args[@]} -ge 1 && "${args[0]}" == "doctor" ]]; then
   has_ws=0
   for a in "${args[@]:1}"; do
@@ -32,4 +37,8 @@ if [[ ${#args[@]} -ge 1 && "${args[0]}" == "doctor" ]]; then
   fi
 fi
 
-exec "$BIN" "${args[@]}"
+if [[ ${#args[@]} -eq 0 ]]; then
+  exec "$BIN"
+else
+  exec "$BIN" "${args[@]}"
+fi
