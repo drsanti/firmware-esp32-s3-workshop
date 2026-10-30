@@ -52,7 +52,31 @@ Docs: [`ship-binaries.md`](https://github.com/drsanti/rbdev/blob/main/docs/ship-
 [`AGENTS.md`](https://github.com/drsanti/rbdev/blob/main/AGENTS.md).
 ---
 
-## 2. Prerequisites
+## 2. macOS Quick Start
+
+If you're on macOS, after cloning run this once to make the scripts executable:
+
+```bash
+cd firmware-esp32-s3-workshop
+chmod +x rb rbdev/mac/rbdev labs/*/rb demos/demo-labs/rb
+```
+
+Then from any lab folder:
+
+```bash
+cd labs/device-labs  # or labs/rtos-labs, demos/demo-labs, etc.
+./rb doctor
+./rb config --port /dev/cu.usbmodemXXXX --board ws28p  # replace with your port from doctor
+./rb build
+./rb flash
+./run 00
+```
+
+Your serial port will be listed in the `doctor` output (e.g., `/dev/cu.LX-10`, `/dev/cu.usbmodemXXXX`).
+
+---
+
+## 3. Prerequisites
 
 | Need | Notes |
 |------|--------|
@@ -76,7 +100,7 @@ common `C:\Espressif\frameworks\…` folders.
 
 ---
 
-## 3. Everyday commands (Path A)
+## 4. Everyday commands (Path A)
 
 Each lab folder has a short **`rb`** wrapper (`rb.cmd` / `rb`) that
 calls your OS binary under `rbdev/<os>/`.
@@ -143,27 +167,14 @@ will not guess.
 After switching boards, run `.\rb reconfigure` (or a clean build) so CMake
 picks up the new `-DBOARD=`.
 
-**macOS / Linux:**
-
-```bash
-cd labs/device-labs
-chmod +x ../../rb ./rb      # once, if needed
-./rb doctor
-./rb config --port /dev/cu.usbmodemXXXX --board ws28p   # your port from doctor
-./rb build
-./rb flash
-./run 00
-```
-
-Same `rb` / `run` pattern in `labs/special-labs`, `labs/rtos-labs`,
-`demos/demo-labs`.
+macOS and Linux users already covered in **Section 2** — run the `chmod` command once, then use `./rb` from any lab folder.
 
 Goal for day 0: flash **Hello Device (ex00)** (or the lab your instructor names).
 You can still call `.\rbdev\windows\rbdev.exe …` or plain `idf.py` if you prefer.
 
 ---
 
-## 4. Path B — no ESP-IDF yet (full kit only)
+## 5. Path B — no ESP-IDF yet (full kit only)
 
 Only if your instructor gave you a **full** kit with `sdk\*.zst`:
 
@@ -176,7 +187,7 @@ Then build/flash as in §3. Slim kits have no `sdk\` folder — skip this sectio
 
 ---
 
-## 5. Doctor exit codes
+## 6. Doctor exit codes
 
 | Exit | Meaning | Fix |
 |------|---------|-----|
@@ -205,7 +216,7 @@ If you still see the error on an old zip: `.\rb.cmd doctor` / `.\run.cmd 00`.
 
 ---
 
-## 6. CLI cheat sheet
+## 7. CLI cheat sheet
 
 ```text
 rbdev config [--port COMx] [--board ws28p|es3c28p] [--show]
