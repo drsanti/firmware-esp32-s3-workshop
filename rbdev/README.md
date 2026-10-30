@@ -31,10 +31,17 @@ chmod +x rbdev/mac/rbdev rbdev/linux/rbdev rb ./labs/*/rb ./demos/demo-labs/rb 2
 If your OS binary is missing (e.g. mac/linux not published yet), ask your
 instructor for that file and place it in the matching folder above.
 
-**Maintainers / AI agents** (build on macOS or via CI and install here):
-see the tool repo doc
-[`rbdev` → docs/ship-binaries.md](https://github.com/drsanti/rbdev/blob/main/docs/ship-binaries.md)
-and [`AGENTS.md`](https://github.com/drsanti/rbdev/blob/main/AGENTS.md).
+**Maintainers / AI agents:** after any `rbdev` code change, rebuild and
+copy into **this folder and**
+`hardware-interface-workshop/firmware-prebuilt/rbdev/<os>/` (keep CLIs in
+sync). From the tool repo:
+
+```powershell
+.\scripts\install-to-workshops.ps1
+```
+
+Docs: [`ship-binaries.md`](https://github.com/drsanti/rbdev/blob/main/docs/ship-binaries.md) ·
+[`AGENTS.md`](https://github.com/drsanti/rbdev/blob/main/AGENTS.md).
 
 ---
 
