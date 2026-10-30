@@ -78,11 +78,12 @@ common `C:\Espressif\frameworks\…` folders.
 
 ## 3. Everyday commands (Path A)
 
-Each lab folder has a short **`rb`** wrapper (`rb.cmd` / `rb.ps1` / `rb`) that
+Each lab folder has a short **`rb`** wrapper (`rb.cmd` / `rb`) that
 calls your OS binary under `rbdev/<os>/`.
 
 **Windows PowerShell** — use `.\rb` (PowerShell does not run cwd commands
-without `.\`):
+without `.\`). That resolves to **`rb.cmd`** (not a `.ps1`), so Restricted
+execution policy does **not** block it:
 
 ```powershell
 cd labs\device-labs
@@ -181,6 +182,21 @@ Then build/flash as in §3. Slim kits have no `sdk\` folder — skip this sectio
 | 10 | No SDK / IDF | ESP-IDF PowerShell, or set `IDF_PATH` / `RBDEV_IDF_PATH`; Path B: `setup --offline` |
 | 11 | Missing `lib/` / headers | Update this workshop clone |
 | 12 | No serial port | Cable, driver, close other monitors, correct `--port` |
+
+### “not digitally signed” / cannot load `rb.ps1`
+
+Windows PowerShell with **Restricted** execution policy blocks `.ps1` files.
+This workshop uses **`rb.cmd`** / **`run.cmd`** so `.\rb` and `.\run` work
+without changing policy.
+
+If you still see that error (old zip that still has `rb.ps1`):
+
+```powershell
+.\rb.cmd doctor
+.\run.cmd 00
+# or for this PowerShell window only:
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
 
 ---
 

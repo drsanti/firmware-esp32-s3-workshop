@@ -1,8 +1,8 @@
-﻿# Select an rtos-lab (exNN) in main/main.c, then build + flash.
+# Select a demo-lab (exNN) in main/main.c, then build + flash.
 # Usage:
-#   .\run 00
-#   .\run 15
-#   .\run 6 monitor
+#   .\run 01
+#   .\run 17
+#   .\run 5 monitor
 
 $ErrorActionPreference = "Stop"
 $LabRoot = $PSScriptRoot
@@ -11,7 +11,7 @@ function Normalize-LabId([string] $Raw) {
     $s = $Raw.Trim()
     if ($s -match '^ex(\d+)$') { $s = $Matches[1] }
     if ($s -notmatch '^\d+$') {
-        throw "lab id must be digits (e.g. 00, 01, 15) — got '$Raw'"
+        throw "lab id must be digits (e.g. 01, 05, 17) — got '$Raw'"
     }
     return ("{0:D2}" -f [int]$s)
 }
@@ -55,7 +55,7 @@ function Write-MainSwitcher([string] $SelectedId, $Labs) {
 
     $body = @"
 /*
- * rtos-labs — FreeRTOS exercises entry (lab switcher)
+ * demo-labs — UI / widget / wire catalog entry (lab switcher)
  *
  * Selected by ``run NN`` (or edit includes / start() calls below).
  *
@@ -78,7 +78,7 @@ $($starts -join "`n")
 if ($args.Count -lt 1) {
     $labs = Get-AvailableLabs
     Write-Host "Usage: .\run <NN> [monitor]"
-    Write-Host "  NN = lab number (e.g. 00, 03, 15 — not all numbers exist)"
+    Write-Host "  NN = lab number (01..$($labs[-1].Id))"
     Write-Host "  monitor = also open serial monitor after flash"
     Write-Host ""
     Write-Host "Available labs:"
@@ -115,9 +115,9 @@ if (-not $match) {
 Write-Host "run: selecting $($match.Name) (ex$id)"
 Write-MainSwitcher -SelectedId $id -Labs $labs
 
-$rb = Join-Path $LabRoot "rb.ps1"
+$rb = Join-Path $LabRoot "rb.cmd"
 if (-not (Test-Path -LiteralPath $rb)) {
-    throw "missing $rb"
+    throw "missing $rb (expected rb.cmd)"
 }
 
 if ($wantMonitor) {

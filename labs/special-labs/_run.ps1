@@ -1,4 +1,4 @@
-﻿# Select a special-lab (exNN) in main/main.c, then build + flash.
+# Select a special-lab (exNN) in main/main.c, then build + flash.
 # Usage:
 #   .\run 01
 #   .\run 6
@@ -118,9 +118,9 @@ if (-not $match) {
 Write-Host "run: selecting $($match.Name) (ex$id)"
 Write-MainSwitcher -SelectedId $id -Labs $labs
 
-$rb = Join-Path $LabRoot "rb.ps1"
+$rb = Join-Path $LabRoot "rb.cmd"
 if (-not (Test-Path -LiteralPath $rb)) {
-    throw "missing $rb"
+    throw "missing $rb (expected rb.cmd)"
 }
 
 if ($wantMonitor) {

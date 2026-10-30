@@ -104,7 +104,7 @@ labs/
   README.md
   common/                 # helpers shared across device / special labs
   device-labs/            # ONE IDF project — devices ex00…ex06
-    run / run.cmd / run.ps1
+    run / run.cmd / _run.ps1
     main/main.c
     ex00-hello-device/
       ex00.c / ex00.h     # step picker → ex00_stepMM_start()
