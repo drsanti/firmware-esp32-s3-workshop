@@ -82,10 +82,12 @@ Each lab folder has a short **`rb`** wrapper (`rb.cmd` / `rb`) that
 calls your OS binary under `rbdev/<os>/`.
 
 **Windows PowerShell** — use `.\rb` (PowerShell does not run cwd commands
-without `.\`). That resolves to **`rb.cmd`** (not a `.ps1`), so Restricted
-execution policy does **not** block it:
+without `.\`). Wrappers resolve to **`rb.cmd`** / **`run.cmd`**. Still run
+this **once per PowerShell window** so any helper scripts are allowed:
 
 ```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 cd labs\device-labs
 .\rb doctor                 # lists COM ports; warns if flash port not set yet
 
@@ -183,20 +185,23 @@ Then build/flash as in §3. Slim kits have no `sdk\` folder — skip this sectio
 | 11 | Missing `lib/` / headers | Update this workshop clone |
 | 12 | No serial port | Cable, driver, close other monitors, correct `--port` |
 
-### “not digitally signed” / cannot load `rb.ps1`
+### “not digitally signed” / cannot load `*.ps1`
 
 Windows PowerShell with **Restricted** execution policy blocks `.ps1` files.
-This workshop uses **`rb.cmd`** / **`run.cmd`** so `.\rb` and `.\run` work
-without changing policy.
-
-If you still see that error (old zip that still has `rb.ps1`):
+**Always** start a lab session with:
 
 ```powershell
-.\rb.cmd doctor
-.\run.cmd 00
-# or for this PowerShell window only:
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
+
+That applies to **this window only** (no admin, no permanent change). Then:
+
+```powershell
+.\rb doctor
+.\run 00
+```
+
+If you still see the error on an old zip: `.\rb.cmd doctor` / `.\run.cmd 00`.
 
 ---
 

@@ -126,7 +126,9 @@ that folder to `PATH`.
 git clone https://github.com/drsanti/firmware-esp32-s3-workshop.git
 cd firmware-esp32-s3-workshop
 
-# ESP-IDF PowerShell, then:
+# ESP-IDF PowerShell, then (once per window — avoids "not digitally signed"):
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 cd labs\device-labs
 .\rb doctor
 .\rb config --port COMx --board ws28p   # once — YOUR port from doctor
@@ -152,6 +154,7 @@ Same `rb` / `run` pattern in `labs/special-labs`, `labs/rtos-labs`, and
 <summary><strong>One-shot board / port override</strong></summary>
 
 ```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\rb build --board es3c28p
 .\rb flash --port COM6 --board es3c28p
 ```

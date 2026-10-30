@@ -13,6 +13,9 @@ problems you can see on the LCD and hear on the speaker.
 | [`rtos-labs/`](rtos-labs/) | Lean FreeRTOS deep-dives + game capstones (`ex00`…`ex15`, incl. `ex02-os-tick`) |
 
 ```powershell
+# Once per PowerShell window (avoids "not digitally signed"):
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 cd labs/device-labs
 .\rb doctor
 .\rb config --port COMx --board ws28p   # once — YOUR port from doctor

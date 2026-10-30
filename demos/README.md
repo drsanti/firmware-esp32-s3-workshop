@@ -8,6 +8,9 @@ Each `exNN-*/README.md` is a textbook labsheet (theory, ASCII architecture,
 Mermaid sequence, checklist).
 
 ```powershell
+# Once per PowerShell window (avoids "not digitally signed"):
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 cd demos/demo-labs
 .\rb doctor
 .\rb config --port COMx --board ws28p   # once

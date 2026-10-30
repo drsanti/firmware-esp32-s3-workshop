@@ -36,6 +36,9 @@ Preferred (`rb` — see [../../rbdev/README.md](../../rbdev/README.md)):
 
 ```powershell
 # ESP-IDF PowerShell, from this folder
+# Once per window (avoids "not digitally signed"):
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 .\rb doctor
 .\rb config --port COMx --board ws28p   # once — YOUR port from doctor; saves ../../.rbdev.toml
 
