@@ -20,6 +20,9 @@ Thumbs.db
 .rbdev.toml
 .rbdev.cd
 
+# Labs ebook: Mermaid is downloaded by scripts/build.ps1 (hashed copy lands in book/)
+ebook/theme/mermaid.min.js
+
 # local idf / agent redirect scratch (do not commit)
 **/_build_*.txt
 **/_flash_*.txt

@@ -14,7 +14,12 @@ plain `rbdev`.
 | macOS | `rbdev/mac/rbdev` |
 | Linux x64 | `rbdev/linux/rbdev` |
 
-**Classroom go-live:** [CLASSROOM-SETUP.md](../CLASSROOM-SETUP.md).
+**Optional GUI (Windows):** install or run from [`rbdev-gui/`](../rbdev-gui/) —
+`windows/rbdev-gui-setup.exe` or portable `windows/rbdev-gui.exe`. Same sticky
+config as the CLI; you never need the private tool repo.
+
+**Classroom go-live:** [CLASSROOM-SETUP.md](../CLASSROOM-SETUP.md).  
+**HTML user manual:** [user-manual/index.html](user-manual/index.html) (complete, with examples).
 
 ---
 

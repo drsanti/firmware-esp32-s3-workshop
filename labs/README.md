@@ -43,6 +43,10 @@ After adding a new `exNN-*` folder or `.c` file: `rbdev reconfigure` (or
 `idf.py reconfigure`). Board flag details: [../rbdev/README.md](../rbdev/README.md).
 Full enroll notes: [../CLASSROOM-SETUP.md](../CLASSROOM-SETUP.md).
 
+**HTML ebook (all tracks, generated from these labsheets):**
+[../ebook/book/index.html](../ebook/book/index.html) — rebuild with
+`pwsh -File .\ebook\scripts\build.ps1`.
+
 ---
 
 ## Vision

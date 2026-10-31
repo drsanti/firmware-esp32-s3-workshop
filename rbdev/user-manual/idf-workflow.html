@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>idf.py workflow — rbdev User Manual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,550;9..144,650&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/manual.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <span class="brand-kicker">ESP32-S3 Workshop</span>
+        <span class="brand-title">rbdev</span>
+        <span class="brand-sub">Host CLI user manual</span>
+      </a>
+      <div class="nav">
+        <div class="nav-section">Manual</div>
+        <a href="index.html">Overview</a>
+        <a href="getting-started.html">Getting started</a>
+        <a href="daily-workflow.html">Daily workflow</a>
+        <a href="commands.html">Command reference</a>
+        <a class="active" href="idf-workflow.html">idf.py workflow</a>
+        <a href="configuration.html">Configuration</a>
+        <a href="platforms.html">Windows / macOS / Linux</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="hero">
+        <h1>Full ESP-IDF workflow via idf.py</h1>
+        <p>
+          After <code>init</code>, every Espressif <code>idf.py</code> action is available
+          without <code>export.ps1</code> / <code>export.sh</code>. rbdev does <strong>not</strong>
+          duplicate every verb as its own subcommand.
+        </p>
+      </header>
+
+      <div class="ok">
+        <strong>Parity contract</strong>
+        Small classroom surface (<code>init</code>, <code>doctor</code>, <code>config</code>,
+        <code>run</code>) + transparent gateway:
+        <code>idf.py …</code> shim or <code>rbdev idf -- …</code>.
+        The shim loads IDF env, injects <code>-DBOARD=</code>, and exports sticky
+        <code>ESPPORT</code> when you do not pass <code>-p</code>.
+      </div>
+
+      <h2>How to invoke</h2>
+<pre><code># After init (PATH shim) — preferred in class
+idf.py build
+idf.py menuconfig
+idf.py fullclean
+
+# Explicit passthrough (always works if rbdev is on PATH)
+rbdev idf -- build
+rbdev idf -- menuconfig
+rbdev idf -- -p COM17 erase-flash</code></pre>
+
+      <h2>Coverage map</h2>
+      <table>
+        <thead>
+          <tr><th>idf.py action</th><th>Student command</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>set-target esp32s3</code></td><td><code>rbdev init</code> or <code>idf.py set-target esp32s3</code></td><td>Done during enroll</td></tr>
+          <tr><td><code>build</code></td><td><code>rbdev build</code> / <code>idf.py build</code> / via <code>run</code></td><td><code>-DBOARD</code> injected</td></tr>
+          <tr><td><code>flash</code></td><td><code>rbdev flash</code> / <code>idf.py flash</code> / via <code>run</code></td><td>Sticky port / <code>ESPPORT</code></td></tr>
+          <tr><td><code>monitor</code></td><td><code>rbdev monitor</code> / <code>run -m</code> / <code>idf.py monitor</code></td><td>Sticky port</td></tr>
+          <tr><td><code>build flash monitor</code></td><td><code>rbdev run NN --monitor</code></td><td>Also selects lab</td></tr>
+          <tr><td><code>reconfigure</code></td><td><code>rbdev reconfigure</code> / <code>idf.py reconfigure</code></td><td>After new <code>exNN</code> sources</td></tr>
+          <tr><td><code>menuconfig</code></td><td><code>idf.py menuconfig</code></td><td>Shim only</td></tr>
+          <tr><td><code>clean</code> / <code>fullclean</code></td><td><code>idf.py clean</code> / <code>fullclean</code></td><td>Shim only</td></tr>
+          <tr><td><code>erase-flash</code></td><td><code>idf.py erase-flash</code></td><td>Uses sticky <code>ESPPORT</code> if no <code>-p</code></td></tr>
+          <tr><td><code>app-flash</code></td><td><code>idf.py app-flash</code></td><td>Shim</td></tr>
+          <tr><td><code>size</code> / <code>size-components</code></td><td><code>idf.py size</code> …</td><td>Shim</td></tr>
+          <tr><td>Any other / future verb</td><td><code>idf.py …</code> or <code>rbdev idf -- …</code></td><td>Forwarded as-is</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Examples for class</h2>
+<pre><code># Interactive config UI
+idf.py menuconfig
+
+# Wipe build tree then rebuild
+idf.py fullclean
+idf.py build
+
+# Erase chip (uses sticky COM if set)
+idf.py erase-flash
+
+# Size report after a successful build
+idf.py size
+idf.py size-components
+
+# App-only flash
+idf.py app-flash
+
+# Explicit port wins over sticky
+idf.py -p COM6 flash monitor
+
+# Same via rbdev passthrough
+rbdev idf -- fullclean
+rbdev idf -- --version</code></pre>
+
+      <div class="warn">
+        <strong>Working directory</strong>
+        Run these from a lab project folder, or from the workshop root after
+        <code>init</code> (sticky project). If resolution fails, 
+        <code>cd labs/device-labs</code> first.
+      </div>
+
+      <h2>Anti-goal</h2>
+      <p>
+        Do not expect first-class <code>rbdev menuconfig</code>,
+        <code>rbdev fullclean</code>, etc. Those stay on the Espressif CLI so the
+        workshop tracks upstream docs and does not drift.
+      </p>
+
+      <nav class="pager">
+        <a href="commands.html">← Command reference</a>
+        <a href="configuration.html">Next: Configuration →</a>
+      </nav>
+      <footer class="footer">rbdev user manual · idf.py workflow</footer>
+    </main>
+  </div>
+</body>
+</html>

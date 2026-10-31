@@ -12,7 +12,7 @@
 /* #include "ex03.h" */
 /* #include "ex04.h" */
 /* #include "ex05.h" */
-/* #include "ex06.h" */
+#include "ex06.h"
 /* #include "ex07.h" */
 /* #include "ex08.h" */
 /* #include "ex09.h" */
@@ -20,7 +20,7 @@
 /* #include "ex11.h" */
 /* #include "ex12.h" */
 /* #include "ex13.h" */
-#include "ex14.h"
+/* #include "ex14.h" */
 /* #include "ex15.h" */
 /* #include "ex16.h" */
 /* #include "ex17.h" */
@@ -33,7 +33,7 @@ void app_main(void)
     /* ex03_start(); */
     /* ex04_start(); */
     /* ex05_start(); */
-    /* ex06_start(); */
+    ex06_start();
     /* ex07_start(); */
     /* ex08_start(); */
     /* ex09_start(); */
@@ -41,7 +41,7 @@ void app_main(void)
     /* ex11_start(); */
     /* ex12_start(); */
     /* ex13_start(); */
-    ex14_start();
+    /* ex14_start(); */
     /* ex15_start(); */
     /* ex16_start(); */
     /* ex17_start(); */

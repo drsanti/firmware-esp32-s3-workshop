@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Command reference — rbdev User Manual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,550;9..144,650&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/manual.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <span class="brand-kicker">ESP32-S3 Workshop</span>
+        <span class="brand-title">rbdev</span>
+        <span class="brand-sub">Host CLI user manual</span>
+      </a>
+      <div class="nav">
+        <div class="nav-section">Manual</div>
+        <a href="index.html">Overview</a>
+        <a href="getting-started.html">Getting started</a>
+        <a href="daily-workflow.html">Daily workflow</a>
+        <a class="active" href="commands.html">Command reference</a>
+        <a href="idf-workflow.html">idf.py workflow</a>
+        <a href="configuration.html">Configuration</a>
+        <a href="platforms.html">Windows / macOS / Linux</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="hero">
+        <h1>Command reference</h1>
+        <p>Student commands first, then IDF step wrappers, then instructor tools. Run <code>rbdev --help</code> for the live list.</p>
+      </header>
+
+      <h2>Student commands</h2>
+
+      <h3><code>rbdev init</code></h3>
+      <p>First-run enroll: find IDF, repair venv, write <code>.rbdev.toml</code>, <code>set-target</code>, PATH/shims.</p>
+<pre><code>rbdev init
+rbdev init --project device-labs --port auto --board ws28p -y
+rbdev init --idf-path D:/dev/esp/v6.1/esp-idf --project device-labs -y
+rbdev init --skip-install --no-add-path -y --project device-labs --port COM17</code></pre>
+
+      <h3><code>rbdev doctor</code></h3>
+      <p>Preflight: SDK / IDF_PATH, workshop <code>lib/</code>, serial ports, Python <code>rich_click</code>.</p>
+<pre><code>rbdev doctor
+rbdev doctor --json
+rbdev doctor --workshop .</code></pre>
+      <table>
+        <thead><tr><th>Exit</th><th>Meaning</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>OK</td><td>—</td></tr>
+          <tr><td>10</td><td>No SDK / IDF</td><td>Install ESP-IDF or set path; Path B: <code>setup --offline</code></td></tr>
+          <tr><td>11</td><td>Missing <code>lib/</code> / headers</td><td>Update workshop clone / restore firmware package</td></tr>
+          <tr><td>12</td><td>No serial port</td><td>Cable, driver, close other monitors, set port</td></tr>
+        </tbody>
+      </table>
+
+      <h3><code>rbdev run [NN]</code></h3>
+      <p>Select lab in <code>main/main.c</code>, then build + flash (optional monitor).</p>
+<pre><code>rbdev run
+rbdev run 00
+rbdev run 00 --monitor
+rbdev run 00 -m -p COM17
+rbdev run 06 --select-only
+rbdev run 12 --project labs/rtos-labs
+rbdev run 01 --board es3c28p</code></pre>
+
+      <h3><code>rbdev config</code></h3>
+      <p>Save or show sticky port/board (writes <code>.rbdev.toml</code> with comments).</p>
+<pre><code>rbdev config --show
+rbdev config --port COM17
+rbdev config --port COM17 --board ws28p
+rbdev config --board es3c28p</code></pre>
+
+      <h2>IDF step wrappers</h2>
+      <p>Same environment as <code>rbdev idf --</code>; inject <code>-DBOARD=</code> and sticky port where needed.</p>
+<pre><code>rbdev build
+rbdev build --board es3c28p
+rbdev reconfigure
+rbdev flash -p COM17
+rbdev monitor
+rbdev idf -- build flash monitor
+rbdev idf -- menuconfig
+rbdev idf -- fullclean</code></pre>
+
+      <h2>Instructor / advanced</h2>
+
+      <h3><code>rbdev version</code></h3>
+<pre><code>rbdev version</code></pre>
+
+      <h3><code>rbdev setup</code> (Path B)</h3>
+      <p>Only if the instructor provided a full kit with offline SDK archive.</p>
+<pre><code>rbdev setup --offline C:\path\to\kit\sdk\archive.zst
+rbdev setup --offline .\sdk --force
+rbdev doctor --workshop .</code></pre>
+
+      <h3><code>rbdev flash-bin</code></h3>
+      <p>Flash a prebuilt image folder (<code>flash_args</code> + bins) via esptool — no IDF build.</p>
+<pre><code>rbdev flash-bin --port COM17
+rbdev flash-bin --dir firmware-prebuilt/ws28p -p COM17 --baud 460800</code></pre>
+
+      <h3><code>rbdev shell</code></h3>
+      <p>Interactive shell with IDF env injected (PowerShell on Windows).</p>
+<pre><code>rbdev shell</code></pre>
+
+      <h3><code>rbdev fw sync</code></h3>
+      <p>Install <code>librobotos_fw.a</code> + public headers into the workshop.</p>
+<pre><code>rbdev fw sync --from robotos-fw-….tar.gz
+rbdev fw sync --from https://example/robotos-fw.tgz --sha256 &lt;hex&gt;</code></pre>
+
+      <h2>Quick cheat sheet</h2>
+<pre><code>rbdev init [--port …] [--board …] [--project …] [-y]
+           [--skip-install] [--force-install] [--skip-set-target] [--no-add-path]
+rbdev config [--port &lt;PORT&gt;] [--board ws28p|es3c28p] [--show]
+rbdev doctor [--workshop &lt;path&gt;] [--json]
+rbdev run [NN] [--monitor] [--select-only] [--port …] [--board …] [--project …]
+rbdev build | reconfigure | flash | monitor
+rbdev idf -- &lt;idf.py args…&gt;
+rbdev setup --offline &lt;archive&gt;
+rbdev flash-bin [--dir …] [--port …] [--board …]
+rbdev fw sync --from &lt;tar.gz|url&gt;
+rbdev shell
+rbdev version</code></pre>
+
+      <nav class="pager">
+        <a href="daily-workflow.html">← Daily workflow</a>
+        <a href="idf-workflow.html">Next: idf.py workflow →</a>
+      </nav>
+      <footer class="footer">rbdev user manual · Command reference</footer>
+    </main>
+  </div>
+</body>
+</html>

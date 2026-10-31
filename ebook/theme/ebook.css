@@ -1,0 +1,359 @@
+/* Labs Ebook — workshop chrome; light + dark themes both readable. */
+
+:root {
+  --ink: #0f172a;
+  --ink-soft: #1e293b;
+  --muted: #475569;
+  --line: #e2e8f0;
+  --paper: #f8fafc;
+  --card: #ffffff;
+  --accent: #0f766e;
+  --accent-soft: #ccfbf1;
+  --warn-soft: #ffedd5;
+  --ok-soft: #dcfce7;
+  --code-bg: #f1f5f9;
+  --code-fg: #0f172a;
+  --code-border: #cbd5e1;
+  --code-inline-bg: #ecfeff;
+  --code-inline-fg: #115e59;
+  --display: "Fraunces", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", Consolas, monospace;
+  --sidebar-grad-top: #0b1220;
+  --sidebar-grad-bot: #111827;
+  --nav-fg: #cbd5e1;
+  --nav-active: #f8fafc;
+  --menu-bg: #ffffff;
+  --run-border: #5eead4;
+  --run-bg: #ccfbf1;
+  --run-fg: #134e4a;
+  --run-pre-bg: #ffffff;
+  --run-pre-border: #99f6e4;
+  --run-pre-fg: #0f766e;
+  --hl-kw: #0f766e;
+  --hl-str: #0369a1;
+  --hl-cmt: #64748b;
+  --hl-num: #b45309;
+}
+
+/* Dark mdBook themes: light ink on dark surfaces (no black+dark-text) */
+html.navy,
+html.coal,
+html.ayu {
+  --ink: #e2e8f0;
+  --ink-soft: #cbd5e1;
+  --muted: #94a3b8;
+  --line: #334155;
+  --paper: #0f172a;
+  --card: #1e293b;
+  --accent: #5eead4;
+  --accent-soft: #134e4a;
+  --warn-soft: #7c2d12;
+  --ok-soft: #14532d;
+  --code-bg: #020617;
+  --code-fg: #e2e8f0;
+  --code-border: #334155;
+  --code-inline-bg: #1e293b;
+  --code-inline-fg: #5eead4;
+  --menu-bg: #1e293b;
+  --run-border: #2dd4bf;
+  --run-bg: #134e4a;
+  --run-fg: #ccfbf1;
+  --run-pre-bg: #020617;
+  --run-pre-border: #334155;
+  --run-pre-fg: #5eead4;
+  --hl-kw: #5eead4;
+  --hl-str: #7dd3fc;
+  --hl-cmt: #94a3b8;
+  --hl-num: #fdba74;
+  --table-border-color: #334155;
+  --table-header-bg: #1e293b;
+  --table-alternate-bg: #172033;
+  --inline-code-color: #5eead4;
+  --bg: var(--paper);
+  --fg: var(--ink);
+}
+
+html.rust {
+  --ink: #1c1917;
+  --ink-soft: #292524;
+  --paper: #f5f5f4;
+  --card: #fafaf9;
+  --code-bg: #e7e5e4;
+  --code-fg: #1c1917;
+  --code-border: #d6d3d1;
+  --code-inline-bg: #fef3c7;
+  --code-inline-fg: #92400e;
+  --accent: #b45309;
+  --menu-bg: #fafaf9;
+}
+
+body {
+  font-family: "Source Sans 3", "Segoe UI", sans-serif !important;
+  color: var(--ink) !important;
+  background: var(--paper) !important;
+}
+
+.sidebar,
+.sidebar .sidebar-scrollbox {
+  background: linear-gradient(
+    180deg,
+    var(--sidebar-grad-top) 0%,
+    var(--sidebar-grad-bot) 100%
+  ) !important;
+  color: var(--nav-fg) !important;
+}
+
+.chapter li a,
+.chapter li a span {
+  color: var(--nav-fg) !important;
+}
+.chapter li a:hover,
+.chapter li.active > a,
+.chapter li.active > a span {
+  color: var(--nav-active) !important;
+}
+
+.content,
+#content,
+main,
+.content main,
+.page,
+.page-wrapper {
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+}
+
+.content main p,
+.content main li,
+.content main td,
+.content main th,
+.content main blockquote,
+.content main .table-wrapper {
+  color: var(--ink-soft) !important;
+}
+
+.content main h1,
+.content main h2,
+.content main h3,
+.content main h4 {
+  font-family: var(--display);
+  letter-spacing: -0.01em;
+  color: var(--ink) !important;
+}
+
+.content main a {
+  color: var(--accent) !important;
+}
+
+.content main table {
+  background: var(--card) !important;
+  border: 1px solid var(--line);
+  color: var(--ink-soft) !important;
+}
+
+.content main th {
+  background: var(--table-header-bg, #f1f5f9) !important;
+  color: var(--ink) !important;
+}
+
+.content main td,
+.content main tr {
+  border-color: var(--line) !important;
+  color: var(--ink-soft) !important;
+}
+
+.content main tbody tr:nth-child(2n) {
+  background-color: var(--table-alternate-bg, #f8fafc) !important;
+}
+
+.content main tbody tr:nth-child(2n) td {
+  background-color: var(--table-alternate-bg, #f8fafc) !important;
+  color: var(--ink-soft) !important;
+}
+
+.content main tbody tr:nth-child(odd) td {
+  background-color: var(--card) !important;
+}
+
+.content main code,
+.content main :not(pre) > .hljs,
+.content main :not(pre):not(a) > .hljs {
+  font-family: var(--mono) !important;
+  font-size: 0.88em;
+  background: var(--code-inline-bg) !important;
+  color: var(--code-inline-fg) !important;
+  padding: 0.08rem 0.35rem;
+  border-radius: 5px;
+}
+
+.content main pre,
+.content main pre.hljs {
+  background: var(--code-bg) !important;
+  color: var(--code-fg) !important;
+  border-radius: 10px;
+  border: 1px solid var(--code-border);
+  box-shadow: none;
+  padding: 0.75rem 0.95rem;
+}
+
+.content main pre code,
+.content main pre > code.hljs,
+.content main pre .hljs {
+  background: transparent !important;
+  color: var(--code-fg) !important;
+  padding: 0 !important;
+  white-space: pre;
+  tab-size: 4;
+  font-variant-ligatures: none;
+}
+
+.content main pre .hljs-keyword,
+.content main pre .hljs-selector-tag,
+.content main pre .hljs-section,
+.content main pre .hljs-link {
+  color: var(--hl-kw) !important;
+}
+.content main pre .hljs-string,
+.content main pre .hljs-title,
+.content main pre .hljs-name,
+.content main pre .hljs-type,
+.content main pre .hljs-attribute,
+.content main pre .hljs-symbol,
+.content main pre .hljs-bullet,
+.content main pre .hljs-built_in,
+.content main pre .hljs-addition,
+.content main pre .hljs-variable,
+.content main pre .hljs-template-tag,
+.content main pre .hljs-template-variable {
+  color: var(--hl-str) !important;
+}
+.content main pre .hljs-comment,
+.content main pre .hljs-quote,
+.content main pre .hljs-deletion,
+.content main pre .hljs-meta {
+  color: var(--hl-cmt) !important;
+}
+.content main pre .hljs-number,
+.content main pre .hljs-regexp,
+.content main pre .hljs-literal {
+  color: var(--hl-num) !important;
+}
+
+.menu-bar,
+.nav-chapters {
+  background: var(--menu-bg) !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+}
+
+.menu-title,
+.left-buttons button,
+.right-buttons a,
+.icon-button {
+  color: var(--ink-soft) !important;
+}
+
+.ebook-run {
+  border: 1px solid var(--run-border) !important;
+  background: var(--run-bg) !important;
+  color: var(--run-fg) !important;
+  border-radius: 12px;
+  padding: 0.9rem 1.05rem;
+  margin: 0 0 1.2rem;
+  line-height: 1.55;
+}
+
+.ebook-run > p,
+.ebook-run .ebook-source {
+  margin: 0.35rem 0 0 !important;
+  color: var(--run-fg) !important;
+}
+
+.ebook-run strong,
+.ebook-run .ebook-source strong {
+  display: inline !important;
+  margin: 0 !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--run-fg) !important;
+}
+
+.ebook-run pre {
+  margin: 0.55rem 0 !important;
+  background: var(--run-pre-bg) !important;
+  border: 1px solid var(--run-pre-border) !important;
+  border-radius: 8px !important;
+  padding: 0.65rem 0.85rem !important;
+  box-shadow: none !important;
+}
+
+.ebook-run pre code {
+  background: transparent !important;
+  color: var(--run-pre-fg) !important;
+  border: 0 !important;
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0 !important;
+}
+
+.ebook-run code {
+  font-family: var(--mono) !important;
+  background: transparent !important;
+  color: var(--run-pre-fg) !important;
+  border: 0 !important;
+  border-radius: 0;
+  padding: 0 !important;
+  font-weight: 600;
+  font-size: 0.9em;
+}
+
+.ebook-run .ebook-source {
+  font-size: 0.88rem;
+  opacity: 0.92;
+}
+
+.ebook-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 650;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  margin-right: 0.35rem;
+  border: 1px solid var(--line);
+  background: var(--code-bg);
+  color: var(--ink-soft);
+}
+
+.ebook-badge.warn {
+  background: var(--warn-soft);
+  border-color: #fdba74;
+  color: #ffedd5;
+}
+
+html.light .ebook-badge.warn,
+html.rust .ebook-badge.warn {
+  color: #7c2d12;
+}
+
+.ebook-badge.ok {
+  background: var(--ok-soft);
+  border-color: #86efac;
+  color: #dcfce7;
+}
+
+html.light .ebook-badge.ok,
+html.rust .ebook-badge.ok {
+  color: #14532d;
+}
+
+div.mermaid {
+  background: var(--card) !important;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 0.8rem 0 1.2rem;
+  overflow-x: auto;
+  color: var(--ink) !important;
+}

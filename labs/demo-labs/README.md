@@ -36,6 +36,8 @@ workshop root — [../../rbdev/README.md](../../rbdev/README.md) ·
 
 ## Demos
 
+| Demo | What it shows |
+|------|----------------|
 | [`ex01-label`](ex01-label/) | 4x4 rb_label grid via rb_screen / rb_layout |
 | [`ex02-led`](ex02-led/) | 4x4 rb_led grid with intensity breathe |
 | [`ex03-term`](ex03-term/) | 3x2 rb_term panes — six logging FreeRTOS tasks |

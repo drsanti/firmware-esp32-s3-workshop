@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Troubleshooting — rbdev User Manual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,550;9..144,650&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/manual.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <span class="brand-kicker">ESP32-S3 Workshop</span>
+        <span class="brand-title">rbdev</span>
+        <span class="brand-sub">Host CLI user manual</span>
+      </a>
+      <div class="nav">
+        <div class="nav-section">Manual</div>
+        <a href="index.html">Overview</a>
+        <a href="getting-started.html">Getting started</a>
+        <a href="daily-workflow.html">Daily workflow</a>
+        <a href="commands.html">Command reference</a>
+        <a href="idf-workflow.html">idf.py workflow</a>
+        <a href="configuration.html">Configuration</a>
+        <a href="platforms.html">Windows / macOS / Linux</a>
+        <a class="active" href="troubleshooting.html">Troubleshooting</a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="hero">
+        <h1>Troubleshooting</h1>
+        <p>Start with <code>rbdev doctor</code>. Expect Espressif venv + <code>rich_click OK</code>.</p>
+      </header>
+
+      <h2>Pass criteria</h2>
+      <table>
+        <thead><tr><th>Check</th><th>Pass</th><th>Fail</th></tr></thead>
+        <tbody>
+          <tr><td>Tool</td><td><code>rbdev 0.1.2</code>+</td><td>Missing / very old binary</td></tr>
+          <tr><td>ESP-IDF</td><td>Found via sticky / discovery</td><td>IDF not found</td></tr>
+          <tr><td>IDF Python</td><td><code>.espressif/python_env/idf6.1_py…/</code></td><td>System Python</td></tr>
+          <tr><td>Packages</td><td><code>rich_click OK</code></td><td>Missing <code>rich_click</code></td></tr>
+          <tr><td>Serial</td><td>At least one port</td><td>No ports</td></tr>
+          <tr><td>Sticky</td><td>Port + board after <code>init</code></td><td>Flash port unset</td></tr>
+          <tr><td>Chip</td><td>Build log <code>target esp32s3</code></td><td><code>target esp32</code> → GPIO errors</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Symptom → fix</h2>
+      <table>
+        <thead><tr><th>Symptom</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>rbdev: command not found</code></td>
+            <td>Open workshop root in Cursor; new terminal; or call <code>rbdev/&lt;os&gt;/rbdev</code>; Windows: <code>start-here.cmd</code></td>
+          </tr>
+          <tr>
+            <td><code>No module named 'rich_click'</code></td>
+            <td>Re-run <code>rbdev init</code> (repairs Espressif venv). Manual: <code>install.bat</code> / <code>install.sh</code> in IDF tree</td>
+          </tr>
+          <tr>
+            <td>Bare <code>run 00</code> → nvm / OneDrive</td>
+            <td>Always <code>rbdev run 00</code></td>
+          </tr>
+          <tr>
+            <td>Not an ESP-IDF project</td>
+            <td>Run from workshop root after <code>init</code>, or <code>cd labs/&lt;track&gt;</code>, or <code>--project …</code></td>
+          </tr>
+          <tr>
+            <td>Serial port not present / cannot open port</td>
+            <td><code>rbdev config --port COMx</code>; unplug/replug; close other monitors</td>
+          </tr>
+          <tr>
+            <td>Wrong board / GPIO</td>
+            <td><code>rbdev config --board …</code> then <code>reconfigure</code></td>
+          </tr>
+          <tr>
+            <td><code>target esp32</code></td>
+            <td><code>rbdev init</code> again for that project (<code>set-target esp32s3</code>)</td>
+          </tr>
+          <tr>
+            <td>Stale build after folder move</td>
+            <td><code>init</code> removes mismatched <code>build/</code>; or <code>idf.py fullclean</code></td>
+          </tr>
+          <tr>
+            <td>Want another lab track</td>
+            <td><code>cd labs\rtos-labs</code> — not a full re-init</td>
+          </tr>
+          <tr>
+            <td>macOS Gatekeeper blocks binary</td>
+            <td>Right-click → Open <code>rbdev/mac/rbdev</code> once</td>
+          </tr>
+          <tr>
+            <td>Linux permission on <code>/dev/tty*</code></td>
+            <td><code>sudo usermod -aG dialout $USER</code>, re-login</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Repair <code>rich_click</code> manually</h2>
+<pre><code># Windows — YOUR IDF path from doctor
+cd C:\esp\v6.1\esp-idf
+.\install.bat
+# workshop root:
+rbdev doctor
+
+# macOS / Linux
+cd ~/esp/esp-idf
+./install.sh
+rbdev doctor</code></pre>
+
+      <h2>TA green-light</h2>
+<pre><code>rbdev init   (once, pick device-labs)
+new terminal
+rbdev doctor → .espressif/.../python + rich_click OK
+rbdev run 00
+idf.py --version      # optional shim check</code></pre>
+
+      <div class="danger">
+        <strong>Do not</strong>
+        Run <code>export.ps1</code> / <code>export.sh</code> for class, use deleted
+        <code>rb</code>/<code>run</code> wrappers, or rely on system Python for IDF.
+      </div>
+
+      <nav class="pager">
+        <a href="platforms.html">← Platforms</a>
+        <a href="index.html">Back to overview →</a>
+      </nav>
+      <footer class="footer">rbdev user manual · Troubleshooting</footer>
+    </main>
+  </div>
+</body>
+</html>

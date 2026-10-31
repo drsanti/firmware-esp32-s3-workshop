@@ -64,6 +64,8 @@ Students clone this workshop, run **`rbdev init`** once, then flash with
   `main/main.c`), then build + flash
 - **In-repo CLI** — [`rbdev/`](rbdev/README.md) binaries for Windows / macOS /
   Linux; `rbdev init` writes sticky `.rbdev.toml` and adds PATH
+- **Optional Windows GUI** — [`rbdev-gui/`](rbdev-gui/README.md) installer +
+  portable exe (same sticky config as the CLI; no private tool repo needed)
 - **Two boards** — Waveshare **ws28p** (default) and Ternion **es3c28p**
 - **Shared firmware package** — `lib/` + `include/` from a `robotos-fw` release
 - **Stepped device labs** — lab in `main.c`, step in `exNN.c`
@@ -81,6 +83,7 @@ firmware-esp32-s3-workshop/
 ├── start-here.cmd                # Windows optional PATH helper (outside Cursor)
 ├── .vscode/settings.json         # Cursor/VS Code: rbdev on terminal PATH
 ├── rbdev/                        # student CLI (windows | mac | linux)
+├── rbdev-gui/                    # optional Windows GUI (setup + portable)
 ├── labs/demo-labs/              # ONE IDF project — UI catalog
 ├── labs/
 │   ├── device-labs/              # ONE IDF project — devices
@@ -271,6 +274,9 @@ ex00 Hello → ex01 Spirit → ex02 Alarm → ex03 React → ex04 Metro → ex05
 | [start-here.cmd](start-here.cmd) | Windows optional — one cmd window with `rbdev` on PATH (outside Cursor) |
 | [`.vscode/settings.json`](.vscode/settings.json) | Cursor/VS Code terminal PATH for `rbdev` (keep committed) |
 | [rbdev/README.md](rbdev/README.md) | Student CLI — `init`, doctor, `run NN`, build, flash |
+| [rbdev-gui/README.md](rbdev-gui/README.md) | Optional Windows GUI — install / portable day-1 |
+| [rbdev/user-manual/](rbdev/user-manual/index.html) | HTML user manual — full CLI + idf.py examples |
+| [ebook/book/](ebook/book/index.html) | HTML labs ebook — all tracks (generated from README labsheets) |
 | [labs/README.md](labs/README.md) | Device / special / rtos curriculum index |
 | [labs/demo-labs/README.md](labs/demo-labs/README.md) | Demo-labs index |
 | [NAMING.md](NAMING.md) | `rb_*` layers (Board · Runtime · Wire · Features · demo) |

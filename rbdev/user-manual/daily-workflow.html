@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily workflow — rbdev User Manual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,550;9..144,650&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/manual.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <span class="brand-kicker">ESP32-S3 Workshop</span>
+        <span class="brand-title">rbdev</span>
+        <span class="brand-sub">Host CLI user manual</span>
+      </a>
+      <div class="nav">
+        <div class="nav-section">Manual</div>
+        <a href="index.html">Overview</a>
+        <a href="getting-started.html">Getting started</a>
+        <a class="active" href="daily-workflow.html">Daily workflow</a>
+        <a href="commands.html">Command reference</a>
+        <a href="idf-workflow.html">idf.py workflow</a>
+        <a href="configuration.html">Configuration</a>
+        <a href="platforms.html">Windows / macOS / Linux</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="hero">
+        <h1>Daily workflow</h1>
+        <p>After enroll: select a lab, flash, monitor, and move between tracks without full re-init.</p>
+      </header>
+
+      <h2>Every lab day</h2>
+<pre><code>rbdev doctor                 # optional preflight
+rbdev run 00                 # sticky project from workshop root is OK
+rbdev run 00 --monitor       # build + flash + serial monitor</code></pre>
+      <p>
+        Project resolution order: explicit <code>--project</code> → walk up from cwd
+        (<code>CMakeLists.txt</code> + <code>main/</code>) → sticky
+        <code>default_project</code> from <code>.rbdev.toml</code>.
+      </p>
+
+      <h2>Lab selection with <code>rbdev run</code></h2>
+      <table>
+        <thead><tr><th>Command</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td><code>rbdev run</code></td><td>List labs in the resolved project (exit 0)</td></tr>
+          <tr><td><code>rbdev run 00</code></td><td>Rewrite <code>main/main.c</code>, then build + flash</td></tr>
+          <tr><td><code>rbdev run ex06</code></td><td>Same; accepts <code>06</code>, <code>ex06</code>, etc.</td></tr>
+          <tr><td><code>rbdev run 00 -m</code></td><td>Build + flash + monitor</td></tr>
+          <tr><td><code>rbdev run 00 --select-only</code></td><td>Only rewrite <code>main/main.c</code> (no build)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>Steps inside a lab</strong>
+        <code>rbdev run NN</code> picks the <em>lab</em>. Many device labs also have
+        steps selected inside <code>exNN.c</code> (see that lab’s README). There is no
+        <code>--step</code> flag in the current CLI.
+      </div>
+
+      <h2>Lab tracks (four ESP-IDF apps)</h2>
+      <table>
+        <thead><tr><th>Track</th><th>Folder</th><th>Typical <code>run</code> range</th></tr></thead>
+        <tbody>
+          <tr><td><strong>device-labs</strong> (default)</td><td><code>labs/device-labs</code></td><td><code>00</code> … <code>06</code></td></tr>
+          <tr><td>rtos-labs</td><td><code>labs/rtos-labs</code></td><td><code>00</code> … <code>15</code></td></tr>
+          <tr><td>special-labs</td><td><code>labs/special-labs</code></td><td><code>01</code> … <code>06</code></td></tr>
+          <tr><td>demo-labs</td><td><code>labs/demo-labs</code></td><td><code>01</code> … <code>17</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Switch track — do not full re-init</h3>
+      <p>Port, board, IDF path, and PATH shims from the first <code>init</code> stay.</p>
+<pre><code># Prefer: cwd wins over sticky
+cd labs\rtos-labs
+rbdev run 00
+
+# Or one-shot from workshop root
+rbdev run 00 --project labs/rtos-labs
+
+# Optional: update sticky default + set-target for that track
+rbdev init --project rtos-labs -y</code></pre>
+
+      <h2>Port and board day-to-day</h2>
+<pre><code>rbdev config --show
+rbdev config --port COM17 --board ws28p
+rbdev config --port /dev/cu.usbmodemXXXX --board es3c28p</code></pre>
+      <p>
+        After switching boards, run <code>rbdev reconfigure</code> (or
+        <code>idf.py fullclean</code> then build) so CMake picks up
+        <code>-DBOARD=</code>.
+      </p>
+
+      <h2>Build / flash without changing lab id</h2>
+<pre><code>rbdev build
+rbdev flash
+rbdev monitor
+rbdev reconfigure          # after adding new exNN sources</code></pre>
+      <p>
+        Students can ignore these and stay on <code>rbdev run</code>. They are thin
+        wrappers around <code>idf.py</code> with sticky board/port.
+      </p>
+
+      <nav class="pager">
+        <a href="getting-started.html">← Getting started</a>
+        <a href="commands.html">Next: Command reference →</a>
+      </nav>
+      <footer class="footer">rbdev user manual · Daily workflow</footer>
+    </main>
+  </div>
+</body>
+</html>

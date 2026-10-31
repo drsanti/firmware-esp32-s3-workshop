@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Getting started — rbdev User Manual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,550;9..144,650&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/manual.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <span class="brand-kicker">ESP32-S3 Workshop</span>
+        <span class="brand-title">rbdev</span>
+        <span class="brand-sub">Host CLI user manual</span>
+      </a>
+      <div class="nav">
+        <div class="nav-section">Manual</div>
+        <a href="index.html">Overview</a>
+        <a class="active" href="getting-started.html">Getting started</a>
+        <a href="daily-workflow.html">Daily workflow</a>
+        <a href="commands.html">Command reference</a>
+        <a href="idf-workflow.html">idf.py workflow</a>
+        <a href="configuration.html">Configuration</a>
+        <a href="platforms.html">Windows / macOS / Linux</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="hero">
+        <h1>Getting started</h1>
+        <p>From clone to a working sticky config in one enroll step: <code>rbdev init</code>.</p>
+      </header>
+
+      <h2>Prerequisites</h2>
+      <table>
+        <thead><tr><th>Need</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Workshop repo</td>
+            <td><code>firmware-esp32-s3-workshop</code> with <code>lib/</code> and <code>include/</code> present</td>
+          </tr>
+          <tr>
+            <td>ESP-IDF (Path A)</td>
+            <td>Course install on the PC (v6.1). <code>init</code> discovers it — no activate script</td>
+          </tr>
+          <tr>
+            <td>Board + USB</td>
+            <td>Waveshare <code>ws28p</code> (default) or Ternion <code>es3c28p</code></td>
+          </tr>
+          <tr>
+            <td>Editor</td>
+            <td>Cursor / VS Code recommended (committed <code>.vscode/settings.json</code> puts <code>rbdev</code> on PATH)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>1. Clone and open the workshop root</h2>
+<pre><code>git clone https://github.com/drsanti/firmware-esp32-s3-workshop.git
+cd firmware-esp32-s3-workshop</code></pre>
+      <p>
+        Open <strong>this folder</strong> (the one that contains <code>rbdev/</code> and
+        <code>labs/</code>) in Cursor. Do not open only a subfolder, or PATH settings
+        will not apply.
+      </p>
+
+      <h2>2. First terminal: run init</h2>
+      <p>
+        In Cursor, a new terminal already has the shipped binary on PATH via
+        <code>.vscode/settings.json</code>. Prefer plain <code>rbdev init</code>.
+      </p>
+<pre><code># Preferred (Cursor, workshop root)
+rbdev init
+
+# Fallback if rbdev is not found yet
+.\rbdev\windows\rbdev.exe init          # Windows
+./rbdev/mac/rbdev init                  # macOS
+./rbdev/linux/rbdev init                # Linux</code></pre>
+
+      <div class="note">
+        <strong>Project prompt</strong>
+        Choose <code>device-labs</code> unless the instructor names another track.
+        Scripted classroom:
+        <code>rbdev init --port COM6 --board ws28p --project device-labs -y</code>
+      </div>
+
+      <h3>What init does</h3>
+      <ol>
+        <li>Finds ESP-IDF (sticky path → env → Espressif registry → common folders)</li>
+        <li>Repairs the Espressif Python venv if needed (<code>install.bat</code> / <code>install.sh</code>)</li>
+        <li>Picks serial port (menu / <code>auto</code>) and one lab track</li>
+        <li>Writes gitignored <code>.rbdev.toml</code> (paths use <code>/</code>)</li>
+        <li>Runs <code>idf.py set-target esp32s3</code> in the selected project</li>
+        <li>Installs stable shims under LocalAppData / <code>~/.local/share/rbdev/bin</code> and updates user PATH</li>
+        <li>May auto-<code>cd</code> into the project (shell wrappers / PowerShell profile)</li>
+      </ol>
+
+      <h2>3. Open a new terminal</h2>
+      <p>
+        PATH and <code>idf.py</code> shims load in <strong>new</strong> terminals.
+        Then verify:
+      </p>
+<pre><code>rbdev doctor
+rbdev run 00</code></pre>
+
+      <h2>PATH helpers compared</h2>
+      <table>
+        <thead><tr><th>Situation</th><th>What to use</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Cursor / VS Code, workshop root open</td>
+            <td>Nothing extra — <code>.vscode/settings.json</code> (do not delete)</td>
+          </tr>
+          <tr>
+            <td>After successful <code>init</code></td>
+            <td>User PATH + <code>%LOCALAPPDATA%\rbdev\bin</code> (Windows) or <code>~/.local/share/rbdev/bin</code></td>
+          </tr>
+          <tr>
+            <td>Windows outside Cursor</td>
+            <td>Double-click <code>start-here.cmd</code> (PATH for that cmd window only)</td>
+          </tr>
+          <tr>
+            <td><code>rbdev</code> still missing</td>
+            <td>Call <code>rbdev/&lt;os&gt;/rbdev</code> with an explicit path</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="warn">
+        <strong>start-here.cmd does not replace init</strong>
+        It only opens cmd with <code>rbdev\windows</code> on PATH and prints reminders.
+        You still type <code>rbdev init</code> / <code>rbdev run 00</code> yourself.
+      </div>
+
+      <h2>Non-interactive init (CI / TA scripts)</h2>
+<pre><code>rbdev init --project device-labs --port auto --board ws28p -y
+rbdev init --project device-labs --port COM17 --board ws28p -y --skip-install
+rbdev init --project rtos-labs -y --skip-set-target   # rare</code></pre>
+
+      <h3>Useful init flags</h3>
+      <table>
+        <thead><tr><th>Flag</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>-y</code> / <code>--yes</code></td><td>Non-interactive; auto-picks port if unset</td></tr>
+          <tr><td><code>--project device-labs</code></td><td>Skip project menu</td></tr>
+          <tr><td><code>-p COMx</code> / <code>--port auto</code></td><td>Serial port or best-effort USB pick</td></tr>
+          <tr><td><code>--board ws28p|es3c28p</code></td><td>Board SKU</td></tr>
+          <tr><td><code>--idf-path …</code></td><td>Force a specific ESP-IDF tree</td></tr>
+          <tr><td><code>--target esp32s3</code></td><td>Chip (workshop default)</td></tr>
+          <tr><td><code>--skip-install</code></td><td>Do not run IDF install scripts</td></tr>
+          <tr><td><code>--force-install</code></td><td>Always run IDF install</td></tr>
+          <tr><td><code>--skip-set-target</code></td><td>Skip <code>set-target</code></td></tr>
+          <tr><td><code>--no-add-path</code></td><td>Do not modify user PATH</td></tr>
+        </tbody>
+      </table>
+
+      <nav class="pager">
+        <a href="index.html">← Overview</a>
+        <a href="daily-workflow.html">Next: Daily workflow →</a>
+      </nav>
+      <footer class="footer">rbdev user manual · Getting started</footer>
+    </main>
+  </div>
+</body>
+</html>

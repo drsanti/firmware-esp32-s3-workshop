@@ -7,7 +7,8 @@
 [![Audience](https://img.shields.io/badge/audience-students%20%7C%20instructors-blue.svg)](#)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-informational.svg)](#)
 [![ESP-IDF](https://img.shields.io/badge/ESP--IDF-v6.1-brightgreen.svg)](https://docs.espressif.com/projects/esp-idf/)
-[![CLI](https://img.shields.io/badge/CLI-rbdev%200.1.2+-informational.svg)](rbdev/README.md)
+[![CLI](https://img.shields.io/badge/CLI-rbdev%200.1.3+-informational.svg)](rbdev/README.md)
+[![GUI](https://img.shields.io/badge/GUI-rbdev--gui%20Windows-informational.svg)](rbdev-gui/README.md)
 [![Board](https://img.shields.io/badge/board-ws28p%20%7C%20es3c28p-orange.svg)](ports/boards/README.md)
 
 [Daily loop](#student-daily-loop) ·
@@ -32,6 +33,7 @@ one-liner, no IDE restart. Do not delete that file.
 |------|------|---------|
 | 1 | Once per PC / clone | From **workshop root**: `rbdev init` (Cursor: plain `rbdev init`; fallback `.\rbdev\windows\rbdev.exe init`). Pick **`device-labs`** unless the instructor says otherwise. |
 | 2 | Every lab day | `rbdev run 00` (workshop root uses sticky project; or `cd labs/<track>` first) |
+| — | Optional (Windows GUI) | Install [`rbdev-gui/windows/rbdev-gui-setup.exe`](rbdev-gui/README.md) → **Labs / Run** (Build · Flash · Run · Monitor). Same `.rbdev.toml` as the CLI. |
 
 ```text
 # Workshop root (folder with rbdev/ + labs/)
@@ -387,3 +389,5 @@ idf.py --version      # shim works (optional)
 | [`.rbdev.toml.example`](.rbdev.toml.example) | Sticky config shape |
 | [`start-here.cmd`](start-here.cmd) | Windows optional: PATH for one cmd window (outside Cursor) |
 | [`.vscode/settings.json`](.vscode/settings.json) | Cursor/VS Code: puts `rbdev` on integrated-terminal PATH |
+| [`rbdev/user-manual/`](rbdev/user-manual/index.html) | HTML user manual (commands, idf.py, troubleshooting) |
+| [`ebook/book/`](ebook/book/index.html) | HTML labs ebook (device / special / rtos / demo) |

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>rbdev User Manual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,550;9..144,650&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/manual.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <span class="brand-kicker">ESP32-S3 Workshop</span>
+        <span class="brand-title">rbdev</span>
+        <span class="brand-sub">Host CLI user manual</span>
+      </a>
+      <div class="nav">
+        <div class="nav-section">Manual</div>
+        <a class="active" href="index.html">Overview</a>
+        <a href="getting-started.html">Getting started</a>
+        <a href="daily-workflow.html">Daily workflow</a>
+        <a href="commands.html">Command reference</a>
+        <a href="idf-workflow.html">idf.py workflow</a>
+        <a href="configuration.html">Configuration</a>
+        <a href="platforms.html">Windows / macOS / Linux</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+        <div class="nav-section">In repo</div>
+        <a href="../README.md">rbdev/README.md</a>
+        <a href="../../CLASSROOM-SETUP.md">CLASSROOM-SETUP.md</a>
+        <a href="../../ebook/book/index.html">Labs ebook</a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="hero">
+        <h1>rbdev user manual</h1>
+        <p>
+          Complete guide to the workshop host CLI: enroll once with
+          <code>init</code>, flash labs with <code>run</code>, and use the full
+          Espressif <code>idf.py</code> workflow without <code>export.ps1</code>.
+        </p>
+        <div class="meta">
+          <span class="pill">CLI 0.1.2+</span>
+          <span class="pill">ESP-IDF v6.1</span>
+          <span class="pill">Target esp32s3</span>
+          <span class="pill">Boards ws28p · es3c28p</span>
+        </div>
+      </header>
+
+      <div class="ok">
+        <strong>One tool for class</strong>
+        Use <code>rbdev</code> only. Do not run ESP-IDF <code>export.ps1</code> /
+        <code>export.sh</code>, and do not type bare <code>run 00</code> (on Windows
+        that often hits nvm). PowerShell is not required — Cursor terminal or cmd is fine.
+      </div>
+
+      <h2>What rbdev does</h2>
+      <p class="lead">
+        <code>rbdev</code> finds the course ESP-IDF install, repairs the Espressif
+        Python venv when needed, remembers your serial port and board in a sticky
+        <code>.rbdev.toml</code>, selects a lab exercise, then builds and flashes
+        with <code>-DBOARD=</code>. After <code>init</code>, plain
+        <code>idf.py …</code> works through a shim that loads the same environment.
+      </p>
+
+      <div class="card-grid">
+        <article class="card">
+          <h3>1. Getting started</h3>
+          <p>Clone, open workshop root in Cursor, run <code>init</code> once.</p>
+          <p><a href="getting-started.html">Open →</a></p>
+        </article>
+        <article class="card">
+          <h3>2. Daily workflow</h3>
+          <p><code>rbdev run 00</code>, monitor, switch lab tracks without re-enroll.</p>
+          <p><a href="daily-workflow.html">Open →</a></p>
+        </article>
+        <article class="card">
+          <h3>3. Commands</h3>
+          <p>Every student and instructor subcommand with flags and examples.</p>
+          <p><a href="commands.html">Open →</a></p>
+        </article>
+        <article class="card">
+          <h3>4. idf.py parity</h3>
+          <p><code>menuconfig</code>, <code>fullclean</code>, <code>erase-flash</code>, <code>size</code>, and more.</p>
+          <p><a href="idf-workflow.html">Open →</a></p>
+        </article>
+      </div>
+
+      <h2>Memorize these</h2>
+<pre><code>rbdev init                 # once (pick device-labs)
+# open a NEW terminal tab
+rbdev doctor               # when anything looks wrong
+rbdev run 00               # select lab + build + flash
+rbdev run 00 --monitor     # same + serial monitor
+rbdev config --port COMx   # after USB re-plug
+
+idf.py menuconfig          # full ESP-IDF (after init)
+rbdev idf -- fullclean     # same without PATH shim</code></pre>
+
+      <h2>Binary locations</h2>
+      <table>
+        <thead>
+          <tr><th>OS</th><th>Shipped binary</th><th>After <code>init</code></th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Windows</td>
+            <td><code>rbdev/windows/rbdev.exe</code></td>
+            <td><code>rbdev</code> via PATH / Cursor settings / LocalAppData shim</td>
+          </tr>
+          <tr>
+            <td>macOS</td>
+            <td><code>rbdev/mac/rbdev</code></td>
+            <td>same pattern under <code>~/.local/share/rbdev/bin</code></td>
+          </tr>
+          <tr>
+            <td>Linux</td>
+            <td><code>rbdev/linux/rbdev</code></td>
+            <td>same; add user to <code>dialout</code> for serial</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Manual map</h2>
+      <div class="toc card">
+        <ol>
+          <li><a href="getting-started.html">Getting started</a> — first clone, <code>init</code>, PATH, Cursor vs <code>start-here.cmd</code></li>
+          <li><a href="daily-workflow.html">Daily workflow</a> — lab loop, tracks, sticky project</li>
+          <li><a href="commands.html">Command reference</a> — complete CLI with examples</li>
+          <li><a href="idf-workflow.html">idf.py workflow</a> — full Espressif action map</li>
+          <li><a href="configuration.html">Configuration</a> — <code>.rbdev.toml</code>, boards, env vars</li>
+          <li><a href="platforms.html">Platforms</a> — Windows / macOS / Linux specifics</li>
+          <li><a href="troubleshooting.html">Troubleshooting</a> — doctor exits, <code>rich_click</code>, ports</li>
+        </ol>
+      </div>
+
+      <nav class="pager">
+        <span></span>
+        <a href="getting-started.html">Next: Getting started →</a>
+      </nav>
+
+      <footer class="footer">
+        Part of <code>firmware-esp32-s3-workshop</code>. Open this folder’s
+        <code>index.html</code> in a browser (works offline except web fonts).
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

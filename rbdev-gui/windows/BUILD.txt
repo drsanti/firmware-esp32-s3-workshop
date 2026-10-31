@@ -1,0 +1,4 @@
+rbdev-gui windows 0.1.3 2026-10-31
+nsis: rbdev-gui-setup.exe
+portable: rbdev-gui.exe
+source: private rbdev apps/rbdev-gui (students use this folder only)

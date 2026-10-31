@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Configuration — rbdev User Manual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,550;9..144,650&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/manual.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <span class="brand-kicker">ESP32-S3 Workshop</span>
+        <span class="brand-title">rbdev</span>
+        <span class="brand-sub">Host CLI user manual</span>
+      </a>
+      <div class="nav">
+        <div class="nav-section">Manual</div>
+        <a href="index.html">Overview</a>
+        <a href="getting-started.html">Getting started</a>
+        <a href="daily-workflow.html">Daily workflow</a>
+        <a href="commands.html">Command reference</a>
+        <a href="idf-workflow.html">idf.py workflow</a>
+        <a class="active" href="configuration.html">Configuration</a>
+        <a href="platforms.html">Windows / macOS / Linux</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="hero">
+        <h1>Configuration</h1>
+        <p>Sticky <code>.rbdev.toml</code>, boards, environment variables, and Cursor PATH settings.</p>
+      </header>
+
+      <h2><code>.rbdev.toml</code> (gitignored)</h2>
+      <p>
+        Written by <code>rbdev init</code> and <code>rbdev config</code> at the workshop root.
+        Each field includes <code>#</code> comments explaining when to change it.
+        See <code>.rbdev.toml.example</code> in the repo.
+      </p>
+      <table>
+        <thead><tr><th>Key</th><th>Meaning</th><th>When to change</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>default_board</code></td>
+            <td><code>ws28p</code> or <code>es3c28p</code> for <code>-DBOARD=</code></td>
+            <td>Switch hardware; or <code>rbdev config --board …</code></td>
+          </tr>
+          <tr>
+            <td><code>default_port</code></td>
+            <td>Sticky serial / <code>ESPPORT</code></td>
+            <td>USB re-plug changes COM / cu / tty</td>
+          </tr>
+          <tr>
+            <td><code>default_esp_idf_path</code></td>
+            <td>ESP-IDF tree on this PC</td>
+            <td>IDF moved/reinstalled; or re-run <code>init</code></td>
+          </tr>
+          <tr>
+            <td><code>default_esp_target</code></td>
+            <td>Chip for <code>set-target</code> (workshop: <code>esp32s3</code>)</td>
+            <td>Almost never</td>
+          </tr>
+          <tr>
+            <td><code>workshop_root</code></td>
+            <td>Absolute path to this clone</td>
+            <td>Folder moved/renamed → re-run <code>init</code></td>
+          </tr>
+          <tr>
+            <td><code>default_project</code></td>
+            <td>Sticky track name for <code>run</code> from workshop root</td>
+            <td>New default track; or just <code>cd labs/…</code></td>
+          </tr>
+          <tr>
+            <td><code>[[projects]]</code></td>
+            <td>Catalog of apps (relative paths)</td>
+            <td>Almost never — <code>init</code> refreshes</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>Paths use forward slashes</strong>
+        Example: <code>D:/dev/esp/v6.1/esp-idf</code> — avoid backslashes in the TOML.
+      </div>
+
+      <h2>Boards</h2>
+      <table>
+        <thead><tr><th>SKU</th><th>Product</th></tr></thead>
+        <tbody>
+          <tr><td><code>ws28p</code></td><td>Waveshare ESP32-S3-Touch-LCD-2.8 (default)</td></tr>
+          <tr><td><code>es3c28p</code></td><td>Ternion ESP32-S3</td></tr>
+        </tbody>
+      </table>
+<pre><code>rbdev config --board ws28p
+rbdev flash --board es3c28p -p COM6    # one-shot override
+rbdev reconfigure --board es3c28p</code></pre>
+
+      <h2>Environment variables</h2>
+      <table>
+        <thead><tr><th>Variable</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><code>ESPPORT</code> / <code>RBDEV_PORT</code></td><td>Override sticky serial (wins over <code>.rbdev.toml</code>; rbdev warns if they differ)</td></tr>
+          <tr><td><code>RBDEV_BOARD</code></td><td>Override default board</td></tr>
+          <tr><td><code>RBDEV_IDF_PATH</code> / <code>IDF_PATH</code></td><td>Prefer an IDF tree during discovery</td></tr>
+          <tr><td><code>RBDEV_WORKSHOP</code></td><td>Workshop root override</td></tr>
+          <tr><td><code>RBDEV_SDK_ROOT</code></td><td>Managed SDK root (Path B / setup)</td></tr>
+        </tbody>
+      </table>
+<pre><code># PowerShell
+$env:ESPPORT = "COM17"
+$env:IDF_PATH = "C:\Espressif\frameworks\esp-idf-v6.1"
+
+# bash
+export ESPPORT=/dev/ttyACM0
+export RBDEV_IDF_PATH=~/esp/esp-idf</code></pre>
+
+      <h2>IDF discovery order</h2>
+      <ol>
+        <li>Sticky <code>default_esp_idf_path</code></li>
+        <li><code>RBDEV_IDF_PATH</code></li>
+        <li><code>IDF_PATH</code></li>
+        <li>Espressif EIM registry</li>
+        <li>Common install folders</li>
+      </ol>
+
+      <h2>Cursor / VS Code settings</h2>
+      <p>
+        Committed file: <code>.vscode/settings.json</code>. Prepends
+        LocalAppData / home shims and <code>rbdev/&lt;os&gt;</code> onto the integrated
+        terminal PATH. Keep it in git; do not delete.
+      </p>
+
+      <h2>Project resolution (runtime)</h2>
+      <ol>
+        <li>Explicit <code>--project</code></li>
+        <li>Walk up from cwd for ESP-IDF app (<code>CMakeLists.txt</code> + <code>main/</code>)</li>
+        <li>Sticky <code>default_project</code> under workshop root</li>
+        <li>Error with hint to run <code>init</code> or <code>cd labs/…</code></li>
+      </ol>
+
+      <nav class="pager">
+        <a href="idf-workflow.html">← idf.py workflow</a>
+        <a href="platforms.html">Next: Platforms →</a>
+      </nav>
+      <footer class="footer">rbdev user manual · Configuration</footer>
+    </main>
+  </div>
+</body>
+</html>

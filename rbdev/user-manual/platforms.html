@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Platforms — rbdev User Manual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,550;9..144,650&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/manual.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <span class="brand-kicker">ESP32-S3 Workshop</span>
+        <span class="brand-title">rbdev</span>
+        <span class="brand-sub">Host CLI user manual</span>
+      </a>
+      <div class="nav">
+        <div class="nav-section">Manual</div>
+        <a href="index.html">Overview</a>
+        <a href="getting-started.html">Getting started</a>
+        <a href="daily-workflow.html">Daily workflow</a>
+        <a href="commands.html">Command reference</a>
+        <a href="idf-workflow.html">idf.py workflow</a>
+        <a href="configuration.html">Configuration</a>
+        <a class="active" href="platforms.html">Windows / macOS / Linux</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="hero">
+        <h1>Windows · macOS · Linux</h1>
+        <p>Same commands everywhere — binary path and serial device names differ.</p>
+      </header>
+
+      <table>
+        <thead>
+          <tr><th></th><th>Windows</th><th>macOS</th><th>Linux</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>First-run binary</td>
+            <td><code>rbdev/windows/rbdev.exe</code></td>
+            <td><code>rbdev/mac/rbdev</code></td>
+            <td><code>rbdev/linux/rbdev</code></td>
+          </tr>
+          <tr>
+            <td>After PATH</td>
+            <td><code>rbdev …</code></td>
+            <td><code>rbdev …</code></td>
+            <td><code>rbdev …</code></td>
+          </tr>
+          <tr>
+            <td>Serial examples</td>
+            <td><code>COM6</code>, <code>COM17</code></td>
+            <td><code>/dev/cu.usbmodem…</code></td>
+            <td><code>/dev/ttyACM0</code>, <code>/dev/ttyUSB0</code></td>
+          </tr>
+          <tr>
+            <td>Extra once</td>
+            <td>Optional <code>start-here.cmd</code></td>
+            <td><code>chmod +x</code> + Gatekeeper Open</td>
+            <td><code>chmod +x</code> + <code>dialout</code> group</td>
+          </tr>
+          <tr>
+            <td>Stable shim dir</td>
+            <td><code>%LOCALAPPDATA%\rbdev\bin</code></td>
+            <td colspan="2"><code>~/.local/share/rbdev/bin</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Windows</h2>
+<pre><code>git clone https://github.com/drsanti/firmware-esp32-s3-workshop.git
+cd firmware-esp32-s3-workshop
+# Cursor terminal:
+rbdev init
+# fallback:
+.\rbdev\windows\rbdev.exe init
+
+# NEW terminal
+rbdev doctor
+rbdev run 00</code></pre>
+      <ul>
+        <li>Shells: Cursor terminal or <strong>cmd</strong> — PowerShell is not required.</li>
+        <li>Never type bare <code>run 00</code> (often hits nvm).</li>
+        <li>Outside Cursor: double-click <code>start-here.cmd</code>.</li>
+        <li>Git Bash: prefer <code>rbdev-cli.exe</code> or <code>cmd //c rbdev …</code> (shims are <code>.cmd</code>).</li>
+      </ul>
+
+      <h2>macOS</h2>
+<pre><code>chmod +x rbdev/mac/rbdev
+./rbdev/mac/rbdev init
+# Gatekeeper: right-click → Open once if blocked
+# NEW terminal
+rbdev run 00</code></pre>
+      <p>Prefer <code>/dev/cu.*</code> over <code>/dev/tty.*</code> for serial.</p>
+
+      <h2>Linux</h2>
+<pre><code>chmod +x rbdev/linux/rbdev
+sudo usermod -aG dialout "$USER"   # then log out/in
+./rbdev/linux/rbdev init
+# NEW terminal
+rbdev run 00</code></pre>
+
+      <h2>Expected IDF Python</h2>
+      <table>
+        <thead><tr><th>OS</th><th>Interpreter</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Windows</td>
+            <td><code>%USERPROFILE%\.espressif\python_env\idf*_py*_env\Scripts\python.exe</code></td>
+          </tr>
+          <tr>
+            <td>macOS / Linux</td>
+            <td><code>~/.espressif/python_env/idf*_py*_env/bin/python</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>System Python (Store / Homebrew / apt) is wrong for <code>idf.py</code> — re-run <code>rbdev init</code>.</p>
+
+      <nav class="pager">
+        <a href="configuration.html">← Configuration</a>
+        <a href="troubleshooting.html">Next: Troubleshooting →</a>
+      </nav>
+      <footer class="footer">rbdev user manual · Platforms</footer>
+    </main>
+  </div>
+</body>
+</html>
