@@ -62,113 +62,10 @@ UI owns the IMU loop and LCD; discrete cues use the same notify bridge as step 0
 
 ---
 
-## 3. Activate ESP-IDF, then build
+## 4. Build / flash
+Once per PC (workshop root): `rbdev init`, then a **new** terminal.
+From the lab folder use `rbdev run NN` (no `export.ps1` / `export.sh`).
 
-```powershell
-. <IDF_PATH>\export.ps1
-# example: . D:\dev\esp\v6.1\esp-idf\export.ps1
-```
-
-```bash
-cd labs/device-labs
-# Lab: .\run 00  |  Step: ex00.c
-
-.\run 00   # from labs/device-labs (step still in ex00.c)
-# or
-idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
-```
-
----
-
-## 4. Runtime pieces
-
-| Piece | Role |
-|-------|------|
-| `audio_task` | Blocks on `ulTaskNotifyTake`; then `beep_play(BEEP_CHIME, NULL)` |
-| `ui_task` | LCD status lines; one boot `NotifyGive`; IMU loop |
-| `bsp_imu_read` | Hardware 6-axis when present (returns 0 on ok) |
-| `imu_sim_fill` | Synthetic accel/gyro when read fails |
-| `app_main` | Create **audio first**, then ui |
-
-```text
-  boot / ay>5  -->  NotifyGive  -->  audio_task  -->  beep_play(CHIME)
-  loop  -->  bsp_imu_read / imu_sim  -->  lcd lines
-```
-
-Display uses [`lab_lcd`](../../common/lab_lcd.h) (same as step 01).  
-No sound pad here — keep the focus on IMU.
-
----
-
-## 5. Student sketch (`main/main.c`)
-
-```c
-static TaskHandle_t g_audio;
-
-static void audio_task(void *arg)
-{
-    (void)arg;
-    for (;;) {
-        (void)ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-        (void)beep_play(BEEP_CHIME, NULL);
-    }
-}
-
-static void ui_task(void *arg)
-{
-    float acc[3], gyro[3], t = 0.0f;
-    uint32_t rng = 1u;
-    int real, was_real = -1, ay_hi = 0;
-
-    (void)arg;
-    (void)lcd_begin(3);
-    lcd_printf(0, "IMU status");
-    lcd_set_color(1, RB_LABEL_YELLOW);
-    lcd_printf(1, "IMU ...");
-    lcd_printf(2, "ax ay az");
-
-    vTaskDelay(pdMS_TO_TICKS(50));
-    if (g_audio != NULL) {
-        (void)xTaskNotifyGive(g_audio);  /* boot ready cue */
-    }
-
-    for (;;) {
-        real = (bsp_imu_read(acc, gyro) == 0);
-        if (!real) {
-            imu_sim_fill(acc, gyro, t, &rng);
-            t += 0.2f;
-        }
-        if (real != was_real) {
-            was_real = real;
-            lcd_set_color(1, real ? RB_LABEL_GREEN : RB_LABEL_MAGENTA);
-            lcd_printf(1, real ? "IMU live" : "IMU sim");
-        }
-        lcd_printf(2, "%.1f %.1f %.1f", (double)acc[0], (double)acc[1],
-                   (double)acc[2]);
-
-        /* ay = acc[1]: notify once each time it crosses above 5 */
-        if (acc[1] > 5.0f) {
-            if (!ay_hi) {
-                ay_hi = 1;
-                if (g_audio != NULL) {
-                    (void)xTaskNotifyGive(g_audio);
-                }
-            }
-        } else {
-            ay_hi = 0;
-        }
-
-        vTaskDelay(pdMS_TO_TICKS(200));
-    }
-}
-
-void app_main(void)
-{
-    bsp_init();
-    (void)xTaskCreate(audio_task, "audio", 4096, NULL, 5, &g_audio);
-    (void)xTaskCreate(ui_task, "ui", 4096, NULL, 5, NULL);
-}
-```
 
 ### How the code works
 
@@ -315,7 +212,7 @@ updating ax/ay/az. Notify keeps sensing/UI responsive.
 
 | Symptom | Try |
 |---------|-----|
-| `idf.py` not found | Source `<IDF_PATH>\export.ps1` / `export.sh` |
+| `idf.py` / flash fails | Re-run `rbdev init`; use `rbdev run NN` |
 | Always **IMU sim** on `ws28p` | Wrong `-DBOARD=`; `fullclean` and rebuild |
 | Blank LCD | `bsp_init` / `lcd_begin`; match board SKU |
 | No boot beep | Audio path / volume; rebuild with current `lab_beep` |

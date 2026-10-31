@@ -1,21 +1,25 @@
 # ex05 — Vibration Scope
 
-**Lab switch:** `.\run 05` (or `main/main.c` → `ex05_start()`)  
+**Lab switch:** `rbdev run 05` (or `main/main.c` → `ex05_start()`)  
 **Step switch:** `ex05.c` → one `ex05_stepMM_start()`
 
 | Start | Folder |
 |-------|--------|
-| `ex05_step01_start()` | `steps/step-01-scope-face/` |
-| `ex05_step02_start()` | `steps/step-02-imu-scope/` |
-| `ex05_step03_start()` | `steps/step-03-ui-100hz/` |
-| `ex05_step04_start()` | `steps/step-04-split-queue/` |
+| `ex05_step01_start()` | `steps/step-01-scope-face/` |
+
+| `ex05_step02_start()` | `steps/step-02-imu-scope/` |
+
+| `ex05_step03_start()` | `steps/step-03-ui-100hz/` |
+
+| `ex05_step04_start()` | `steps/step-04-split-queue/` |
+
 | `ex05_step05_start()` | `steps/step-05-drop-stats/` |
 
 Default in `ex05.c` is the **last** step (finished device).
 
 ```powershell
-# from labs/device-labs (after .\rb config --port COMx):
-.\run 05
+# from labs/device-labs (after rbdev config --port COMx):
+rbdev run 05
 # step still selected in ex05-vibration-scope/ex05.c
 ```
 

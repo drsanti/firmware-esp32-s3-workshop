@@ -42,8 +42,8 @@
 
 ```bash
 cd labs/special-labs
-# Lab: .\run 01  |  Step: ex01.c
-.\run 01   # from labs/special-labs (step still in ex01.c)
+# Lab: rbdev run 01  |  Step: ex01.c
+rbdev run 01   # from labs/special-labs (step still in ex01.c)
 ```
 
 ---

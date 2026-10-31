@@ -11,11 +11,14 @@ sdkconfig.old
 *.o
 .DS_Store
 Thumbs.db
-.vscode/
+# Keep committed Cursor/VS Code terminal PATH for rbdev; ignore personal clutter.
+.vscode/*
+!.vscode/settings.json
 .idea/
 
 # Sticky student defaults from `rb config --port … --board …` (do not commit)
 .rbdev.toml
+.rbdev.cd
 
 # local idf / agent redirect scratch (do not commit)
 **/_build_*.txt

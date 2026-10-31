@@ -1,6 +1,6 @@
 # labs/common
 
-Shared helpers for FreeRTOS device / special labs (not used by `demos/`).
+Shared helpers for FreeRTOS device / special labs (not used by `demo-labs`).
 
 | Header | Role |
 |--------|------|

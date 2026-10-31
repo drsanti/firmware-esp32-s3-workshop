@@ -21,7 +21,7 @@ about once per second.
 
 - Need a proven display path before sound or sensors.
 - A tight empty loop would burn CPU and fight the scheduler.
-- Students must activate ESP-IDF in the shell before `idf.py` works.
+- Prefer `rbdev run NN` — it loads ESP-IDF for you (no `export` activate).
 
 ---
 
@@ -56,22 +56,14 @@ Rows are 0-based. ASCII only. Scale is integer `1`–`3`.
 
 ---
 
-## 4. Activate ESP-IDF, then build
-
-Once per terminal:
-
-```powershell
-. <IDF_PATH>\export.ps1
-```
-
-```bash
-. <IDF_PATH>/export.sh
-```
+## 4. Build / flash
+Once per PC (workshop root): `rbdev init`, then a **new** terminal.
+From the lab folder use `rbdev run NN` (no `export.ps1` / `export.sh`).
 
 ```bash
 cd labs/device-labs
-# Lab: .\run 00  |  Step: ex00.c
-.\run 00   # from labs/device-labs (step still in ex00.c)
+# Lab: rbdev run 00  |  Step: ex00.c
+rbdev run 00   # from labs/device-labs (step still in ex00.c)
 # or
 idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
 ```
@@ -149,7 +141,7 @@ Mental model: **pace + yield**, not busy-spin.
 
 ## 7. Checkpoint
 
-- [ ] `idf.py --version` works in this terminal  
+- [ ] `rbdev doctor` is green (or `rbdev run` flashes this lab)  
 - [ ] Title, subtitle, counter visible  
 - [ ] Counter ~1 Hz  
 - [ ] Can name `bsp_init`, `lcd_begin`, `vTaskDelay`  
@@ -162,7 +154,7 @@ Optional: rename subtitle (ASCII); try `2000` ms; try `RB_LABEL_GREEN`.
 
 | Symptom | Try |
 |---------|-----|
-| `idf.py` not found | Source IDF `export.ps1` / `export.sh` |
+| `idf.py` / flash fails | Re-run `rbdev init`; use `rbdev run NN` (not bare `run`) |
 | Missing `librobotos_fw.a` | Workshop `lib/README.md` |
 | Blank LCD | Correct `-DBOARD=`; keep `sdkconfig.defaults` |
 | Counter stuck | Valid row `< n` from `lcd_begin(n)` |

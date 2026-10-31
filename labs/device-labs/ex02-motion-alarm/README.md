@@ -1,21 +1,25 @@
 # ex02 — Motion Alarm
 
-**Lab switch:** `.\run 02` (or `main/main.c` → `ex02_start()`)  
+**Lab switch:** `rbdev run 02` (or `main/main.c` → `ex02_start()`)  
 **Step switch:** `ex02.c` → one `ex02_stepMM_start()`
 
 | Start | Folder |
 |-------|--------|
-| `ex02_step01_start()` | `steps/step-01-armed-face/` |
-| `ex02_step02_start()` | `steps/step-02-shake-detect/` |
-| `ex02_step03_start()` | `steps/step-03-busy-alarm/` |
-| `ex02_step04_start()` | `steps/step-04-queue-audio/` |
+| `ex02_step01_start()` | `steps/step-01-armed-face/` |
+
+| `ex02_step02_start()` | `steps/step-02-shake-detect/` |
+
+| `ex02_step03_start()` | `steps/step-03-busy-alarm/` |
+
+| `ex02_step04_start()` | `steps/step-04-queue-audio/` |
+
 | `ex02_step05_start()` | `steps/step-05-arm-disarm/` |
 
 Default in `ex02.c` is the **last** step (finished device).
 
 ```powershell
-# from labs/device-labs (after .\rb config --port COMx):
-.\run 02
+# from labs/device-labs (after rbdev config --port COMx):
+rbdev run 02
 # step still selected in ex02-motion-alarm/ex02.c
 ```
 
@@ -99,8 +103,8 @@ Shared helper: [`../common/lab_alarm.h`](../common/lab_alarm.h) (`alarm_*` + `la
 
 ```powershell
 cd labs/device-labs
-.\run 02
-# Lab switch: .\run 02 (or main/main.c -> ex02_start())
+rbdev run 02
+# Lab switch: rbdev run 02 (or main/main.c -> ex02_start())
 # Step: ex02-motion-alarm/ex02.c -> ex02_stepMM_start()
 ```
 

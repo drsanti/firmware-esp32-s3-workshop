@@ -6,7 +6,7 @@ Shared board HAL and `librobotos_fw.a` come from the **workshop root**.
 
 ## Two switches
 
-1. **Lab** — `.\run NN` (rewrites [`main/main.c`](main/main.c)), or edit includes / `exNN_start()` by hand.
+1. **Lab** — `rbdev run NN` (rewrites [`main/main.c`](main/main.c)), or edit includes / `exNN_start()` by hand.
 2. **Step** — `exNN.c`: uncomment one `exNN_stepMM_start()` (comment the others).
 
 ```text
@@ -32,59 +32,42 @@ device-labs/
 
 ## Build / flash
 
-Preferred (`rb` — see [../../rbdev/README.md](../../rbdev/README.md)):
+Once per PC (workshop root): `rbdev init` — see [CLASSROOM-SETUP.md](../../CLASSROOM-SETUP.md).
+
+From this folder:
 
 ```powershell
-# ESP-IDF PowerShell, from this folder
-# Once per window (avoids "not digitally signed"):
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
-.\rb doctor
-.\rb config --port COMx --board ws28p   # once — YOUR port from doctor; saves ../../.rbdev.toml
-
-# Pick a lab, build, and flash (rewrites main/main.c for you):
-.\run 00          # ex00-hello-device
-.\run 01          # ex01-spirit-level
-.\run 06          # ex06-task-monitor
-.\run 00 monitor
+rbdev doctor
+rbdev run 00          # ex00-hello-device — select + build + flash
+rbdev run 01          # ex01-spirit-level
+rbdev run 06          # ex06-task-monitor
+rbdev run 00 --monitor
 
 # Or manual switch in main/main.c, then:
-.\rb build
-.\rb flash
-.\rb monitor
+rbdev build
+rbdev flash
+rbdev monitor
 ```
 
-If you see `No module named 'rich_click'`, repair the ESP-IDF Python venv
-(`install.bat` / `install.sh` in your IDF tree) — see
-[../../rbdev/README.md](../../rbdev/README.md) and the root
-[README troubleshooting](../../README.md#troubleshooting).
-
-`.\run NN` enables **lab** `exNN` (default step inside that lab stays whatever
+`rbdev run NN` enables **lab** `exNN` (default step inside that lab stays whatever
 `exNN.c` selects — usually the finished step). Change steps by editing
 `exNN.c` as usual.
 
-Ternion / one-shot board override:
+Ternion / sticky board:
 
 ```powershell
-.\rb config --port COMx --board es3c28p
-.\run 00
-```
-
-Plain `idf.py` (same boards):
-
-```powershell
-. <IDF_PATH>\export.ps1
-cd labs/device-labs
-idf.py -DBOARD=ws28p set-target esp32s3 build flash -p COMx monitor
-# Ternion: -DBOARD=es3c28p
+rbdev config --port COMx --board es3c28p
+rbdev run 00
 ```
 
 **Reconfigure** after adding a step folder or `.c` file, or after switching board:
 
 ```powershell
-.\rb reconfigure --board ws28p
-# or: idf.py -DBOARD=ws28p reconfigure
+rbdev reconfigure --board ws28p
 ```
+
+If you see `No module named 'rich_click'`, re-run `rbdev init` from the
+workshop root — [../../rbdev/README.md](../../rbdev/README.md).
 
 ## Labs
 

@@ -1,21 +1,25 @@
 # ex04 — Metronome
 
-**Lab switch:** `.\run 04` (or `main/main.c` → `ex04_start()`)  
+**Lab switch:** `rbdev run 04` (or `main/main.c` → `ex04_start()`)  
 **Step switch:** `ex04.c` → one `ex04_stepMM_start()`
 
 | Start | Folder |
 |-------|--------|
-| `ex04_step01_start()` | `steps/step-01-bpm-face/` |
-| `ex04_step02_start()` | `steps/step-02-ui-click/` |
-| `ex04_step03_start()` | `steps/step-03-feel-jitter/` |
-| `ex04_step04_start()` | `steps/step-04-tick-task/` |
+| `ex04_step01_start()` | `steps/step-01-bpm-face/` |
+
+| `ex04_step02_start()` | `steps/step-02-ui-click/` |
+
+| `ex04_step03_start()` | `steps/step-03-feel-jitter/` |
+
+| `ex04_step04_start()` | `steps/step-04-tick-task/` |
+
 | `ex04_step05_start()` | `steps/step-05-bpm-control/` |
 
 Default in `ex04.c` is the **last** step (finished device).
 
 ```powershell
-# from labs/device-labs (after .\rb config --port COMx):
-.\run 04
+# from labs/device-labs (after rbdev config --port COMx):
+rbdev run 04
 # step still selected in ex04-metronome/ex04.c
 ```
 

@@ -1,0 +1,11 @@
+{
+  "terminal.integrated.env.windows": {
+    "Path": "${env:LOCALAPPDATA}\\rbdev\\bin;${workspaceFolder}\\rbdev\\windows;${env:Path}"
+  },
+  "terminal.integrated.env.osx": {
+    "PATH": "${env:HOME}/.local/share/rbdev/bin:${workspaceFolder}/rbdev/mac:${env:PATH}"
+  },
+  "terminal.integrated.env.linux": {
+    "PATH": "${env:HOME}/.local/share/rbdev/bin:${workspaceFolder}/rbdev/linux:${env:PATH}"
+  }
+}

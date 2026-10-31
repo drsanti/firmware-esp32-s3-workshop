@@ -28,8 +28,8 @@
 
 ```bash
 cd labs/special-labs
-# Lab: .\run 04  |  Step: ex04.c
-.\run 04   # from labs/special-labs (step still in ex04.c)
+# Lab: rbdev run 04  |  Step: ex04.c
+rbdev run 04   # from labs/special-labs (step still in ex04.c)
 ```
 
 ---

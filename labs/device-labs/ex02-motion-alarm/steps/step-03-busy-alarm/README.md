@@ -49,12 +49,11 @@
 
 ---
 
-## 4. Activate ESP-IDF, then build
-
+## 4. Build / flash
 ```bash
 cd labs/device-labs
-# Lab: .\run 02  |  Step: ex02.c
-.\run 02   # from labs/device-labs (step still in ex02.c)
+# Lab: rbdev run 02  |  Step: ex02.c
+rbdev run 02   # from labs/device-labs (step still in ex02.c)
 ```
 
 ---

@@ -1,7 +1,7 @@
 /*
- * rtos-labs — FreeRTOS exercises entry (lab switcher)
+ * rtos-labs - exercise entry (lab switcher)
  *
- * Selected by `run NN` (or edit includes / start() calls below).
+ * Selected by `rbdev run NN` (or edit includes / start() calls below).
  *
  * Index: ../README.md
  */

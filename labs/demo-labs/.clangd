@@ -1,0 +1,21 @@
+# ESP-IDF compile_commands uses xtensa-gcc @cflags (-mlongcalls, -f*, -specs=)
+# that clangd cannot parse. Stripping those drops picolibc.specs + GCC
+# builtin includes, so re-add both roots (stddef.h lives in the GCC dir).
+# Force __XTENSA__ so xtensa/config/core.h uses <xtensa/hal.h>.
+CompileFlags:
+  CompilationDatabase: build
+  Remove:
+    - -m*
+    - -f*
+    - -specs=*
+  Add:
+    - -D__XTENSA__
+    - -isystem
+    - C:/Users/drsanti/.espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/lib/gcc/xtensa-esp-elf/15.2.0/include
+    - -isystem
+    - C:/Users/drsanti/.espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/picolibc/include
+  BuiltinHeaders: QueryDriver
+
+Diagnostics:
+  UnusedIncludes: None
+  MissingIncludes: None

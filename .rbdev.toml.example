@@ -1,0 +1,53 @@
+# Copy to `.rbdev.toml` or just run:  rbdev init
+# `.rbdev.toml` is gitignored (per-machine: port + IDF path + selected project).
+# `rbdev init` / `rbdev config` rewrite `.rbdev.toml` with the same style of comments.
+#
+# Usual student edits: default_port, default_board, default_project.
+# Rarely edit: default_esp_idf_path, workshop_root, [[projects]].
+# Keep paths with / only (no backslashes).
+
+# Board SKU for -DBOARD= (ws28p = Waveshare default, es3c28p = Ternion).
+# Change when: you switch hardware. Also: rbdev config --board es3c28p
+default_board = "ws28p"
+
+# Serial port for flash/monitor (sticky ESPPORT).
+# Change when: USB re-plug changes COM / cu / tty. Also: rbdev config --port COMx
+# Windows: COM17   macOS: /dev/cu.usbmodem...   Linux: /dev/ttyACM0
+# default_port = "COM6"
+
+# ESP-IDF tree on this PC (Path A). Leave alone unless IDF moves.
+# Change when: you reinstall IDF to a new folder. Or re-run: rbdev init
+# default_esp_idf_path = "C:/esp/v6.1/esp-idf"
+
+# Chip target for idf.py set-target (workshop is always esp32s3).
+# Change when: almost never - only if an instructor says so.
+default_esp_target = "esp32s3"
+
+# Absolute path to this workshop clone (set by init).
+# Change when: you moved/renamed the folder - then re-run rbdev init.
+# workshop_root = "D:/path/to/firmware-esp32-s3-workshop"
+
+# Sticky lab track for rbdev run from the workshop root.
+# Values: device-labs | rtos-labs | special-labs | demo-labs
+# Change when: you want a new default track. Or: cd labs/<track> (no edit needed).
+# Also: rbdev init --project rtos-labs -y
+# default_project = "device-labs"
+
+# Catalog of ESP-IDF apps under this workshop (relative paths).
+# Change when: almost never - init refreshes this list.
+
+[[projects]]
+name = "device-labs"
+path = "labs/device-labs"
+
+[[projects]]
+name = "rtos-labs"
+path = "labs/rtos-labs"
+
+[[projects]]
+name = "special-labs"
+path = "labs/special-labs"
+
+[[projects]]
+name = "demo-labs"
+path = "labs/demo-labs"

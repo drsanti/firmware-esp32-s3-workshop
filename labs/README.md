@@ -1,6 +1,6 @@
 # Labs — FreeRTOS device workshop
 
-**`demos/demo-labs/`** = UI / widget catalog (separate one-project app).  
+**`labs/demo-labs/`** = UI / widget catalog (separate one-project app).  
 **`labs/`** = device workshop: build instruments, learn FreeRTOS from
 problems you can see on the LCD and hear on the speaker.
 
@@ -8,25 +8,40 @@ problems you can see on the LCD and hear on the speaker.
 
 | App | Role |
 |-----|------|
-| [`device-labs/`](device-labs/) | Device curriculum **00–06** — `.\run NN` (+ step in `exNN.c`) |
+| [`device-labs/`](device-labs/) | Device curriculum **00–06** — `rbdev run NN` (+ step in `exNN.c`) |
 | [`special-labs/`](special-labs/) | Optional FreeRTOS specials **ex01…ex06** (mutex, ISR, prio, sem, events, timer) |
 | [`rtos-labs/`](rtos-labs/) | Lean FreeRTOS deep-dives + game capstones (`ex00`…`ex15`, incl. `ex02-os-tick`) |
+| [`demo-labs/`](demo-labs/) | UI / widget / wire catalog **ex01…ex17** |
 
 ```powershell
-# Once per PowerShell window (avoids "not digitally signed"):
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
-cd labs/device-labs
-.\rb doctor
-.\rb config --port COMx --board ws28p   # once — YOUR port from doctor
-.\run 00          # select lab + build + flash
-.\run 01 monitor
-# Ternion: --board es3c28p
+# After workshop-root `rbdev init` (pick device-labs once):
+rbdev run 00          # sticky project from workshop root is OK
+rbdev run 01 --monitor
+# Ternion: rbdev config --board es3c28p
 ```
 
-Same `.\run NN` pattern in `special-labs` and `rtos-labs`. After adding a
-new `exNN-*` folder or `.c` file: `.\rb reconfigure`. Board flag details:
-[../rbdev/README.md](../rbdev/README.md).
+### Switching tracks (no full `init` again)
+
+Each folder below is its **own** ESP-IDF app. First `init` only sticky-picks
+one (usually `device-labs`). To work in another track:
+
+```powershell
+cd labs\rtos-labs
+rbdev run 00
+# or from workshop root:
+rbdev run 00 --project labs/rtos-labs
+```
+
+Optional — update sticky default + `set-target` for that track:
+
+```powershell
+rbdev init --project rtos-labs -y
+```
+
+Same `rbdev run NN` pattern in `special-labs`, `rtos-labs`, and `demo-labs`.
+After adding a new `exNN-*` folder or `.c` file: `rbdev reconfigure` (or
+`idf.py reconfigure`). Board flag details: [../rbdev/README.md](../rbdev/README.md).
+Full enroll notes: [../CLASSROOM-SETUP.md](../CLASSROOM-SETUP.md).
 
 ---
 
@@ -35,7 +50,7 @@ new `exNN-*` folder or `.c` file: `.\rb reconfigure`. Board flag details:
 **Title:** *Build a device → hit a real problem → learn FreeRTOS*
 
 **6 devices** (+ Hello), same board every time.  
-Flash with `.\run NN` (rewrites `main/main.c`), then pick the **step** in
+Flash with `rbdev run NN` (rewrites `main/main.c`), then pick the **step** in
 that lab’s `exNN.c` (`exNN_stepMM_start`). Step READMEs live under
 `exNN-*/steps/`.
 
@@ -67,13 +82,13 @@ that lab’s `exNN.c` (`exNN_stepMM_start`). Step READMEs live under
 
 ## Specials — [`special-labs/`](special-labs/) (optional · 3 steps each)
 
-One IDF project. `.\run NN` picks the lab; the step is still in that lab’s
+One IDF project. `rbdev run NN` picks the lab; the step is still in that lab’s
 `exNN.c`. Lean single-file counterparts also live in [`rtos-labs/`](rtos-labs/).
 
 ```powershell
 cd labs/special-labs
-.\run 01
-.\run 02 monitor
+rbdev run 01
+rbdev run 02 --monitor
 ```
 
 | Ex | Folder | Headline | Also in rtos-labs |
@@ -91,9 +106,9 @@ cd labs/special-labs
 
 ```powershell
 cd labs/rtos-labs
-.\run 00
-.\run 02          # ex02-os-tick
-.\run 15 monitor
+rbdev run 00
+rbdev run 02          # ex02-os-tick
+rbdev run 15 --monitor
 ```
 
 See [rtos-labs/README.md](rtos-labs/README.md) for the full exercise table.
@@ -107,7 +122,6 @@ labs/
   README.md
   common/                 # helpers shared across device / special labs
   device-labs/            # ONE IDF project — devices ex00…ex06
-    run / run.cmd / _run.ps1
     main/main.c
     ex00-hello-device/
       ex00.c / ex00.h     # step picker → ex00_stepMM_start()
@@ -115,7 +129,9 @@ labs/
     …
   special-labs/           # ONE IDF project — specials ex01…ex06 (3 steps each)
   rtos-labs/              # ONE IDF project — FreeRTOS ex00…ex15
+  demo-labs/              # ONE IDF project — UI catalog ex01…ex17
 ```
+
 
 ---
 
@@ -124,7 +140,7 @@ labs/
 1. Prefer **one project / many `exNN`** for daily flash (device-labs, special-labs, rtos-labs, demo-labs).  
 2. Make the problem obvious on the LCD / speaker.  
 3. Put helpers in `common/` when they are truly shared.  
-4. Prefer lab + step pickers over separate IDF apps per step (`.\run NN` for the lab switch).
+4. Prefer lab + step pickers over separate IDF apps per step (`rbdev run NN` for the lab switch).
 
 ## Labsheet depth standard
 

@@ -41,8 +41,8 @@ timer            cb               ui
 
 ```bash
 cd labs/special-labs
-# Lab: .\run 06  |  Step: ex06.c
-.\run 06   # from labs/special-labs (step still in ex06.c)
+# Lab: rbdev run 06  |  Step: ex06.c
+rbdev run 06   # from labs/special-labs (step still in ex06.c)
 ```
 
 ---

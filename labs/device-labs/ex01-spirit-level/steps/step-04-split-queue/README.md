@@ -72,17 +72,16 @@ sensor_task        tilt x1         ui_task
 
 ---
 
-## 4. Activate ESP-IDF, then build
+## 4. Build / flash
+Once per PC (workshop root): `rbdev init`, then a **new** terminal.
+From the lab folder use `rbdev run NN` (no `export.ps1` / `export.sh`).
 
-```powershell
-. <IDF_PATH>\export.ps1
-```
 
 ```bash
 cd labs/device-labs
-# Lab: .\run 01  |  Step: ex01.c
+# Lab: rbdev run 01  |  Step: ex01.c
 
-.\run 01   # from labs/device-labs (step still in ex01.c)
+rbdev run 01   # from labs/device-labs (step still in ex01.c)
 # or
 idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
 ```

@@ -1,17 +1,20 @@
 # rbdev — student guide
 
-`rbdev` is the host CLI for this workshop: doctor, build, flash, monitor
-(and optional managed ESP-IDF setup). Same commands on Windows, macOS, and
-Linux — only the binary path and serial port differ.
+`rbdev` is the host CLI for this workshop: **init**, doctor, run, build, flash,
+monitor. Same commands on Windows, macOS, and Linux — only the binary path and
+serial port differ.
 
-Binaries ship **in this repo** under `rbdev/windows|mac|linux/` so a normal
-`git clone` is enough. Do **not** permanently add this folder to PATH.
+Binaries ship **in this repo** under `rbdev/windows|mac|linux/`.  
+`rbdev init` adds that folder to your **user PATH** so later shells can run
+plain `rbdev`.
 
 | Your OS | Binary in the clone |
 |---------|---------------------|
 | Windows x64 | `rbdev/windows/rbdev.exe` |
 | macOS | `rbdev/mac/rbdev` |
 | Linux x64 | `rbdev/linux/rbdev` |
+
+**Classroom go-live:** [CLASSROOM-SETUP.md](../CLASSROOM-SETUP.md).
 
 ---
 
@@ -20,145 +23,134 @@ Binaries ship **in this repo** under `rbdev/windows|mac|linux/` so a normal
 ```powershell
 git clone <this-repo-url>
 cd firmware-esp32-s3-workshop
-# Windows: binary already at rbdev\windows\rbdev.exe
 ```
 
 ```bash
 # macOS / Linux — mark executable if needed
-chmod +x rbdev/mac/rbdev rbdev/linux/rbdev rb ./labs/*/rb ./labs/*/run ./demos/demo-labs/rb ./demos/demo-labs/run 2>/dev/null || true
+chmod +x rbdev/mac/rbdev rbdev/linux/rbdev 2>/dev/null || true
 ```
 
-Windows, macOS (Apple Silicon), and Linux x64 binaries ship in this repo.
-On macOS, first launch may need **right-click → Open** (Gatekeeper) until
-the binary is notarized.
+On macOS, first launch may need **right-click → Open** (Gatekeeper).
 
-If your OS binary is somehow missing after clone, ask your instructor for
-that file and place it in the matching folder above.
-
-**Maintainers / AI agents:** after any `rbdev` code change, rebuild and
-copy into **this folder and**
-`hardware-interface-workshop/firmware-prebuilt/rbdev/<os>/` (keep CLIs in
-sync). From the tool repo:
+**Maintainers / AI agents:** after any `rbdev` code change, rebuild and copy
+into **this folder and**
+`hardware-interface-workshop/firmware-prebuilt/rbdev/<os>/`. From the tool repo:
 
 ```powershell
 .\scripts\install-to-workshops.ps1
-```
-
-```bash
-./scripts/install-to-workshops.sh   # host OS; Linux from Mac → cross (see ship-binaries)
+.\scripts\smoke-classroom.ps1   # no-flash smoke matrix
 ```
 
 Docs: [`ship-binaries.md`](https://github.com/drsanti/rbdev/blob/main/docs/ship-binaries.md) ·
 [`AGENTS.md`](https://github.com/drsanti/rbdev/blob/main/AGENTS.md).
----
-
-## 2. macOS / Linux Quick Start
-
-After cloning, run this once to make the scripts executable:
-
-```bash
-cd firmware-esp32-s3-workshop
-chmod +x rb rbdev/mac/rbdev rbdev/linux/rbdev labs/*/rb labs/*/run demos/demo-labs/rb demos/demo-labs/run
-```
-
-Then from any lab folder:
-
-```bash
-cd labs/device-labs  # or labs/rtos-labs, demos/demo-labs, etc.
-./rb doctor
-# macOS:
-./rb config --port /dev/cu.usbmodemXXXX --board ws28p
-# Linux:
-# ./rb config --port /dev/ttyACM0 --board ws28p   # or /dev/ttyUSB0
-./rb build
-./rb flash
-./run 00
-```
-
-Your serial port is listed in the `doctor` output
-(e.g. `/dev/cu.LX-10`, `/dev/cu.usbmodemXXXX`, `/dev/ttyACM0`).
-
-- **macOS — list ports:** `ls /dev/cu.*` (use a `/dev/cu.*` path for flash).
-- **macOS Gatekeeper:** right-click → Open `rbdev/mac/rbdev` once if blocked.
-- **Linux dialout:** if permission denied on the port:
-  `sudo usermod -aG dialout "$USER"` then log out and back in.
 
 ---
 
-## 3. Prerequisites
+## 2. One-time enroll — `rbdev init`
+
+From the **workshop root** (folder with `rbdev/` + `labs/`):
+
+```powershell
+# Windows
+.\rbdev\windows\rbdev.exe init
+# scripted: … init --port COM6 --board ws28p --project device-labs -y
+```
+
+```bash
+# macOS / Linux
+./rbdev/mac/rbdev init          # Linux: ./rbdev/linux/rbdev init
+```
+
+`init` will:
+
+1. Find ESP-IDF (Path A on the PC)
+2. Repair the Espressif Python venv if needed (`install.bat` / `install.sh`)
+3. Pick serial port + **one lab track** (interactive, or flags) — usually **`device-labs`**
+4. Write gitignored `.rbdev.toml` (paths use `/`)
+5. `idf.py set-target esp32s3` for the selected project
+6. Add `rbdev/<os>` to **user PATH** (skip with `--no-add-path`)
+
+Then **open a new terminal** so PATH / shell rc reloads.
+
+**Why project?** Four apps under `labs/` (`device-labs`, `rtos-labs`,
+`special-labs`, `demo-labs`). Sticky `default_project` is which one
+`rbdev run` uses from the workshop root.
+
+**Switch track later — no full re-init:** `cd labs\rtos-labs` then
+`rbdev run 00`, or `rbdev run 00 --project labs/rtos-labs`. Optional sticky
+update: `rbdev init --project rtos-labs -y`.
+
+Do **not** run `export.ps1` / `export.sh` for class — `rbdev` loads IDF for you.
+Cursor terminal or **cmd** is fine; PowerShell is not required.
+
+**Inside Cursor/VS Code:** committed [`.vscode/settings.json`](../.vscode/settings.json)
+puts `rbdev/<os>` (and LocalAppData shims after `init`) on the integrated
+terminal PATH — open the **workshop root**, then a new terminal.
+
+**Windows outside Cursor:** double-click [`../start-here.cmd`](../start-here.cmd)
+to open a cmd window with `rbdev` on PATH for that session only.
+See [CLASSROOM-SETUP.md](../CLASSROOM-SETUP.md).
+
+---
+
+## 3. Everyday lab loop
+
+After `init`, sticky `default_project` lets you run from the **workshop root**
+(or `cd labs\<track>`). Full ESP-IDF verbs use the `idf.py` shim (no export).
+
+```powershell
+rbdev doctor                    # optional preflight
+rbdev run 00                    # select ex00 + build + flash
+rbdev run 00 --monitor          # + serial monitor
+idf.py menuconfig               # or: fullclean / erase-flash / size / …
+```
+
+| Command | Purpose |
+|---------|---------|
+| `rbdev run` | List labs (exit 0) |
+| `rbdev run 00` | Select `ex00`, rewrite `main/main.c`, build + flash |
+| `rbdev run 00 --monitor` | Same + serial monitor |
+| `rbdev run 00 --select-only` | Only rewrite `main/main.c` (no build) |
+| `rbdev config --show` | Print sticky values |
+| `rbdev config --port … --board …` | Update sticky port/board |
+| `idf.py …` / `rbdev idf -- …` | Any Espressif `idf.py` action |
+
+See [CLASSROOM-SETUP.md](../CLASSROOM-SETUP.md) for the one-screen cheat sheet.
+
+**Windows:** never type bare `run 00` — that often hits **nvm**. Always `rbdev run 00`.
+
+Lab ranges:
+
+| Folder | Example |
+|--------|---------|
+| `labs/device-labs` | `rbdev run 00` … `06` |
+| `labs/special-labs` | `rbdev run 01` … `06` |
+| `labs/rtos-labs` | `rbdev run 00` … `15` |
+| `labs/demo-labs` | `rbdev run 01` … `17` |
+
+---
+
+## 4. Prerequisites
 
 | Need | Notes |
 |------|--------|
 | This repo | `firmware-esp32-s3-workshop` with `lib/` + `include/` present |
-| ESP-IDF | Already installed for this course (**Path A**) |
-| Board + USB | Correct `COMx` / `/dev/cu.*` / `/dev/ttyACM*` / `/dev/ttyUSB*` port |
+| ESP-IDF | Course install on the PC (**Path A**) — `init` discovers it |
+| Board + USB | Port from `doctor` / `init` (`COMx` / `/dev/cu.*` / `/dev/ttyACM*`) |
 
-**Easiest on Windows:** open **ESP-IDF PowerShell** from the Start Menu so
-`IDF_PATH` is set, then run the commands below from the **workshop root**.
+`rbdev` search order: sticky `default_esp_idf_path` → `RBDEV_IDF_PATH` →
+`IDF_PATH` → Espressif EIM registry → common install folders.
 
-**macOS / Linux:** source the IDF env in each shell, or set `IDF_PATH`:
+Optional override (rare):
+
+```powershell
+$env:IDF_PATH = "C:\Espressif\frameworks\esp-idf-v6.1"
+```
 
 ```bash
-. ~/esp/esp-idf/export.sh         # YOUR path (e.g. /Users/you/esp/esp-idf)
-# or: export IDF_PATH=~/esp/esp-idf
+export IDF_PATH=~/esp/esp-idf
 # or: export RBDEV_IDF_PATH=~/esp/esp-idf
 ```
-
-If doctor cannot find IDF on Windows:
-
-```powershell
-# Examples — use YOUR install path
-$env:IDF_PATH = "C:\Espressif\frameworks\esp-idf-v6.1"
-# or: $env:RBDEV_IDF_PATH = "D:\dev\esp\v6.1\esp-idf"
-```
-
-`rbdev` search order: `RBDEV_IDF_PATH` → `IDF_PATH` → Espressif EIM registry →
-common `C:\Espressif\frameworks\…` folders.
-
----
-
-## 4. Everyday commands (Path A)
-
-Each lab folder has a short **`rb`** wrapper (`rb.cmd` / `rb`) that
-calls your OS binary under `rbdev/<os>/`.
-
-**Windows PowerShell** — use `.\rb` (PowerShell does not run cwd commands
-without `.\`). Wrappers resolve to **`rb.cmd`** / **`run.cmd`**. Still run
-this **once per PowerShell window** so any helper scripts are allowed:
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
-cd labs\device-labs
-.\rb doctor                 # lists COM ports; warns if flash port not set yet
-
-# REQUIRED once per PC — there is no default COM port (each machine differs).
-# Pick your board's port from the doctor list / Device Manager:
-.\rb config --port COMx --board ws28p
-
-# Then short commands use the saved port + board:
-.\rb build
-.\rb flash
-.\rb monitor
-
-# Select exercise NN, rewrite main/main.c, build + flash:
-.\run 00
-.\run 01
-.\run 06 monitor
-```
-
-`.\run NN` exists in every one-project app:
-
-| Folder | Example |
-|--------|---------|
-| `labs/device-labs` | `.\run 00` … `.\run 06` (step still in `exNN.c`) |
-| `labs/special-labs` | `.\run 01` … `.\run 06` |
-| `labs/rtos-labs` | `.\run 00` … `.\run 15` |
-| `demos/demo-labs` | `.\run 01` … `.\run 17` |
-
-`.\rb config --show` prints the saved values. Board defaults to **`ws28p`** if
-you omit `--board`. Port must be set (config, `--port`, or `ESPPORT`) — `rb`
-will not guess.
 
 ### Board (`ws28p` vs `es3c28p`)
 
@@ -168,33 +160,16 @@ will not guess.
 | `es3c28p` | Ternion ESP32-S3 |
 
 ```powershell
-# Windows — replace COMx with YOUR port
-.\rb config --port COMx --board ws28p
-.\rb build
-.\rb flash
-
-# Ternion:
-.\rb config --port COMx --board es3c28p
-
-# One-shot override (does not change saved config):
-.\rb flash --port COM6 --board es3c28p
+rbdev config --port COMx --board ws28p
+rbdev flash --port COM6 --board es3c28p   # one-shot override
 ```
 
 ```bash
-# macOS / Linux — same flags; different port path
-./rb config --port /dev/cu.usbmodemXXXX --board ws28p   # Linux: /dev/ttyACM0
-./rb build
-./rb flash
-./rb flash --port /dev/ttyACM0 --board es3c28p          # one-shot
+rbdev config --port /dev/cu.usbmodemXXXX --board ws28p
+rbdev flash --port /dev/ttyACM0 --board es3c28p
 ```
 
-After switching boards, run `rb reconfigure` (or a clean build) so CMake
-picks up the new `-DBOARD=`.
-
-macOS and Linux users: see **Section 2** — `chmod` once, then `./rb` from any lab folder.
-
-Goal for day 0: flash **Hello Device (ex00)** (or the lab your instructor names).
-You can still call the OS binary under `rbdev/<os>/` or plain `idf.py` if you prefer.
+After switching boards: `rbdev reconfigure` (or a clean build).
 
 ---
 
@@ -203,11 +178,11 @@ You can still call the OS binary under `rbdev/<os>/` or plain `idf.py` if you pr
 Only if your instructor gave you a **full** kit with `sdk\*.zst`:
 
 ```powershell
-& $esp setup --offline C:\path\to\kit\sdk\archive_….zst
-& $esp doctor --workshop .
+rbdev setup --offline C:\path\to\kit\sdk\archive_….zst
+rbdev doctor --workshop .
 ```
 
-Then build/flash as in §3. Slim kits have no `sdk\` folder — skip this section.
+Then use §3. Slim kits have no `sdk\` folder — skip this section.
 
 ---
 
@@ -216,96 +191,55 @@ Then build/flash as in §3. Slim kits have no `sdk\` folder — skip this sectio
 | Exit | Meaning | Fix |
 |------|---------|-----|
 | 0 | OK | — |
-| 10 | No SDK / IDF | ESP-IDF PowerShell, or set `IDF_PATH` / `RBDEV_IDF_PATH`; Path B: `setup --offline` |
+| 10 | No SDK / IDF | Install ESP-IDF / set `IDF_PATH`; Path B: `setup --offline` |
 | 11 | Missing `lib/` / headers | Update this workshop clone |
 | 12 | No serial port | Cable, driver, close other monitors, correct `--port` |
 
-### “not digitally signed” / cannot load `*.ps1`
+### `No module named 'rich_click'`
 
-Windows PowerShell with **Restricted** execution policy blocks `.ps1` files.
-**Always** start a lab session with:
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-```
-
-That applies to **this window only** (no admin, no permanent change). Then:
-
-```powershell
-.\rb doctor
-.\run 00
-```
-
-If you still see the error on an old zip: `.\rb.cmd doctor` / `.\run.cmd 00`.
-
-### `No module named 'rich_click'` (or `click` / `rich`)
-
-This means the **ESP-IDF Python venv is missing or incomplete** — not a lab
-bug. `rbdev` must use the Espressif venv under `.espressif/python_env/`,
-**not** system Python (Windows Store / `Python313`, Homebrew, `/usr/bin/python3`).
+`rbdev` must use the Espressif venv under `.espressif/python_env/`, **not**
+system Python.
 
 | OS | Expected interpreter |
 |----|----------------------|
 | Windows | `%USERPROFILE%\.espressif\python_env\idf*_py*_env\Scripts\python.exe` |
 | macOS / Linux | `~/.espressif/python_env/idf*_py*_env/bin/python` |
 
-Create / repair the venv:
+Prefer: re-run `rbdev init` from the workshop root (runs `install.bat` /
+`install.sh` when needed). Manual repair:
 
 ```powershell
-# Windows — prefer ESP-IDF PowerShell from the Start Menu
-cd C:\esp\v6.1\esp-idf        # YOUR IDF path (rbdev doctor shows it)
-.\install.bat                 # several minutes — creates venv + rich_click
-.\export.ps1
-idf.py --version
-.\rbdev\windows\rbdev.exe doctor   # from workshop root — rich_click OK
+cd C:\esp\v6.1\esp-idf        # YOUR IDF path
+.\install.bat
+# then from workshop root:
+.\rbdev\windows\rbdev.exe doctor
 ```
 
 ```bash
-# macOS / Linux
-cd ~/esp/esp-idf              # YOUR IDF path (e.g. /Users/you/esp/esp-idf)
+cd ~/esp/esp-idf
 ./install.sh
-. ./export.sh
-idf.py --version
 ./rbdev/mac/rbdev doctor      # Linux: ./rbdev/linux/rbdev doctor
 ```
-
-Only if the venv folder already exists but `rich_click` is still missing:
-
-```powershell
-# Windows
-& "$env:USERPROFILE\.espressif\python_env\idf6.1_py3.11_env\Scripts\python.exe" -m pip install rich_click
-```
-
-```bash
-# macOS / Linux
-~/.espressif/python_env/idf6.1_py3.11_env/bin/python -m pip install rich_click
-```
-
-Then retry: `run 01 monitor`.
-
-Classroom go-live (all OS — doctor green light + pasteable student messages):
-[CLASSROOM-SETUP.md](../CLASSROOM-SETUP.md).
 
 ---
 
 ## 7. CLI cheat sheet
 
 ```text
+rbdev init [--port …] [--board …] [--project …] [-y]
+           [--skip-install] [--skip-set-target] [--no-add-path]
 rbdev config [--port <PORT>] [--board ws28p|es3c28p] [--show]
 rbdev doctor [--workshop <path>] [--json]
-rbdev build [--board ws28p|es3c28p]
-rbdev flash [--port <PORT>] [--board ws28p|es3c28p]
-rbdev monitor [--port <PORT>]
-rbdev run [--port <PORT>] [--board ws28p|es3c28p]
-rbdev reconfigure [--board ws28p|es3c28p]
+rbdev run [NN] [--monitor] [--select-only] [--port …] [--board …]
+rbdev build [--board …]
+rbdev flash [--port …] [--board …]
+rbdev monitor [--port …]
+rbdev reconfigure [--board …]
 rbdev setup --offline <archive>  # Path B only
-rbdev fw sync --from <tar.gz>    # repair lib/include (rarely needed)
+rbdev fw sync --from <tar.gz>
 rbdev shell
 rbdev version
 ```
-
-Typical: `rb config --port <PORT> --board ws28p` once (port is required — no
-universal default), then `rb build` / `rb flash`.
 
 | OS | Example port |
 |----|--------------|
@@ -315,4 +249,4 @@ universal default), then `rb build` / `rb flash`.
 
 Default board is **`ws28p`**. Ternion: `--board es3c28p`.
 
-Maintainer / kit packaging lives in the separate **`rbdev`** tool repo, not here.
+Maintainer packaging lives in the separate **`rbdev`** tool repo, not here.

@@ -1,21 +1,25 @@
 # ex01 — Spirit Level
 
-**Lab switch:** `.\run 01` (or `main/main.c` → `ex01_start()`)  
+**Lab switch:** `rbdev run 01` (or `main/main.c` → `ex01_start()`)  
 **Step switch:** `ex01.c` → one `ex01_stepMM_start()`
 
 | Start | Folder |
 |-------|--------|
-| `ex01_step01_start()` | `steps/step-01-draw-tube/` |
-| `ex01_step02_start()` | `steps/step-02-imu-bubble/` |
-| `ex01_step03_start()` | `steps/step-03-busy-loop/` |
-| `ex01_step04_start()` | `steps/step-04-split-queue/` |
+| `ex01_step01_start()` | `steps/step-01-draw-tube/` |
+
+| `ex01_step02_start()` | `steps/step-02-imu-bubble/` |
+
+| `ex01_step03_start()` | `steps/step-03-busy-loop/` |
+
+| `ex01_step04_start()` | `steps/step-04-split-queue/` |
+
 | `ex01_step05_start()` | `steps/step-05-level-cue/` |
 
 Default in `ex01.c` is the **last** step (finished device).
 
 ```powershell
-# from labs/device-labs (after .\rb config --port COMx):
-.\run 01
+# from labs/device-labs (after rbdev config --port COMx):
+rbdev run 01
 # step still selected in ex01-spirit-level/ex01.c
 ```
 
@@ -82,8 +86,8 @@ Shared helper: [`../common/lab_spirit.h`](../common/lab_spirit.h) (`spirit_*` + 
 
 ```powershell
 cd labs/device-labs
-.\run 01
-# Lab switch: .\run 01 (or main/main.c -> ex01_start())
+rbdev run 01
+# Lab switch: rbdev run 01 (or main/main.c -> ex01_start())
 # Step: ex01-spirit-level/ex01.c -> ex01_stepMM_start()
 ```
 

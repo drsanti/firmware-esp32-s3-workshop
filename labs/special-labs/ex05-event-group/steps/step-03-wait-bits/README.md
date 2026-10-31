@@ -39,8 +39,8 @@ sense            bits             ui
 
 ```bash
 cd labs/special-labs
-# Lab: .\run 05  |  Step: ex05.c
-.\run 05   # from labs/special-labs (step still in ex05.c)
+# Lab: rbdev run 05  |  Step: ex05.c
+rbdev run 05   # from labs/special-labs (step still in ex05.c)
 ```
 
 Rest the board, then press BOOT.

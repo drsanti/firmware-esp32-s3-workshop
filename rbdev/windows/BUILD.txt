@@ -1,2 +1,2 @@
-rbdev windows build 20261030-184026
-refuses system Python; requires IDF venv
+rbdev windows 0.1.2 build init-0.1.2-20261031
+adds `rbdev init` (venv repair + .rbdev.toml + set-target)

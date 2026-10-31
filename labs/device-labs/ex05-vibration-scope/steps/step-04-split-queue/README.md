@@ -65,8 +65,8 @@ per frame and throw away vibration detail between draws.
 
 ```bash
 cd labs/device-labs
-# Lab: .\run 05  |  Step: ex05.c
-.\run 05   # from labs/device-labs (step still in ex05.c)
+# Lab: rbdev run 05  |  Step: ex05.c
+rbdev run 05   # from labs/device-labs (step still in ex05.c)
 ```
 
 ---

@@ -7,41 +7,26 @@ Lean single-file counterparts also live in [`rtos-labs`](../rtos-labs/).
 
 ## Two switches
 
-1. **Lab** — `.\run NN` (rewrites [`main/main.c`](main/main.c)), or edit includes / `exNN_start()` by hand.
+1. **Lab** — `rbdev run NN` (rewrites [`main/main.c`](main/main.c)), or edit includes / `exNN_start()` by hand.
 2. **Step** — `exNN.c`: uncomment one `exNN_stepMM_start()`.
 
 ## Build / flash
 
-Preferred (`rb` — see [../../rbdev/README.md](../../rbdev/README.md)):
+Once per PC (workshop root): `rbdev init` — see [CLASSROOM-SETUP.md](../../CLASSROOM-SETUP.md).
+
+From this folder:
 
 ```powershell
-# ESP-IDF PowerShell, from this folder
-# Once per window (avoids "not digitally signed"):
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
-.\rb doctor
-.\rb config --port COMx --board ws28p   # once — YOUR port from doctor
-
-.\run 01          # ex01-mutex-beep — select lab + build + flash
-.\run 02          # ex02-boot-isr
-.\run 01 monitor
+rbdev doctor
+rbdev run 01          # ex01-mutex-beep — select lab + build + flash
+rbdev run 02          # ex02-boot-isr
+rbdev run 01 --monitor
 ```
 
-If you see `No module named 'rich_click'`, repair the ESP-IDF Python venv
-(`install.bat` / `install.sh` in your IDF tree) — see
-[../../rbdev/README.md](../../rbdev/README.md) and the root
-[README troubleshooting](../../README.md#troubleshooting).
+After adding a step folder or `.c` file: `rbdev reconfigure --board ws28p`.
 
-Plain `idf.py`:
-
-```powershell
-. <IDF_PATH>\export.ps1
-cd labs/special-labs
-idf.py -DBOARD=ws28p set-target esp32s3 build flash -p COMx monitor
-```
-
-After adding a step folder or `.c` file: `idf.py -DBOARD=ws28p reconfigure`
-(or `.\rb reconfigure`).
+If you see `No module named 'rich_click'`, re-run `rbdev init` from the
+workshop root — [../../rbdev/README.md](../../rbdev/README.md).
 
 ## Labs
 

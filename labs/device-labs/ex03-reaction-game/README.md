@@ -1,21 +1,25 @@
 # ex03 — Reaction Game
 
-**Lab switch:** `.\run 03` (or `main/main.c` → `ex03_start()`)  
+**Lab switch:** `rbdev run 03` (or `main/main.c` → `ex03_start()`)  
 **Step switch:** `ex03.c` → one `ex03_stepMM_start()`
 
 | Start | Folder |
 |-------|--------|
-| `ex03_step01_start()` | `steps/step-01-game-face/` |
-| `ex03_step02_start()` | `steps/step-02-go-and-tap/` |
-| `ex03_step03_start()` | `steps/step-03-busy-wait/` |
-| `ex03_step04_start()` | `steps/step-04-timer-go/` |
+| `ex03_step01_start()` | `steps/step-01-game-face/` |
+
+| `ex03_step02_start()` | `steps/step-02-go-and-tap/` |
+
+| `ex03_step03_start()` | `steps/step-03-busy-wait/` |
+
+| `ex03_step04_start()` | `steps/step-04-timer-go/` |
+
 | `ex03_step05_start()` | `steps/step-05-score-audio/` |
 
 Default in `ex03.c` is the **last** step (finished device).
 
 ```powershell
-# from labs/device-labs (after .\rb config --port COMx):
-.\run 03
+# from labs/device-labs (after rbdev config --port COMx):
+rbdev run 03
 # step still selected in ex03-reaction-game/ex03.c
 ```
 
@@ -96,8 +100,8 @@ Shared helper: [`../common/lab_react.h`](../common/lab_react.h).
 
 ```powershell
 cd labs/device-labs
-.\run 03
-# Lab switch: .\run 03 (or main/main.c -> ex03_start())
+rbdev run 03
+# Lab switch: rbdev run 03 (or main/main.c -> ex03_start())
 # Step: ex03-reaction-game/ex03.c -> ex03_stepMM_start()
 ```
 

@@ -76,99 +76,10 @@ ui_task          audio_task
 
 ---
 
-## 3. Activate ESP-IDF, then build
+## 4. Build / flash
+Once per PC (workshop root): `rbdev init`, then a **new** terminal.
+From the lab folder use `rbdev run NN` (no `export.ps1` / `export.sh`).
 
-```powershell
-. <IDF_PATH>\export.ps1
-# example: . D:\dev\esp\v6.1\esp-idf\export.ps1
-```
-
-```bash
-cd labs/device-labs
-# Lab: .\run 00  |  Step: ex00.c
-
-.\run 00   # from labs/device-labs (step still in ex00.c)
-# or
-idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
-```
-
----
-
-## 4. Runtime pieces
-
-| Piece | Role |
-|-------|------|
-| `audio_task` | Blocks on `ulTaskNotifyTake`; then `beep_play(BEEP_CHIME, NULL)` |
-| `ui_task` | Poll BOOT; on rising edge: chase + count + `NotifyGive` |
-| `led_row_*` | Four LCD LEDs + `presses: N` (helper owns geometry) |
-| `bsp_buttons` | Raw pressed bitmask (`BOOT_BTN_MASK = 2`) |
-| `app_main` | Create **audio first**, then ui |
-
-```text
-  BOOT edge  -->  NotifyGive  -->  audio_task  -->  beep_play(CHIME)
-  BOOT edge  -->  led_row_set_active / set_presses
-```
-
-Display uses [`lab_led_row`](../../common/lab_led_row.h). FreeRTOS here is the
-same notify pattern as step 03 — no new queues or semaphores.
-
----
-
-## 5. Student sketch (`main/main.c`)
-
-```c
-#define BOOT_BTN_MASK 2u   /* bit1 = BOOT on both boards */
-#define LED_COUNT 4u
-
-static TaskHandle_t g_audio;
-
-static void notify_beep(void)
-{
-    if (g_audio != NULL) {
-        (void)xTaskNotifyGive(g_audio);
-    }
-}
-
-static void audio_task(void *arg)
-{
-    (void)arg;
-    for (;;) {
-        (void)ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-        (void)beep_play(BEEP_CHIME, NULL);
-    }
-}
-
-static void ui_task(void *arg)
-{
-    uint32_t was = 0;
-    unsigned active = 0;
-    unsigned presses = 0;
-
-    (void)arg;
-    led_row_init();
-    led_row_start();
-
-    for (;;) {
-        uint32_t now = bsp_buttons() & BOOT_BTN_MASK;
-        if (now != 0u && was == 0u) {
-            presses++;
-            active = (active + 1u) % LED_COUNT;
-            led_row_set_active(active);
-            led_row_set_presses(presses);
-            notify_beep();
-        }
-        was = now;
-        vTaskDelay(pdMS_TO_TICKS(20));
-    }
-}
-
-void app_main(void)
-{
-    bsp_init();
-    (void)xTaskCreate(audio_task, "audio", 4096, NULL, 5, &g_audio);
-    (void)xTaskCreate(ui_task, "ui", 4096, NULL, 5, NULL);
-}
-```
 
 ### How the code works
 
@@ -275,7 +186,7 @@ Not introduced here: queues, semaphores, mutexes, GPIO ISRs.
 
 | Symptom | Try |
 |---------|-----|
-| `idf.py` not found | Source `<IDF_PATH>\export.ps1` / `export.sh` |
+| `idf.py` / flash fails | Re-run `rbdev init`; use `rbdev run NN` |
 | No response to button | Confirm you press **BOOT**, not PWR; rebuild with matching `-DBOARD=` |
 | Blank LCD | `bsp_init` / `led_row_start`; match board SKU |
 | No beep | Audio path / volume; rebuild with current `lab_beep` |

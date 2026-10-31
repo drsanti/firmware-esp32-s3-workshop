@@ -46,8 +46,8 @@
 
 ```bash
 cd labs/device-labs
-# Lab: .\run 06  |  Step: ex06.c
-.\run 06   # from labs/device-labs (step still in ex06.c)
+# Lab: rbdev run 06  |  Step: ex06.c
+rbdev run 06   # from labs/device-labs (step still in ex06.c)
 ```
 
 ---

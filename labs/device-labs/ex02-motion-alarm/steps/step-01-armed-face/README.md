@@ -53,16 +53,15 @@ This step holds **ARMED** only; the detail line pulses on each loop.
 
 ---
 
-## 4. Activate ESP-IDF, then build
+## 4. Build / flash
+Once per PC (workshop root): `rbdev init`, then a **new** terminal.
+From the lab folder use `rbdev run NN` (no `export.ps1` / `export.sh`).
 
-```powershell
-. <IDF_PATH>\export.ps1
-```
 
 ```bash
 cd labs/device-labs
-# Lab: .\run 02  |  Step: ex02.c
-.\run 02   # from labs/device-labs (step still in ex02.c)
+# Lab: rbdev run 02  |  Step: ex02.c
+rbdev run 02   # from labs/device-labs (step still in ex02.c)
 # or -DBOARD=es3c28p
 ```
 

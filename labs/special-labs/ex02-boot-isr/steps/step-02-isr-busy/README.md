@@ -43,8 +43,8 @@
 
 ```bash
 cd labs/special-labs
-# Lab: .\run 02  |  Step: ex02.c
-.\run 02   # from labs/special-labs (step still in ex02.c)
+# Lab: rbdev run 02  |  Step: ex02.c
+rbdev run 02   # from labs/special-labs (step still in ex02.c)
 ```
 
 Press/hold BOOT and watch `ui ticks` pause.

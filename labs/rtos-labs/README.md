@@ -30,54 +30,35 @@ rtos-labs/
   …
 ```
 
-Switch exercise with **`run NN`** (rewrites `main/main.c`), or edit the
+Switch exercise with **`rbdev run NN`** (rewrites `main/main.c`), or edit the
 includes / `exNN_start()` calls by hand.
 
 ## Build / flash
 
-Preferred (`rb` — see [../../rbdev/README.md](../../rbdev/README.md)):
+Once per PC (workshop root): `rbdev init` — see [CLASSROOM-SETUP.md](../../CLASSROOM-SETUP.md).
+
+From this folder:
 
 ```powershell
-# ESP-IDF PowerShell, from this folder
-# Once per window (avoids "not digitally signed"):
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-
-.\rb doctor
-.\rb config --port COMx --board ws28p   # once — YOUR port from doctor
-
-.\run 00          # ex00-task-creation — select + build + flash
-.\run 02          # ex02-os-tick
-.\run 15          # ex15-frogger
-.\run 00 monitor
-```
-
-If you see `No module named 'rich_click'`, repair the ESP-IDF Python venv
-(`install.bat` / `install.sh` in your IDF tree) — see
-[../../rbdev/README.md](../../rbdev/README.md) and the root
-[README troubleshooting](../../README.md#troubleshooting).
-
-Plain `idf.py`:
-
-```powershell
-. <IDF_PATH>\export.ps1
-cd labs/rtos-labs
-idf.py -DBOARD=ws28p set-target esp32s3 build flash -p COMx monitor
-# or
-idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
+rbdev doctor
+rbdev run 00          # ex00-task-creation — select + build + flash
+rbdev run 02          # ex02-os-tick
+rbdev run 15          # ex15-frogger
+rbdev run 00 --monitor
 ```
 
 **Reconfigure when sources change.** CMake GLOB does **not** auto-refresh.
-Run this after adding a new `exNN-*` folder **or** a new `.c` file inside one
-(e.g. `ex06_canvas.c`), **before** `build`:
+After adding a new `exNN-*` folder or `.c` file:
 
 ```powershell
-idf.py -DBOARD=ws28p reconfigure
-# or (same board you use for build/flash)
-idf.py -DBOARD=es3c28p reconfigure
+rbdev reconfigure --board ws28p
 ```
 
 If you skip it, the linker usually fails with `undefined reference` to symbols
 in the new `.c` file.
+
+If you see `No module named 'rich_click'`, re-run `rbdev init` from the
+workshop root — [../../rbdev/README.md](../../rbdev/README.md).
 
 ## Exercises
 

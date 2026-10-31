@@ -1,21 +1,25 @@
 # ex00 — Hello Device
 
-**Lab switch:** `.\run 00` (or `main/main.c` → `ex00_start()`)  
+**Lab switch:** `rbdev run 00` (or `main/main.c` → `ex00_start()`)  
 **Step switch:** `ex00.c` → one `ex00_stepMM_start()`
 
 | Start | Folder |
 |-------|--------|
-| `ex00_step01_start()` | `steps/step-01-lcd-hello/` |
-| `ex00_step02_start()` | `steps/step-02-sound-pad/` |
-| `ex00_step03_start()` | `steps/step-03-two-tasks/` |
-| `ex00_step04_start()` | `steps/step-04-imu-status/` |
+| `ex00_step01_start()` | `steps/step-01-lcd-hello/` |
+
+| `ex00_step02_start()` | `steps/step-02-sound-pad/` |
+
+| `ex00_step03_start()` | `steps/step-03-two-tasks/` |
+
+| `ex00_step04_start()` | `steps/step-04-imu-status/` |
+
 | `ex00_step05_start()` | `steps/step-05-boot-leds/` |
 
 Default in `ex00.c` is the **last** step (finished device).
 
 ```powershell
-# from labs/device-labs (after .\rb config --port COMx):
-.\run 00
+# from labs/device-labs (after rbdev config --port COMx):
+rbdev run 00
 # step still selected in ex00-hello-device/ex00.c
 ```
 
@@ -95,8 +99,8 @@ Helpers: [`../../common`](../../common/) (`lab_lcd`, `lab_beep`, `lab_sound_pad`
 
 ```powershell
 cd labs/device-labs
-.\run 00
-# Lab switch: .\run 00 (or main/main.c -> ex00_start())
+rbdev run 00
+# Lab switch: rbdev run 00 (or main/main.c -> ex00_start())
 # Step: ex00-hello-device/ex00.c -> ex00_stepMM_start()
 ```
 

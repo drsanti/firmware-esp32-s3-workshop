@@ -64,8 +64,8 @@ actual:    .work.-- period --.work.-- period --.
 
 ```bash
 cd labs/device-labs
-# Lab: .\run 04  |  Step: ex04.c
-.\run 04   # from labs/device-labs (step still in ex04.c)
+# Lab: rbdev run 04  |  Step: ex04.c
+rbdev run 04   # from labs/device-labs (step still in ex04.c)
 ```
 
 ---

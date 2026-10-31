@@ -63,8 +63,8 @@ ui                 go timer           tmr svc
 
 ```bash
 cd labs/device-labs
-# Lab: .\run 03  |  Step: ex03.c
-.\run 03   # from labs/device-labs (step still in ex03.c)
+# Lab: rbdev run 03  |  Step: ex03.c
+rbdev run 03   # from labs/device-labs (step still in ex03.c)
 ```
 
 ---
