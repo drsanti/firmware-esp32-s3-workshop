@@ -37,8 +37,10 @@ First launch may need **right-click → Open** (Gatekeeper) until the build is n
 1. Top bar: **Port** · **Board** · **Project** → **Save defaults**.
 2. Once: **Setup & tools → Doctor** (and **Init** on a new PC).  
    Init / ESP-IDF install is enough for **Flash-bin** too — `esptool` comes from the Espressif Python venv (no separate pip install).
-3. **Workshop → Labs / Run** → **Build** / **Flash** / **Run** / **Monitor** on a lab row.
+3. **Workshop → Labs / Run** → **Build** / **Flash** / **Run** / **Monitor** on a lab row.  
+   Toolbar: **Reconfigure** · **Clean** (`idf.py fullclean`) · lab-row actions with **Run** on the right.
 4. **Stop job** (or Esc) ends monitor / long jobs.
+5. Need a real shell? **Setup & tools → Open IDF shell** — IDF env loaded, workshop folder as cwd, and `rbdev` already on `PATH` (try `rbdev doctor`).
 
 CLI twin (always available in this workshop):
 
