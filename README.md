@@ -81,9 +81,10 @@ firmware-esp32-s3-workshop/
 ├── include/firmware-esp32-s3-dev/  # public headers (same release)
 ├── ports/boards/<sku>/           # board HAL — ws28p | es3c28p
 ├── start-here.cmd                # Windows optional PATH helper (outside Cursor)
+├── start-here.sh                 # macOS/Linux optional PATH helper (outside Cursor)
 ├── .vscode/settings.json         # Cursor/VS Code: rbdev on terminal PATH
 ├── rbdev/                        # student CLI (windows | mac | linux)
-├── rbdev-gui/                    # optional Windows GUI (setup + portable)
+├── rbdev-gui/                    # optional GUI (windows/ + mac/)
 ├── labs/demo-labs/              # ONE IDF project — UI catalog
 ├── labs/
 │   ├── device-labs/              # ONE IDF project — devices
@@ -143,11 +144,11 @@ rbdev run 00 --monitor
 
 ```bash
 # macOS / Linux
-chmod +x rbdev/mac/rbdev rbdev/linux/rbdev 2>/dev/null || true
+chmod +x rbdev/mac/rbdev rbdev/linux/rbdev start-here.sh 2>/dev/null || true
 ./rbdev/mac/rbdev init          # Linux: ./rbdev/linux/rbdev init
+# outside Cursor only: ./start-here.sh   (or: source ./start-here.sh)
 # NEW terminal:
-cd labs/device-labs
-rbdev run 00
+rbdev run 00                    # sticky project; or cd labs/device-labs
 # macOS Gatekeeper: right-click → Open rbdev/mac/rbdev once if blocked
 ```
 
@@ -174,7 +175,7 @@ Full student guide: **[rbdev/README.md](rbdev/README.md)**.
 | Symptom | Fix |
 |---------|-----|
 | `No module named 'rich_click'` (or `click`) | Re-run `rbdev init` (repairs Espressif venv) |
-| `rbdev: command not found` | New terminal after `init`; call `./rbdev/<os>/rbdev …`; Windows outside Cursor: [`start-here.cmd`](start-here.cmd) |
+| `rbdev: command not found` | New terminal after `init`; call `./rbdev/<os>/rbdev …`; outside Cursor: [`start-here.cmd`](start-here.cmd) / [`start-here.sh`](start-here.sh) |
 | Bare `run 00` → nvm / OneDrive | Use `rbdev run 00` only |
 | macOS Gatekeeper blocks `rbdev` | Right-click → Open `rbdev/mac/rbdev` once |
 | Linux: permission denied on `/dev/tty*` | `sudo usermod -aG dialout $USER`, then re-login |
@@ -271,10 +272,10 @@ ex00 Hello → ex01 Spirit → ex02 Alarm → ex03 React → ex04 Metro → ex05
 | Doc | Audience |
 |-----|----------|
 | [CLASSROOM-SETUP.md](CLASSROOM-SETUP.md) | **Start here in class** — doctor checklist (Win/macOS/Linux), TA playbook |
-| [start-here.cmd](start-here.cmd) | Windows optional — one cmd window with `rbdev` on PATH (outside Cursor) |
+| [start-here.cmd](start-here.cmd) / [start-here.sh](start-here.sh) | Optional — one session with `rbdev` on PATH (outside Cursor) |
 | [`.vscode/settings.json`](.vscode/settings.json) | Cursor/VS Code terminal PATH for `rbdev` (keep committed) |
 | [rbdev/README.md](rbdev/README.md) | Student CLI — `init`, doctor, `run NN`, build, flash |
-| [rbdev-gui/README.md](rbdev-gui/README.md) | Optional Windows GUI — install / portable day-1 |
+| [rbdev-gui/README.md](rbdev-gui/README.md) | Optional GUI — Windows + macOS day-1 |
 | [rbdev/user-manual/](rbdev/user-manual/index.html) | HTML user manual — full CLI + idf.py examples |
 | [ebook/book/](ebook/book/index.html) | HTML labs ebook — all tracks (generated from README labsheets) |
 | [labs/README.md](labs/README.md) | Device / special / rtos curriculum index |

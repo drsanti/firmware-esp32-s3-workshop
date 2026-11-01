@@ -62,8 +62,8 @@
           <tr>
             <td>Extra once</td>
             <td>Optional <code>start-here.cmd</code></td>
-            <td><code>chmod +x</code> + Gatekeeper Open</td>
-            <td><code>chmod +x</code> + <code>dialout</code> group</td>
+            <td>Optional <code>./start-here.sh</code> + Gatekeeper Open</td>
+            <td>Optional <code>./start-here.sh</code> + <code>dialout</code> group</td>
           </tr>
           <tr>
             <td>Stable shim dir</td>
@@ -92,17 +92,19 @@ rbdev run 00</code></pre>
       </ul>
 
       <h2>macOS</h2>
-<pre><code>chmod +x rbdev/mac/rbdev
+<pre><code>chmod +x rbdev/mac/rbdev start-here.sh
 ./rbdev/mac/rbdev init
 # Gatekeeper: right-click → Open once if blocked
+# Outside Cursor: ./start-here.sh
 # NEW terminal
 rbdev run 00</code></pre>
       <p>Prefer <code>/dev/cu.*</code> over <code>/dev/tty.*</code> for serial.</p>
 
       <h2>Linux</h2>
-<pre><code>chmod +x rbdev/linux/rbdev
+<pre><code>chmod +x rbdev/linux/rbdev start-here.sh
 sudo usermod -aG dialout "$USER"   # then log out/in
 ./rbdev/linux/rbdev init
+# Outside Cursor: ./start-here.sh
 # NEW terminal
 rbdev run 00</code></pre>
 

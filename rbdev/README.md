@@ -92,8 +92,11 @@ Cursor terminal or **cmd** is fine; PowerShell is not required.
 puts `rbdev/<os>` (and LocalAppData shims after `init`) on the integrated
 terminal PATH — open the **workshop root**, then a new terminal.
 
-**Windows outside Cursor:** double-click [`../start-here.cmd`](../start-here.cmd)
-to open a cmd window with `rbdev` on PATH for that session only.
+**Outside Cursor (optional PATH for one session):**
+
+- Windows: double-click [`../start-here.cmd`](../start-here.cmd)
+- macOS / Linux: `./start-here.sh` (or `source ./start-here.sh`)
+
 See [CLASSROOM-SETUP.md](../CLASSROOM-SETUP.md).
 
 ---

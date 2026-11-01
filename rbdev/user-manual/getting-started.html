@@ -124,6 +124,10 @@ rbdev run 00</code></pre>
             <td>Double-click <code>start-here.cmd</code> (PATH for that cmd window only)</td>
           </tr>
           <tr>
+            <td>macOS / Linux outside Cursor</td>
+            <td><code>./start-here.sh</code> or <code>source ./start-here.sh</code> (PATH for that session only)</td>
+          </tr>
+          <tr>
             <td><code>rbdev</code> still missing</td>
             <td>Call <code>rbdev/&lt;os&gt;/rbdev</code> with an explicit path</td>
           </tr>
@@ -131,8 +135,8 @@ rbdev run 00</code></pre>
       </table>
 
       <div class="warn">
-        <strong>start-here.cmd does not replace init</strong>
-        It only opens cmd with <code>rbdev\windows</code> on PATH and prints reminders.
+        <strong>start-here.cmd / start-here.sh do not replace init</strong>
+        They only put <code>rbdev/&lt;os&gt;</code> on PATH for that session and print reminders.
         You still type <code>rbdev init</code> / <code>rbdev run 00</code> yourself.
       </div>
 

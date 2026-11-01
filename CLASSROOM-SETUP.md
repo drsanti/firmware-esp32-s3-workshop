@@ -55,20 +55,25 @@ rbdev run 00 --monitor
 - type bare `run 00` (on Windows that often hits **nvm**)
 - use deleted `rb` / `run` wrappers
 
-### `start-here.cmd` (Windows only — optional)
+### `start-here.cmd` / `start-here.sh` (optional — outside Cursor)
 
 **Skip this** if you use Cursor/VS Code with the workshop root open — the
 integrated terminal already has `rbdev` on PATH.
 
-Double-click [`start-here.cmd`](start-here.cmd) when:
+| OS | Helper |
+|----|--------|
+| Windows | Double-click [`start-here.cmd`](start-here.cmd) |
+| macOS / Linux | `chmod +x start-here.sh` once, then `./start-here.sh` (or `source ./start-here.sh`) |
 
-- you are **outside** Cursor (Explorer / plain cmd), or  
+Use when:
+
+- you are **outside** Cursor (Explorer / Terminal.app / plain shell), or  
 - the terminal says `rbdev` is not found and you do not want to type
-  `.\rbdev\windows\rbdev.exe …`
+  `.\rbdev\windows\rbdev.exe …` / `./rbdev/mac/rbdev …`
 
-It opens a **cmd** window, puts `rbdev\windows` on PATH for **that window
-only**, and prints the daily commands. Then type `rbdev init` / `rbdev run 00`
-yourself. It does **not** replace `init`.
+It puts `rbdev/<os>` on PATH for **that session only** and prints the daily
+commands. Then type `rbdev init` / `rbdev run 00` yourself. It does **not**
+replace `init`.
 
 ### Lab tracks (why `init` asks for a project)
 
@@ -181,7 +186,7 @@ rbdev doctor
 
 | Symptom | Fix |
 |---------|-----|
-| `rbdev: command not found` | Open the **workshop root** in Cursor (not a subfolder); new terminal tab; or `.\rbdev\windows\rbdev.exe …` / [`start-here.cmd`](start-here.cmd) |
+| `rbdev: command not found` | Open the **workshop root** in Cursor (not a subfolder); new terminal tab; or `.\rbdev\windows\rbdev.exe …` / `./rbdev/mac/rbdev …` / [`start-here.cmd`](start-here.cmd) / [`start-here.sh`](start-here.sh) |
 | System Python / missing `rich_click` | Re-run `rbdev init` (or `install.bat` in IDF tree) |
 | Bare `run 00` → OneDrive / Corey / nvm | Use `rbdev run 00` only |
 | No `COMx` | Cable / driver; close other monitors |
@@ -387,7 +392,7 @@ idf.py --version      # shim works (optional)
 | [ports/boards/README.md](ports/boards/README.md) | Board SKUs |
 | [lib/README.md](lib/README.md) | `librobotos_fw.a` |
 | [`.rbdev.toml.example`](.rbdev.toml.example) | Sticky config shape |
-| [`start-here.cmd`](start-here.cmd) | Windows optional: PATH for one cmd window (outside Cursor) |
+| [`start-here.cmd`](start-here.cmd) / [`start-here.sh`](start-here.sh) | Optional: PATH for one session (outside Cursor) |
 | [`.vscode/settings.json`](.vscode/settings.json) | Cursor/VS Code: puts `rbdev` on integrated-terminal PATH |
 | [`rbdev/user-manual/`](rbdev/user-manual/index.html) | HTML user manual (commands, idf.py, troubleshooting) |
 | [`ebook/book/`](ebook/book/index.html) | HTML labs ebook (device / special / rtos / demo) |
