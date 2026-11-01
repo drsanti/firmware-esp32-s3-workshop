@@ -35,7 +35,8 @@ First launch may need **right-click → Open** (Gatekeeper) until the build is n
 ## Day-1 use
 
 1. Top bar: **Port** · **Board** · **Project** → **Save defaults**.
-2. Once: **Setup & tools → Doctor** (and **Init** on a new PC).
+2. Once: **Setup & tools → Doctor** (and **Init** on a new PC).  
+   Init / ESP-IDF install is enough for **Flash-bin** too — `esptool` comes from the Espressif Python venv (no separate pip install).
 3. **Workshop → Labs / Run** → **Build** / **Flash** / **Run** / **Monitor** on a lab row.
 4. **Stop job** (or Esc) ends monitor / long jobs.
 
