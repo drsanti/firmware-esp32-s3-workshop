@@ -8,11 +8,11 @@
 #include "bsp.h"
 
 /* #include "ex01.h" */
-/* #include "ex02.h" */
+#include "ex02.h"
 /* #include "ex03.h" */
 /* #include "ex04.h" */
 /* #include "ex05.h" */
-#include "ex06.h"
+/* #include "ex06.h" */
 /* #include "ex07.h" */
 /* #include "ex08.h" */
 /* #include "ex09.h" */
@@ -29,11 +29,11 @@ void app_main(void)
 {
     bsp_init();
     /* ex01_start(); */
-    /* ex02_start(); */
+    ex02_start();
     /* ex03_start(); */
     /* ex04_start(); */
     /* ex05_start(); */
-    ex06_start();
+    /* ex06_start(); */
     /* ex07_start(); */
     /* ex08_start(); */
     /* ex09_start(); */

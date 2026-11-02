@@ -10,9 +10,9 @@
 /* #include "ex01.h" */
 /* #include "ex02.h" */
 /* #include "ex03.h" */
-#include "ex04.h"
+/* #include "ex04.h" */
 /* #include "ex05.h" */
-/* #include "ex06.h" */
+#include "ex06.h"
 
 void app_main(void)
 {
@@ -20,7 +20,7 @@ void app_main(void)
     /* ex01_start(); */
     /* ex02_start(); */
     /* ex03_start(); */
-    ex04_start();
+    /* ex04_start(); */
     /* ex05_start(); */
-    /* ex06_start(); */
+    ex06_start();
 }
