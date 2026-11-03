@@ -36,7 +36,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "light";
-            window.path_to_searchindex_js = "../../../searchindex-b18033a0.js";
+            window.path_to_searchindex_js = "../../../searchindex-ec873ad4.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-551f79ec.js"></script>
@@ -247,8 +247,8 @@ From the lab folder use <code>rbdev run NN</code> (no <code>export.ps1</code> / 
 <pre><code class="language-bash">cd labs/device-labs
 # Lab: rbdev run 00  |  Step: ex00.c
 rbdev run 00   # from labs/device-labs (step still in ex00.c)
-# or
-idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
+# Ternion: rbdev config --board es3c28p ; rbdev reconfigure ; rbdev run NN
+# Advanced: idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
 </code></pre>
 <p>Exit monitor with <code>Ctrl+]</code>.</p>
 <p><strong>Observe:</strong></p>

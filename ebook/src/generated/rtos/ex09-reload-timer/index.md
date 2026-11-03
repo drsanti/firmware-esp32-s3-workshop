@@ -48,9 +48,9 @@ Enable in `main/main.c` with `ex09_start()` (only one exercise at a time).
 After adding this folder **or** a new `.c`, reconfigure once:
 
 ```powershell
-idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+# After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 ```
 
 See [rtos-labs README](../README.md#build--flash).
@@ -156,7 +156,7 @@ itself is overloaded).
 | No beat on TMR | `xTimerStart` on toggle? `s_use_timer` set? |
 | Double beat | Delay task still pulsing while timer runs? |
 | Freeze in TMR | LCD or blocking call inside `timer_cb`? |
-| Linker miss after add | `idf.py -DBOARD=… reconfigure` then build |
+| Linker miss after add | `rbdev reconfigure` then build |
 
 ---
 

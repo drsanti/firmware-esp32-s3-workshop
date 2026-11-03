@@ -1,0 +1,25 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "ws28p",
+      "displayName": "Waveshare ws28p (default)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "IDF_TARGET": "esp32s3",
+        "BOARD": "ws28p"
+      }
+    },
+    {
+      "name": "es3c28p",
+      "displayName": "Ternion es3c28p",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-es3c28p",
+      "cacheVariables": {
+        "IDF_TARGET": "esp32s3",
+        "BOARD": "es3c28p"
+      }
+    }
+  ]
+}

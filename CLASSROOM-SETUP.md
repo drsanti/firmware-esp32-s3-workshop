@@ -99,6 +99,23 @@ This repo has **four separate ESP-IDF apps**. `init` must pick one to:
 
 First time you build a track that was never configured, if CMake/`set-target` complains, run the short `init --project … -y` line above (or `idf.py set-target esp32s3` inside that folder).
 
+### Switching boards (`ws28p` ↔ `es3c28p`)
+
+Students **only** use this workshop folder. You do **not** need
+`firmware-esp32-s3-dev`. Chip target stays **`esp32s3`**; only the board SKU
+changes.
+
+| Goal | Command |
+|------|---------|
+| See sticky port / board | `rbdev config --show` |
+| Set board for later labs | `rbdev config --board es3c28p` (or `ws28p`) |
+| Apply CMake board change | `rbdev reconfigure` then `rbdev run 00` |
+| One-shot flash other SKU | `rbdev flash --port COMx --board es3c28p` |
+
+Full notes: [`ports/boards/README.md`](ports/boards/README.md) (includes
+ESP-IDF extension: **Select Project Configuration** / `idf.cmakeCompilerArgs`
+when students build without the terminal).
+
 ---
 
 ## Overview

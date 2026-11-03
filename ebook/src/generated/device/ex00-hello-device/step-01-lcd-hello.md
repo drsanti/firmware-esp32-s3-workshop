@@ -78,8 +78,8 @@ From the lab folder use `rbdev run NN` (no `export.ps1` / `export.sh`).
 cd labs/device-labs
 # Lab: rbdev run 00  |  Step: ex00.c
 rbdev run 00   # from labs/device-labs (step still in ex00.c)
-# or
-idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
+# Ternion: rbdev config --board es3c28p ; rbdev reconfigure ; rbdev run NN
+# Advanced: idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
 ```
 
 Exit monitor with `Ctrl+]`.

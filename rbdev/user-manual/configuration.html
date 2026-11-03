@@ -89,6 +89,12 @@
       </div>
 
       <h2>Boards</h2>
+      <p>
+        Students work in <strong>this workshop folder only</strong> — you do not
+        clone <code>firmware-esp32-s3-dev</code>. Chip target stays
+        <code>esp32s3</code>; only the board SKU changes. Full notes:
+        <code>ports/boards/README.md</code>.
+      </p>
       <table>
         <thead><tr><th>SKU</th><th>Product</th></tr></thead>
         <tbody>
@@ -97,8 +103,20 @@
         </tbody>
       </table>
 <pre><code>rbdev config --board ws28p
-rbdev flash --board es3c28p -p COM6    # one-shot override
-rbdev reconfigure --board es3c28p</code></pre>
+rbdev config --board es3c28p           # sticky switch
+rbdev reconfigure
+rbdev run 00
+rbdev flash --board es3c28p -p COM6    # one-shot override</code></pre>
+      <p>
+        ESP-IDF extension (no terminal): open any lab track
+        (<code>device-labs</code>, <code>rtos-labs</code>,
+        <code>special-labs</code>, <code>demo-labs</code>) and run
+        <strong>ESP-IDF: Select Project Configuration</strong>
+        (<code>ws28p</code> / <code>es3c28p</code>), or set
+        <code>idf.cmakeCompilerArgs</code> with <code>-DBOARD=…</code> (keep
+        <code>-G Ninja</code> defaults), then Full Clean + Build. Prefer
+        <code>rbdev</code> for class.
+      </p>
 
       <h2>Environment variables</h2>
       <table>

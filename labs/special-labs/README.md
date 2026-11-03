@@ -23,7 +23,26 @@ rbdev run 02          # ex02-boot-isr
 rbdev run 01 --monitor
 ```
 
-After adding a step folder or `.c` file: `rbdev reconfigure --board ws28p`.
+After adding a step folder or `.c` file: `rbdev reconfigure`.
+
+**Board SKU** (`ws28p` / `es3c28p`):
+
+```powershell
+rbdev config --board es3c28p
+rbdev reconfigure
+rbdev run 01
+```
+
+### ESP-IDF extension only (no terminal)
+
+Open **this folder** (`labs/special-labs`) as the workspace. Chip target =
+**`esp32s3`**.
+
+1. Command Palette → **`ESP-IDF: Select Project Configuration`**
+2. Choose **Waveshare ws28p** or **Ternion es3c28p** (`CMakePresets.json`)
+3. **`ESP-IDF: Full Clean Project`** → **Build** → **Flash**
+
+Details: [ports/boards/README.md](../../ports/boards/README.md).
 
 If you see `No module named 'rich_click'`, re-run `rbdev init` from the
 workshop root — [../../rbdev/README.md](../../rbdev/README.md).

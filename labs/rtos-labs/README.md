@@ -47,11 +47,30 @@ rbdev run 15          # ex15-frogger
 rbdev run 00 --monitor
 ```
 
-**Reconfigure when sources change.** CMake GLOB does **not** auto-refresh.
-After adding a new `exNN-*` folder or `.c` file:
+**Board SKU** — this workshop folder only (`ws28p` / `es3c28p`):
 
 ```powershell
-rbdev reconfigure --board ws28p
+rbdev config --board es3c28p    # or ws28p
+rbdev reconfigure
+rbdev run 00
+```
+
+See [ports/boards/README.md](../../ports/boards/README.md).
+
+### ESP-IDF extension only (no terminal)
+
+Open **this folder** (`labs/rtos-labs`) as the workspace. Chip target =
+**`esp32s3`**.
+
+1. Command Palette → **`ESP-IDF: Select Project Configuration`**
+2. Choose **Waveshare ws28p** or **Ternion es3c28p** (`CMakePresets.json`)
+3. **`ESP-IDF: Full Clean Project`** → **Build** → **Flash**
+
+**Reconfigure when sources change.** CMake GLOB does **not** auto-refresh.
+After adding a new `exNN-*` folder or `.c` file (or after a board switch):
+
+```powershell
+rbdev reconfigure
 ```
 
 If you skip it, the linker usually fails with `undefined reference` to symbols

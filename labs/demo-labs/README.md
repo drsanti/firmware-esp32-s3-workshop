@@ -27,12 +27,24 @@ rbdev run 01 --monitor
 After adding a new `exNN-*` folder or `.c` file:
 
 ```powershell
-rbdev reconfigure --board ws28p
+rbdev reconfigure
 ```
 
 If you see `No module named 'rich_click'`, re-run `rbdev init` from the
 workshop root — [../../rbdev/README.md](../../rbdev/README.md) ·
 [CLASSROOM-SETUP.md](../../CLASSROOM-SETUP.md).
+
+### ESP-IDF extension only (no terminal)
+
+Open **this folder** (`labs/demo-labs`) as the workspace — same pattern as
+`device-labs` / `rtos-labs` / `special-labs`. Chip target = **`esp32s3`**
+(status bar). That is **not** the Waveshare/Ternion SKU.
+
+1. Command Palette → **`ESP-IDF: Select Project Configuration`**
+2. Choose **Waveshare ws28p** or **Ternion es3c28p** (`CMakePresets.json`)
+3. **`ESP-IDF: Full Clean Project`** → **Build** → **Flash**
+
+Details: [ports/boards/README.md](../../ports/boards/README.md).
 
 ## Demos
 

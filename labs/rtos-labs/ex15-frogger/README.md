@@ -28,9 +28,9 @@ Enable in `main/main.c` with `ex15_start()`.
 | `ex15_gfx.*` | Paint |
 
 ```powershell
-idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+# After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 ```
 
 ---

@@ -82,8 +82,8 @@ cd labs/device-labs
 # Lab: rbdev run 01  |  Step: ex01.c
 
 rbdev run 01   # from labs/device-labs (step still in ex01.c)
-# or
-idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
+# Ternion: rbdev config --board es3c28p ; rbdev reconfigure ; rbdev run NN
+# Advanced: idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
 ```
 
 ---

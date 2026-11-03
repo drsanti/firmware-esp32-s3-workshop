@@ -36,7 +36,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "light";
-            window.path_to_searchindex_js = "../../../searchindex-b18033a0.js";
+            window.path_to_searchindex_js = "../../../searchindex-ec873ad4.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-551f79ec.js"></script>
@@ -224,9 +224,9 @@ IMU queue, game task, deferred SFX, and <code>rbgfx</code> frames.</p>
 </table>
 </div>
 <p>After adding this folder, reconfigure once:</p>
-<pre><code class="language-powershell">idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+<pre><code class="language-powershell"># After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 </code></pre>
 <hr>
 <h2 id="freertos-wiring"><a class="header" href="#freertos-wiring">FreeRTOS wiring</a></h2>
@@ -273,7 +273,7 @@ idf.py -DBOARD=es3c28p reconfigure
 <tr><td>Car drifts alone</td><td><code>SIM</code> mode — normal without IMU</td></tr>
 <tr><td>No sound</td><td>Audio path / gain; sfx queue not full</td></tr>
 <tr><td>No start</td><td>Tap screen or press <strong>BOOT</strong></td></tr>
-<tr><td>Linker miss</td><td><code>idf.py -DBOARD=… reconfigure</code></td></tr>
+<tr><td>Linker miss</td><td><code>rbdev reconfigure</code></td></tr>
 </tbody>
 </table>
 </div>

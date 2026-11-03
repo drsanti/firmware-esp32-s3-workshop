@@ -390,9 +390,9 @@ timing bugs become undebuggable. Split early.
 
 | Symptom | Try |
 |---------|-----|
-| Blank LCD | `bsp_init` in `app_main`; correct `-DBOARD=` |
+| Blank LCD | `bsp_init` in `app_main`; correct board via `rbdev config --board` / `-DBOARD=` |
 | Only one pane logs | Check both `xTaskCreate` calls and both periods |
-| Build cannot find `ex_terms.h` | Build from `labs/rtos-labs`; after adding `common/` or any new `.c`, run `idf.py -DBOARD=ws28p reconfigure` (or `-DBOARD=es3c28p`) then build |
+| Build cannot find `ex_terms.h` | Build from `labs/rtos-labs`; after adding `common/` or any new `.c`, run `rbdev reconfigure` then build |
 | Linker `undefined reference` to a new `.c` | Same: reconfigure for your board, then build — see [rtos-labs README](../README.md#build--flash) |
 | Linker / heap assert at create | Lower stack sizes or free heap; check `pdPASS` |
 

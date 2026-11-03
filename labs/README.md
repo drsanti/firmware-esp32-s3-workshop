@@ -40,7 +40,7 @@ rbdev init --project rtos-labs -y
 
 Same `rbdev run NN` pattern in `special-labs`, `rtos-labs`, and `demo-labs`.
 After adding a new `exNN-*` folder or `.c` file: `rbdev reconfigure` (or
-`idf.py reconfigure`). Board flag details: [../rbdev/README.md](../rbdev/README.md).
+`idf.py reconfigure`). Board switch: [../ports/boards/README.md](../ports/boards/README.md).
 Full enroll notes: [../CLASSROOM-SETUP.md](../CLASSROOM-SETUP.md).
 
 **HTML ebook (all tracks, generated from these labsheets):**
@@ -58,8 +58,9 @@ Flash with `rbdev run NN` (rewrites `main/main.c`), then pick the **step** in
 that lab’s `exNN.c` (`exNN_stepMM_start`). Step READMEs live under
 `exNN-*/steps/`.
 
-**Board (v1):** `-DBOARD=ws28p` or `es3c28p` · ESP-IDF FreeRTOS · links
-`librobotos_fw.a` for HAL/UI.
+**Board:** sticky `rbdev config --board ws28p|es3c28p` (this folder only — no
+private firmware tree) · ESP-IDF FreeRTOS · links `librobotos_fw.a` for HAL/UI.
+Details: [../ports/boards/README.md](../ports/boards/README.md).
 
 ---
 

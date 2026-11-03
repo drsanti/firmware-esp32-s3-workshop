@@ -45,9 +45,9 @@ Enable in `main/main.c` with `ex11_start()`.
 After adding this folder, reconfigure once:
 
 ```powershell
-idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+# After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 ```
 
 ---
@@ -94,7 +94,7 @@ imu_task @0 ──overwrite──► q_tilt ──► game_task @1 ──► rbg
 | Car drifts alone | `SIM` mode — normal without IMU |
 | No sound | Audio path / gain; sfx queue not full |
 | No start | Tap screen or press **BOOT** |
-| Linker miss | `idf.py -DBOARD=… reconfigure` |
+| Linker miss | `rbdev reconfigure` |
 
 ---
 

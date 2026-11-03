@@ -162,13 +162,21 @@ export IDF_PATH=~/esp/esp-idf
 
 ### Board (`ws28p` vs `es3c28p`)
 
+Students work **only** in `firmware-esp32-s3-workshop`. You do not need the
+private `firmware-esp32-s3-dev` tree. Match `--board` to the hardware on your
+desk; chip target stays **`esp32s3`**.
+
 | SKU | Product |
 |-----|---------|
 | `ws28p` | Waveshare ESP32-S3-Touch-LCD-2.8 (**default**) |
-| `es3c28p` | Ternion ESP32-S3 |
+| `es3c28p` | Ternion ESP32-S3 (LED / mic labs) |
 
 ```powershell
+rbdev config --show
 rbdev config --port COMx --board ws28p
+rbdev config --board es3c28p              # sticky switch
+rbdev reconfigure
+rbdev run 00
 rbdev flash --port COM6 --board es3c28p   # one-shot override
 ```
 
@@ -178,6 +186,13 @@ rbdev flash --port /dev/ttyACM0 --board es3c28p
 ```
 
 After switching boards: `rbdev reconfigure` (or a clean build).
+
+**ESP-IDF VS Code / Cursor extension:** prefer `rbdev` above. If you Build from
+the extension UI only, open any of `labs/device-labs`, `rtos-labs`,
+`special-labs`, or `demo-labs` and use **ESP-IDF: Select Project
+Configuration** (`ws28p` / `es3c28p`) or set `idf.cmakeCompilerArgs` with
+`-DBOARD=…`, then Full Clean + Build. See
+[`ports/boards/README.md`](../ports/boards/README.md).
 
 ---
 

@@ -36,7 +36,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "light";
-            window.path_to_searchindex_js = "../../../searchindex-b18033a0.js";
+            window.path_to_searchindex_js = "../../../searchindex-ec873ad4.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-551f79ec.js"></script>
@@ -226,9 +226,9 @@ Gives it back.</p>
 </table>
 </div>
 <p>After adding this folder <strong>or</strong> a new <code>.c</code> (e.g. <code>ex07_ui.c</code>), reconfigure once:</p>
-<pre><code class="language-powershell">idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+<pre><code class="language-powershell"># After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 </code></pre>
 <p>See <a href="../README.html#build--flash">rtos-labs README</a>. Skip reconfigure → linker
 <code>undefined reference</code> to <code>ex07_ui_*</code>.</p>
@@ -341,7 +341,7 @@ commenting out Give as an experiment.</p>
 <tr><td>Always <code>in use</code> ≤ 2 even OFF</td><td>Toggle updating <code>s_pool_on</code>? Boot button OFF?</td></tr>
 <tr><td>ON still shows 4 HOLD</td><td>Confirm Take path runs (<code>s_pool_on</code> and <code>took</code>)</td></tr>
 <tr><td>Everyone stuck WAIT</td><td>Matching Give after every successful Take?</td></tr>
-<tr><td>Linker miss after add</td><td><code>idf.py -DBOARD=… reconfigure</code> then build</td></tr>
+<tr><td>Linker miss after add</td><td><code>rbdev reconfigure</code> then build</td></tr>
 </tbody>
 </table>
 </div>

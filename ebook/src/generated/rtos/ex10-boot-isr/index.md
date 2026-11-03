@@ -50,9 +50,9 @@ Enable in `main/main.c` with `ex10_start()` (only one exercise at a time).
 After adding this folder **or** a new `.c`, reconfigure once:
 
 ```powershell
-idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+# After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 ```
 
 See [rtos-labs README](../README.md#build--flash).
@@ -164,7 +164,7 @@ blocking the system.
 | No presses | Press **BOOT**, not PWR / not the LCD toggle |
 | ISR mode silent | `gpio_isr_handler_add` ok? `s_use_isr` set? |
 | Double counts | Debounce window; mode switch mid-press |
-| Linker miss after add | `idf.py -DBOARD=… reconfigure` then build |
+| Linker miss after add | `rbdev reconfigure` then build |
 
 ---
 

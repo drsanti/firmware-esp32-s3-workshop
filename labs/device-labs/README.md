@@ -53,17 +53,29 @@ rbdev monitor
 `exNN.c` selects — usually the finished step). Change steps by editing
 `exNN.c` as usual.
 
-Ternion / sticky board:
+**Board SKU** — this workshop folder only (no private firmware tree):
 
 ```powershell
-rbdev config --port COMx --board es3c28p
+rbdev config --port COMx --board es3c28p   # or ws28p
+rbdev reconfigure
 rbdev run 00
 ```
+
+See [ports/boards/README.md](../../ports/boards/README.md).
+
+### ESP-IDF extension only (no terminal)
+
+Open **this folder** (`labs/device-labs`) as the workspace. Chip target =
+**`esp32s3`**.
+
+1. Command Palette → **`ESP-IDF: Select Project Configuration`**
+2. Choose **Waveshare ws28p** or **Ternion es3c28p** (`CMakePresets.json`)
+3. **`ESP-IDF: Full Clean Project`** → **Build** → **Flash**
 
 **Reconfigure** after adding a step folder or `.c` file, or after switching board:
 
 ```powershell
-rbdev reconfigure --board ws28p
+rbdev reconfigure
 ```
 
 If you see `No module named 'rich_click'`, re-run `rbdev init` from the

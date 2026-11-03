@@ -37,9 +37,9 @@ Enable in `main/main.c` with `ex07_start()` (only one exercise at a time).
 After adding this folder **or** a new `.c` (e.g. `ex07_ui.c`), reconfigure once:
 
 ```powershell
-idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+# After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 ```
 
 See [rtos-labs README](../README.md#build--flash). Skip reconfigure → linker
@@ -158,7 +158,7 @@ commenting out Give as an experiment.
 | Always `in use` ≤ 2 even OFF | Toggle updating `s_pool_on`? Boot button OFF? |
 | ON still shows 4 HOLD | Confirm Take path runs (`s_pool_on` and `took`) |
 | Everyone stuck WAIT | Matching Give after every successful Take? |
-| Linker miss after add | `idf.py -DBOARD=… reconfigure` then build |
+| Linker miss after add | `rbdev reconfigure` then build |
 
 ---
 

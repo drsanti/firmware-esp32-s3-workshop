@@ -91,11 +91,14 @@ rbdev init --project rtos-labs -y</code></pre>
       <h2>Port and board day-to-day</h2>
 <pre><code>rbdev config --show
 rbdev config --port COM17 --board ws28p
+rbdev config --board es3c28p
+rbdev reconfigure
+rbdev run 00
 rbdev config --port /dev/cu.usbmodemXXXX --board es3c28p</code></pre>
       <p>
-        After switching boards, run <code>rbdev reconfigure</code> (or
-        <code>idf.py fullclean</code> then build) so CMake picks up
-        <code>-DBOARD=</code>.
+        After switching boards, always run <code>rbdev reconfigure</code> (or
+        a Full Clean) so CMake picks up <code>-DBOARD=</code>. You only need
+        this workshop folder — no private firmware tree.
       </p>
 
       <h2>Build / flash without changing lab id</h2>

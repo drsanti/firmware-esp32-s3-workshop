@@ -43,7 +43,7 @@
 
 Application code in this repo stays **thin**. Wire protocol, codecs, UI
 widgets, and middleware live in the prebuilt archive **`librobotos_fw.a`**
-(developed in the private repo `firmware-esp32-s3-dev`).
+(maintainers build that archive in private `firmware-esp32-s3-dev`; students only need this workshop folder).
 
 Students clone this workshop, run **`rbdev init`** once, then flash with
 **`rbdev run NN`** — one IDF project per track, many exercises switched from
@@ -98,13 +98,27 @@ firmware-esp32-s3-workshop/
 
 ## Supported boards
 
-| `--board` / `-DBOARD=` | Product |
+This repo alone is enough — **no** `firmware-esp32-s3-dev` clone. Chip target
+is always **`esp32s3`**.
+
+| SKU (`rbdev --board`) | Product |
 |------------------------|---------|
 | **`ws28p`** (default) | Waveshare ESP32-S3-Touch-LCD-2.8 (V1 CST328 / V2 CST3530) |
 | **`es3c28p`** | Ternion ESP32-S3 (ILI9341 + FT6336) |
 
-Both targets need **`set-target esp32s3`**. Pin maps and notes:
-[ports/boards/README.md](ports/boards/README.md).
+**Switch board (students):**
+
+```powershell
+rbdev config --board es3c28p    # or ws28p
+rbdev reconfigure
+rbdev run 00
+```
+
+ESP-IDF VS Code / Cursor (no terminal): open any lab folder
+(`device-labs` / `rtos-labs` / `special-labs` / `demo-labs`), then
+**ESP-IDF: Select Project Configuration** (`ws28p` / `es3c28p`), or set
+`idf.cmakeCompilerArgs` with `-DBOARD=…`, then Full Clean + Build.
+Details: [ports/boards/README.md](ports/boards/README.md).
 
 ---
 
@@ -117,9 +131,7 @@ Both targets need **`set-target esp32s3`**. Pin maps and notes:
 | USB serial | Port from `rbdev init` / `doctor` (`COMx` / `/dev/cu.*` / `/dev/ttyACM*`) |
 | Board | `ws28p` or `es3c28p` |
 
-> **Library package** — install a `robotos-fw-*.tar.gz` from
-> `firmware-esp32-s3-dev` (`scripts/dist_fw.sh`), or copy `lib/` + `include/`
-> from that tarball into the repo root.
+> **Library package** — class clones already include `lib/` + `include/`. Instructors refresh from a `robotos-fw-*.tar.gz` (built in private `firmware-esp32-s3-dev`) when shipping a new workshop drop.
 
 ---
 
@@ -164,6 +176,8 @@ rbdev flash --port COM6 --board es3c28p
 ```
 
 After switching boards: `rbdev reconfigure` (or a clean build).
+See [ports/boards/README.md](ports/boards/README.md) for sticky config and
+ESP-IDF extension users.
 
 </details>
 

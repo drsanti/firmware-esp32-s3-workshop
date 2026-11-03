@@ -1,11 +1,13 @@
 # lib/
 
-Place **`librobotos_fw.a`** here (from a `firmware-esp32-s3-dev` release).
+Prebuilt **`librobotos_fw.a`** ships in this workshop clone (students do **not**
+build or clone `firmware-esp32-s3-dev`). Instructors refresh it from a
+`robotos-fw-*.tar.gz` release when needed.
 
 ```text
 lib/librobotos_fw.a
-include/firmware-esp32-s3-dev/   # sibling of lib/ — from the same tarball
+include/firmware-esp32-s3-dev/   # sibling of lib/ — same release tarball
 ```
 
-Until a release is installed, demos will not link. Do not commit a
-hand-built archive from an unclean tree.
+If `librobotos_fw.a` is missing, ask the instructor — demos will not link.
+Do not commit a hand-built archive from an unclean tree.

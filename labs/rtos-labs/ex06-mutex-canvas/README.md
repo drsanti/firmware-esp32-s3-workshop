@@ -39,9 +39,9 @@ This exercise has **two** `.c` files. After the canvas helper is added (or if
 you pull a tree that already has it), reconfigure once so the GLOB picks it up:
 
 ```powershell
-idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+# After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 ```
 
 Then build/flash as usual (see [rtos-labs README](../README.md#build--flash)).

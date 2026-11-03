@@ -36,7 +36,7 @@
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "light";
-            window.path_to_searchindex_js = "../../../searchindex-b18033a0.js";
+            window.path_to_searchindex_js = "../../../searchindex-ec873ad4.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../../toc-551f79ec.js"></script>
@@ -526,9 +526,9 @@ you recognize it forever.</li>
 <tr><th>Symptom</th><th>Try</th></tr>
 </thead>
 <tbody>
-<tr><td>Blank LCD</td><td><code>bsp_init</code> in <code>app_main</code>; correct <code>-DBOARD=</code></td></tr>
+<tr><td>Blank LCD</td><td><code>bsp_init</code> in <code>app_main</code>; correct board via <code>rbdev config --board</code> / <code>-DBOARD=</code></td></tr>
 <tr><td>Only one pane logs</td><td>Check both <code>xTaskCreate</code> calls and both periods</td></tr>
-<tr><td>Build cannot find <code>ex_terms.h</code></td><td>Build from <code>labs/rtos-labs</code>; after adding <code>common/</code> or any new <code>.c</code>, run <code>idf.py -DBOARD=ws28p reconfigure</code> (or <code>-DBOARD=es3c28p</code>) then build</td></tr>
+<tr><td>Build cannot find <code>ex_terms.h</code></td><td>Build from <code>labs/rtos-labs</code>; after adding <code>common/</code> or any new <code>.c</code>, run <code>rbdev reconfigure</code> then build</td></tr>
 <tr><td>Linker <code>undefined reference</code> to a new <code>.c</code></td><td>Same: reconfigure for your board, then build — see <a href="../README.html#build--flash">rtos-labs README</a></td></tr>
 <tr><td>Linker / heap assert at create</td><td>Lower stack sizes or free heap; check <code>pdPASS</code></td></tr>
 </tbody>

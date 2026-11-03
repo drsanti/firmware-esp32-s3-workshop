@@ -50,9 +50,9 @@ Enable in `main/main.c` with `ex08_start()` (only one exercise at a time).
 After adding this folder **or** a new `.c`, reconfigure once:
 
 ```powershell
-idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+# After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 ```
 
 See [rtos-labs README](../README.md#build--flash).
@@ -162,7 +162,7 @@ Any task (here: UI callbacks). ISR variants exist (`…FromISR`) — later lab.
 | AND never fires | Both A and B set? Mode really AND? |
 | OR never fires | At least one bit set? |
 | Buttons ON but bits 0 | After FIRED, re-tap to SetBits again |
-| Linker miss after add | `idf.py -DBOARD=… reconfigure` then build |
+| Linker miss after add | `rbdev reconfigure` then build |
 
 ---
 

@@ -37,7 +37,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "light";
-            window.path_to_searchindex_js = "searchindex-b18033a0.js";
+            window.path_to_searchindex_js = "searchindex-ec873ad4.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-551f79ec.js"></script>
@@ -437,8 +437,8 @@ From the lab folder use <code>rbdev run NN</code> (no <code>export.ps1</code> / 
 <pre><code class="language-bash">cd labs/device-labs
 # Lab: rbdev run 00  |  Step: ex00.c
 rbdev run 00   # from labs/device-labs (step still in ex00.c)
-# or
-idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
+# Ternion: rbdev config --board es3c28p ; rbdev reconfigure ; rbdev run NN
+# Advanced: idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
 </code></pre>
 <p>Exit monitor with <code>Ctrl+]</code>.</p>
 <p><strong>Observe:</strong></p>
@@ -1356,8 +1356,8 @@ From the lab folder use <code>rbdev run NN</code> (no <code>export.ps1</code> / 
 # Lab: rbdev run 01  |  Step: ex01.c
 
 rbdev run 01   # from labs/device-labs (step still in ex01.c)
-# or
-idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
+# Ternion: rbdev config --board es3c28p ; rbdev reconfigure ; rbdev run NN
+# Advanced: idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
 </code></pre>
 <hr>
 <h2 id="5-student-sketch-mainmainc-1"><a class="header" href="#5-student-sketch-mainmainc-1">5. Student sketch (<code>main/main.c</code>)</a></h2>
@@ -1573,8 +1573,8 @@ From the lab folder use <code>rbdev run NN</code> (no <code>export.ps1</code> / 
 # Lab: rbdev run 01  |  Step: ex01.c
 
 rbdev run 01   # from labs/device-labs (step still in ex01.c)
-# or
-idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
+# Ternion: rbdev config --board es3c28p ; rbdev reconfigure ; rbdev run NN
+# Advanced: idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
 </code></pre>
 <hr>
 <h2 id="5-student-sketch-mainmainc-2"><a class="header" href="#5-student-sketch-mainmainc-2">5. Student sketch (<code>main/main.c</code>)</a></h2>
@@ -1768,8 +1768,8 @@ From the lab folder use <code>rbdev run NN</code> (no <code>export.ps1</code> / 
 # Lab: rbdev run 01  |  Step: ex01.c
 
 rbdev run 01   # from labs/device-labs (step still in ex01.c)
-# or
-idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
+# Ternion: rbdev config --board es3c28p ; rbdev reconfigure ; rbdev run NN
+# Advanced: idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
 </code></pre>
 <hr>
 <h2 id="5-student-sketch-mainmainc-3"><a class="header" href="#5-student-sketch-mainmainc-3">5. Student sketch (<code>main/main.c</code>)</a></h2>
@@ -1953,8 +1953,8 @@ From the lab folder use <code>rbdev run NN</code> (no <code>export.ps1</code> / 
 # Lab: rbdev run 01  |  Step: ex01.c
 
 rbdev run 01   # from labs/device-labs (step still in ex01.c)
-# or
-idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
+# Ternion: rbdev config --board es3c28p ; rbdev reconfigure ; rbdev run NN
+# Advanced: idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
 </code></pre>
 <hr>
 <h2 id="5-student-sketch-mainmainc-4"><a class="header" href="#5-student-sketch-mainmainc-4">5. Student sketch (<code>main/main.c</code>)</a></h2>
@@ -2167,8 +2167,8 @@ From the lab folder use <code>rbdev run NN</code> (no <code>export.ps1</code> / 
 # Lab: rbdev run 01  |  Step: ex01.c
 
 rbdev run 01   # from labs/device-labs (step still in ex01.c)
-# or
-idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
+# Ternion: rbdev config --board es3c28p ; rbdev reconfigure ; rbdev run NN
+# Advanced: idf.py -DBOARD=es3c28p set-target esp32s3 build flash -p COMx monitor
 </code></pre>
 <hr>
 <h2 id="5-student-sketch-mainmainc-5"><a class="header" href="#5-student-sketch-mainmainc-5">5. Student sketch (<code>main/main.c</code>)</a></h2>
@@ -7978,9 +7978,9 @@ you recognize it forever.</li>
 <tr><th>Symptom</th><th>Try</th></tr>
 </thead>
 <tbody>
-<tr><td>Blank LCD</td><td><code>bsp_init</code> in <code>app_main</code>; correct <code>-DBOARD=</code></td></tr>
+<tr><td>Blank LCD</td><td><code>bsp_init</code> in <code>app_main</code>; correct board via <code>rbdev config --board</code> / <code>-DBOARD=</code></td></tr>
 <tr><td>Only one pane logs</td><td>Check both <code>xTaskCreate</code> calls and both periods</td></tr>
-<tr><td>Build cannot find <code>ex_terms.h</code></td><td>Build from <code>labs/rtos-labs</code>; after adding <code>common/</code> or any new <code>.c</code>, run <code>idf.py -DBOARD=ws28p reconfigure</code> (or <code>-DBOARD=es3c28p</code>) then build</td></tr>
+<tr><td>Build cannot find <code>ex_terms.h</code></td><td>Build from <code>labs/rtos-labs</code>; after adding <code>common/</code> or any new <code>.c</code>, run <code>rbdev reconfigure</code> then build</td></tr>
 <tr><td>Linker <code>undefined reference</code> to a new <code>.c</code></td><td>Same: reconfigure for your board, then build — see <a href="generated/rtos/README.html#build--flash">rtos-labs README</a></td></tr>
 <tr><td>Linker / heap assert at create</td><td>Lower stack sizes or free heap; check <code>pdPASS</code></td></tr>
 </tbody>
@@ -8859,9 +8859,9 @@ without flushing looks the same in ON and OFF — that was the earlier bug.</p>
 </div>
 <p>This exercise has <strong>two</strong> <code>.c</code> files. After the canvas helper is added (or if
 you pull a tree that already has it), reconfigure once so the GLOB picks it up:</p>
-<pre><code class="language-powershell">idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+<pre><code class="language-powershell"># After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 </code></pre>
 <p>Then build/flash as usual (see <a href="generated/rtos/README.html#build--flash">rtos-labs README</a>).
 Skip reconfigure → linker <code>undefined reference</code> to <code>ex06_canvas_*</code>.</p>
@@ -9016,9 +9016,9 @@ Gives it back.</p>
 </table>
 </div>
 <p>After adding this folder <strong>or</strong> a new <code>.c</code> (e.g. <code>ex07_ui.c</code>), reconfigure once:</p>
-<pre><code class="language-powershell">idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+<pre><code class="language-powershell"># After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 </code></pre>
 <p>See <a href="generated/rtos/README.html#build--flash">rtos-labs README</a>. Skip reconfigure → linker
 <code>undefined reference</code> to <code>ex07_ui_*</code>.</p>
@@ -9131,7 +9131,7 @@ commenting out Give as an experiment.</p>
 <tr><td>Always <code>in use</code> ≤ 2 even OFF</td><td>Toggle updating <code>s_pool_on</code>? Boot button OFF?</td></tr>
 <tr><td>ON still shows 4 HOLD</td><td>Confirm Take path runs (<code>s_pool_on</code> and <code>took</code>)</td></tr>
 <tr><td>Everyone stuck WAIT</td><td>Matching Give after every successful Take?</td></tr>
-<tr><td>Linker miss after add</td><td><code>idf.py -DBOARD=… reconfigure</code> then build</td></tr>
+<tr><td>Linker miss after add</td><td><code>rbdev reconfigure</code> then build</td></tr>
 </tbody>
 </table>
 </div>
@@ -9189,9 +9189,9 @@ reset to OFF so you arm again deliberately.</p>
 </table>
 </div>
 <p>After adding this folder <strong>or</strong> a new <code>.c</code>, reconfigure once:</p>
-<pre><code class="language-powershell">idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+<pre><code class="language-powershell"># After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 </code></pre>
 <p>See <a href="generated/rtos/README.html#build--flash">rtos-labs README</a>.</p>
 <hr>
@@ -9297,7 +9297,7 @@ makes each FIRED a one-shot; arm again with the toggles.</p>
 <tr><td>AND never fires</td><td>Both A and B set? Mode really AND?</td></tr>
 <tr><td>OR never fires</td><td>At least one bit set?</td></tr>
 <tr><td>Buttons ON but bits 0</td><td>After FIRED, re-tap to SetBits again</td></tr>
-<tr><td>Linker miss after add</td><td><code>idf.py -DBOARD=… reconfigure</code> then build</td></tr>
+<tr><td>Linker miss after add</td><td><code>rbdev reconfigure</code> then build</td></tr>
 </tbody>
 </table>
 </div>
@@ -9353,9 +9353,9 @@ beats without parking a task on <code>vTaskDelay</code>.</p>
 </table>
 </div>
 <p>After adding this folder <strong>or</strong> a new <code>.c</code>, reconfigure once:</p>
-<pre><code class="language-powershell">idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+<pre><code class="language-powershell"># After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 </code></pre>
 <p>See <a href="generated/rtos/README.html#build--flash">rtos-labs README</a>.</p>
 <hr>
@@ -9457,7 +9457,7 @@ itself is overloaded).</p>
 <tr><td>No beat on TMR</td><td><code>xTimerStart</code> on toggle? <code>s_use_timer</code> set?</td></tr>
 <tr><td>Double beat</td><td>Delay task still pulsing while timer runs?</td></tr>
 <tr><td>Freeze in TMR</td><td>LCD or blocking call inside <code>timer_cb</code>?</td></tr>
-<tr><td>Linker miss after add</td><td><code>idf.py -DBOARD=… reconfigure</code> then build</td></tr>
+<tr><td>Linker miss after add</td><td><code>rbdev reconfigure</code> then build</td></tr>
 </tbody>
 </table>
 </div>
@@ -9515,9 +9515,9 @@ is hardware, not a software timer.</p>
 </table>
 </div>
 <p>After adding this folder <strong>or</strong> a new <code>.c</code>, reconfigure once:</p>
-<pre><code class="language-powershell">idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+<pre><code class="language-powershell"># After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 </code></pre>
 <p>See <a href="generated/rtos/README.html#build--flash">rtos-labs README</a>.</p>
 <hr>
@@ -9625,7 +9625,7 @@ blocking the system.</p>
 <tr><td>No presses</td><td>Press <strong>BOOT</strong>, not PWR / not the LCD toggle</td></tr>
 <tr><td>ISR mode silent</td><td><code>gpio_isr_handler_add</code> ok? <code>s_use_isr</code> set?</td></tr>
 <tr><td>Double counts</td><td>Debounce window; mode switch mid-press</td></tr>
-<tr><td>Linker miss after add</td><td><code>idf.py -DBOARD=… reconfigure</code> then build</td></tr>
+<tr><td>Linker miss after add</td><td><code>rbdev reconfigure</code> then build</td></tr>
 </tbody>
 </table>
 </div>
@@ -9680,9 +9680,9 @@ IMU queue, game task, deferred SFX, and <code>rbgfx</code> frames.</p>
 </table>
 </div>
 <p>After adding this folder, reconfigure once:</p>
-<pre><code class="language-powershell">idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+<pre><code class="language-powershell"># After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 </code></pre>
 <hr>
 <h2 id="freertos-wiring"><a class="header" href="#freertos-wiring">FreeRTOS wiring</a></h2>
@@ -9729,7 +9729,7 @@ idf.py -DBOARD=es3c28p reconfigure
 <tr><td>Car drifts alone</td><td><code>SIM</code> mode — normal without IMU</td></tr>
 <tr><td>No sound</td><td>Audio path / gain; sfx queue not full</td></tr>
 <tr><td>No start</td><td>Tap screen or press <strong>BOOT</strong></td></tr>
-<tr><td>Linker miss</td><td><code>idf.py -DBOARD=… reconfigure</code></td></tr>
+<tr><td>Linker miss</td><td><code>rbdev reconfigure</code></td></tr>
 </tbody>
 </table>
 </div>
@@ -9781,9 +9781,9 @@ idf.py -DBOARD=es3c28p reconfigure
 </tbody>
 </table>
 </div>
-<pre><code class="language-powershell">idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+<pre><code class="language-powershell"># After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 </code></pre>
 <hr>
 <h2 id="freertos-wiring-1"><a class="header" href="#freertos-wiring-1">FreeRTOS wiring</a></h2>
@@ -9869,9 +9869,9 @@ they reach the bottom or hit you.</p>
 </tbody>
 </table>
 </div>
-<pre><code class="language-powershell">idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+<pre><code class="language-powershell"># After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 </code></pre>
 <hr>
 <h2 id="freertos"><a class="header" href="#freertos">FreeRTOS</a></h2>
@@ -9958,9 +9958,9 @@ idf.py -DBOARD=es3c28p reconfigure
 </tbody>
 </table>
 </div>
-<pre><code class="language-powershell">idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+<pre><code class="language-powershell"># After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 </code></pre>
 <hr>
 <h2 id="freertos-1"><a class="header" href="#freertos-1">FreeRTOS</a></h2>
@@ -10048,9 +10048,9 @@ Fill all 5 goal pads to clear the wave.</p>
 </tbody>
 </table>
 </div>
-<pre><code class="language-powershell">idf.py -DBOARD=ws28p reconfigure
-# or
-idf.py -DBOARD=es3c28p reconfigure
+<pre><code class="language-powershell"># After rbdev config --board ws28p|es3c28p (workshop folder only):
+rbdev reconfigure
+# Advanced: idf.py -DBOARD=ws28p reconfigure
 </code></pre>
 <hr>
 <h2 id="freertos-2"><a class="header" href="#freertos-2">FreeRTOS</a></h2>
